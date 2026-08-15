@@ -1,0 +1,60 @@
+# ------------------------------------------------------------------- secrets
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+
+# -------------------------------------------------------------------- python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ruff_cache/
+.mypy_cache/
+.coverage
+htmlcov/
+coverage.xml
+
+# ------------------------------------------------------------------ ml output
+# Trained artifacts are reproducible from the pipeline, so they are not tracked.
+# Keep the metadata/report JSON so a reviewer can read the numbers without
+# running a 15-minute training job.
+backend/ml/artifacts/*.joblib
+backend/ml/artifacts/*.pkl
+backend/data/processed/*.npz
+backend/data/processed/corpus.jsonl
+backend/data/human/*.jsonl
+backend/data/ai_generated/*.jsonl
+backend/data/ai_polished/*.jsonl
+backend/data/processed/polish_pairs.jsonl
+# Operator-supplied real essays must never be committed.
+backend/data/raw/human/*.txt
+backend/data/raw/ai_generated/*
+backend/data/raw/ai_polished/*
+
+# ----------------------------------------------------------------------- logs
+logs/
+*.log
+
+# ------------------------------------------------------------------- frontend
+node_modules/
+dist/
+dist-ssr/
+.vite/
+*.local
+coverage/
+
+# --------------------------------------------------------------------- caches
+.cache/
+.hf_cache/
+.DS_Store
+Thumbs.db
+
+# ------------------------------------------------------------------- editors
+.vscode/*
+!.vscode/extensions.json
+.idea/
+*.swp

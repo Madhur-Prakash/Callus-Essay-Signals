@@ -1,0 +1,375 @@
+{
+  "created_at": "2026-08-14T18:44:58.862017+00:00",
+  "protocol": "GroupKFold(n_splits<=4) over group_id on the training split; selection metric macro F1; the test split is untouched here.",
+  "models": [
+    {
+      "feature_set": "hybrid_no_shift",
+      "estimator": "lightgbm",
+      "n_features": 382,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.8487,
+      "cv_macro_f1_std": 0.0239,
+      "cv_accuracy": 0.8543,
+      "cv_log_loss": 0.4345,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid",
+      "estimator": "lightgbm",
+      "n_features": 411,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "style_shift",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.8438,
+      "cv_macro_f1_std": 0.0348,
+      "cv_accuracy": 0.8493,
+      "cv_log_loss": 0.4312,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid",
+      "estimator": "random_forest",
+      "n_features": 411,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "style_shift",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.8347,
+      "cv_macro_f1_std": 0.0424,
+      "cv_accuracy": 0.8418,
+      "cv_log_loss": 0.3482,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid_no_shift",
+      "estimator": "random_forest",
+      "n_features": 382,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.8222,
+      "cv_macro_f1_std": 0.0392,
+      "cv_accuracy": 0.8292,
+      "cv_log_loss": 0.3497,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "baseline_stylometric",
+      "estimator": "lightgbm",
+      "n_features": 246,
+      "feature_groups": [
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural"
+      ],
+      "cv_macro_f1": 0.8214,
+      "cv_macro_f1_std": 0.0124,
+      "cv_accuracy": 0.8266,
+      "cv_log_loss": 0.4178,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "baseline_stylometric",
+      "estimator": "logreg_l2",
+      "n_features": 246,
+      "feature_groups": [
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural"
+      ],
+      "cv_macro_f1": 0.8087,
+      "cv_macro_f1_std": 0.0268,
+      "cv_accuracy": 0.8115,
+      "cv_log_loss": 0.5229,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "baseline_stylometric",
+      "estimator": "random_forest",
+      "n_features": 246,
+      "feature_groups": [
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural"
+      ],
+      "cv_macro_f1": 0.7985,
+      "cv_macro_f1_std": 0.0233,
+      "cv_accuracy": 0.8066,
+      "cv_log_loss": 0.3586,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid",
+      "estimator": "logreg_l2_strong",
+      "n_features": 411,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "style_shift",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.7781,
+      "cv_macro_f1_std": 0.0353,
+      "cv_accuracy": 0.7888,
+      "cv_log_loss": 0.4092,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid_no_shift",
+      "estimator": "logreg_l2",
+      "n_features": 382,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.7706,
+      "cv_macro_f1_std": 0.0221,
+      "cv_accuracy": 0.7738,
+      "cv_log_loss": 0.579,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid_no_shift",
+      "estimator": "logreg_l2_strong",
+      "n_features": 382,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.7681,
+      "cv_macro_f1_std": 0.0195,
+      "cv_accuracy": 0.7788,
+      "cv_log_loss": 0.4097,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "baseline_stylometric",
+      "estimator": "logreg_l2_strong",
+      "n_features": 246,
+      "feature_groups": [
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural"
+      ],
+      "cv_macro_f1": 0.7618,
+      "cv_macro_f1_std": 0.0141,
+      "cv_accuracy": 0.7688,
+      "cv_log_loss": 0.4232,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "hybrid",
+      "estimator": "logreg_l2",
+      "n_features": 411,
+      "feature_groups": [
+        "lm",
+        "stylometric",
+        "syntactic",
+        "burstiness",
+        "repetition",
+        "structural",
+        "style_shift",
+        "corpus"
+      ],
+      "cv_macro_f1": 0.7613,
+      "cv_macro_f1_std": 0.0049,
+      "cv_accuracy": 0.7638,
+      "cv_log_loss": 0.5397,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "lm_only",
+      "estimator": "logreg_l2_strong",
+      "n_features": 118,
+      "feature_groups": [
+        "lm"
+      ],
+      "cv_macro_f1": 0.7456,
+      "cv_macro_f1_std": 0.034,
+      "cv_accuracy": 0.7511,
+      "cv_log_loss": 0.4491,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "lm_only",
+      "estimator": "random_forest",
+      "n_features": 118,
+      "feature_groups": [
+        "lm"
+      ],
+      "cv_macro_f1": 0.7391,
+      "cv_macro_f1_std": 0.0093,
+      "cv_accuracy": 0.7462,
+      "cv_log_loss": 0.4442,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "lm_only",
+      "estimator": "logreg_l2",
+      "n_features": 118,
+      "feature_groups": [
+        "lm"
+      ],
+      "cv_macro_f1": 0.7382,
+      "cv_macro_f1_std": 0.0233,
+      "cv_accuracy": 0.7462,
+      "cv_log_loss": 0.72,
+      "cv_folds": 4
+    },
+    {
+      "feature_set": "lm_only",
+      "estimator": "lightgbm",
+      "n_features": 118,
+      "feature_groups": [
+        "lm"
+      ],
+      "cv_macro_f1": 0.7208,
+      "cv_macro_f1_std": 0.0181,
+      "cv_accuracy": 0.7286,
+      "cv_log_loss": 0.6934,
+      "cv_folds": 4
+    }
+  ],
+  "selected": {
+    "feature_set": "hybrid",
+    "estimator": "lightgbm",
+    "reason": "The hybrid feature set is the system under construction; the estimator within it was chosen by grouped CV macro F1. Note that the shipped model is NOT simply the top row of the table \u2014 see 'findings' for why."
+  },
+  "findings": [
+    {
+      "question": "Does combining LM probability and stylometric features beat stylometry alone?",
+      "comparison": "hybrid vs baseline_stylometric",
+      "macro_f1": {
+        "hybrid": 0.8438,
+        "baseline": 0.8214
+      },
+      "delta": 0.0224,
+      "cv_std": {
+        "hybrid": 0.0348,
+        "baseline": 0.0124
+      },
+      "verdict": "no measurable difference (gap is inside fold-to-fold noise)"
+    },
+    {
+      "question": "Are language-model probability features sufficient on their own?",
+      "comparison": "lm_only vs baseline_stylometric",
+      "macro_f1": {
+        "lm_only": 0.7456,
+        "baseline": 0.8214
+      },
+      "delta": -0.0758,
+      "cv_std": {
+        "lm_only": 0.034,
+        "baseline": 0.0124
+      },
+      "verdict": "hurts"
+    },
+    {
+      "question": "Does within-document style shift improve document classification?",
+      "comparison": "hybrid vs hybrid_no_shift",
+      "macro_f1": {
+        "hybrid": 0.8438,
+        "hybrid_no_shift": 0.8487
+      },
+      "delta": -0.005,
+      "cv_std": {
+        "hybrid": 0.0348,
+        "hybrid_no_shift": 0.0239
+      },
+      "verdict": "no measurable difference (gap is inside fold-to-fold noise)",
+      "note": "The style-shift block is retained in the shipped model even where it does not improve the document-level score, because the per-paragraph style-shift analysis is a user-facing output in its own right: it is what lets the UI point at the specific passage that differs from the rest of the essay. Dropping the features would remove that evidence to chase a difference this corpus cannot resolve."
+    }
+  ],
+  "constant_features": {
+    "count": 7,
+    "names": [
+      "agg_mean_sty_paren_rate",
+      "agg_std_sty_paren_rate",
+      "agg_mean_sty_exclaim_rate",
+      "agg_std_sty_exclaim_rate",
+      "agg_mean_sty_question_rate",
+      "agg_std_sty_question_rate",
+      "doc_has_single_paragraph"
+    ],
+    "note": "Zero variance across the training split, so they carry no information. Most are punctuation rates (semicolons, ellipses) that simply never occur in this corpus."
+  },
+  "best_per_feature_set": {
+    "baseline_stylometric": {
+      "estimator": "lightgbm",
+      "cv_macro_f1": 0.8214,
+      "cv_macro_f1_std": 0.0124,
+      "cv_accuracy": 0.8266,
+      "n_features": 246
+    },
+    "lm_only": {
+      "estimator": "logreg_l2_strong",
+      "cv_macro_f1": 0.7456,
+      "cv_macro_f1_std": 0.034,
+      "cv_accuracy": 0.7511,
+      "n_features": 118
+    },
+    "hybrid": {
+      "estimator": "lightgbm",
+      "cv_macro_f1": 0.8438,
+      "cv_macro_f1_std": 0.0348,
+      "cv_accuracy": 0.8493,
+      "n_features": 411
+    },
+    "hybrid_no_shift": {
+      "estimator": "lightgbm",
+      "cv_macro_f1": 0.8487,
+      "cv_macro_f1_std": 0.0239,
+      "cv_accuracy": 0.8543,
+      "n_features": 382
+    }
+  }
+}

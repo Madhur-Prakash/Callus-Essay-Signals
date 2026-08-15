@@ -1,0 +1,384 @@
+{
+  "dataset_version": "1.0.0",
+  "created_at": "2026-08-14T18:37:41.556073+00:00",
+  "data_regime": "bootstrap",
+  "regime_note": "All machine samples come from the offline procedural/rule-based generators and all human samples are hand-authored seeds. Metrics measure separability of these generators, NOT real-world detector accuracy.",
+  "totals": {
+    "documents": 615,
+    "groups": 256,
+    "words": 142435,
+    "mean_words": 231.6,
+    "min_words": 108,
+    "max_words": 315
+  },
+  "labels": {
+    "ai_generated": 220,
+    "ai_polished": 200,
+    "human": 195
+  },
+  "splits": {
+    "counts": {
+      "train": 398,
+      "validation": 89,
+      "test": 128
+    },
+    "labels_per_split": {
+      "train": {
+        "human": 129,
+        "ai_generated": 134,
+        "ai_polished": 135
+      },
+      "validation": {
+        "human": 35,
+        "ai_generated": 21,
+        "ai_polished": 33
+      },
+      "test": {
+        "human": 31,
+        "ai_generated": 65,
+        "ai_polished": 32
+      }
+    },
+    "report": {
+      "seed": 42,
+      "strategy": "grouped; stratified by label signature and L2-English flag; held-out topics and one held-out generator forced to test",
+      "target_proportions": {
+        "train": 0.7,
+        "validation": 0.15,
+        "test": 0.15
+      },
+      "n_groups": 276,
+      "forced_to_test": {
+        "held_out_topics": [
+          "a summer spent surveying a wetland",
+          "an unexpected friendship with an elderly neighbour",
+          "discovering an interest in cartography",
+          "learning to repair a sewing machine",
+          "organising a school response to a local flood",
+          "running the sound desk at a community radio station"
+        ],
+        "held_out_models": [
+          "proxy-heldout-qwen"
+        ],
+        "n_groups": 48
+      },
+      "strata": {
+        "ai_generated|l1": 192,
+        "ai_polished+human|l1": 32,
+        "ai_polished+human|l2": 4
+      }
+    }
+  },
+  "sources": {
+    "seed_authored": 36,
+    "seed_variant": 159,
+    "bootstrap_procedural": 220,
+    "bootstrap_rule_polish": 200
+  },
+  "models": {
+    "rule_based_polisher": 200,
+    "none": 195,
+    "proxy-warm-8b": 53,
+    "proxy-terse-gemma": 52,
+    "proxy-formal-70b": 51,
+    "proxy-verbose-mixtral": 43,
+    "proxy-heldout-qwen": 21
+  },
+  "strategies": {
+    "procedural_template": 220,
+    "original": 36,
+    "restructure": 36,
+    "formalize": 36,
+    "shorten": 36,
+    "partial_paragraph": 34,
+    "vocabulary": 32,
+    "clarity": 26,
+    "typo_filler": 25,
+    "rough_draft": 25,
+    "trim": 21,
+    "contract": 21,
+    "split_merge": 20,
+    "reorder": 19,
+    "filler": 16,
+    "expand_typo": 12
+  },
+  "topics": {
+    "years of a demanding sport": 14,
+    "learning an instrument late": 14,
+    "a robotics project that failed": 13,
+    "working in a family business": 13,
+    "caring for an ill relative": 13,
+    "losing an important competition": 13,
+    "a community volunteering project": 13,
+    "a minimum-wage summer job": 13,
+    "changing schools repeatedly": 13,
+    "a job in a library or archive": 13,
+    "robotics": 12,
+    "debate_failure": 12,
+    "marching_band": 12,
+    "chess_club": 12,
+    "hospital_volunteer": 12,
+    "photography": 12,
+    "math_olympiad_failure": 12,
+    "skateboarding_injury": 12,
+    "night_shift_bakery": 12,
+    "science_fair": 12,
+    "farm_work": 12,
+    "coding_for_grandmother": 12,
+    "immigrating and learning English": 12,
+    "a strategy game and how it taught self-criticism": 12,
+    "family_restaurant": 11,
+    "grandmother_illness": 11,
+    "immigration": 11,
+    "competitive_swimming": 11,
+    "community_garden": 11,
+    "piano_late": 11,
+    "bad_app": 11,
+    "sibling_care": 11,
+    "library_job": 11,
+    "theatre_tech": 11,
+    "tutoring": 11,
+    "mosque_food_drive": 11,
+    "church_choir": 11,
+    "building software nobody used": 11,
+    "supporting a sibling with a disability": 11,
+    "an ensemble or team performance activity": 11,
+    "repairing things as a hobby": 11,
+    "car_wash_job": 10,
+    "learning_to_cook": 10,
+    "resale_business": 10,
+    "esl_classroom_volunteer": 10,
+    "hurricane": 10,
+    "birdwatching": 10,
+    "learning_to_drive": 10,
+    "snow_shoveling_business": 10,
+    "losing_a_dog": 10,
+    "moving_schools": 9,
+    "bike_repair": 9,
+    "learning to repair a sewing machine": 4,
+    "discovering an interest in cartography": 4,
+    "running the sound desk at a community radio station": 4,
+    "a summer spent surveying a wetland": 3,
+    "organising a school response to a local flood": 3,
+    "an unexpected friendship with an elderly neighbour": 2
+  },
+  "length_bands": {
+    "medium": 370,
+    "short": 176,
+    "long": 69
+  },
+  "voices": {
+    "machine_register": 220,
+    "blunt_technical": 12,
+    "self_deprecating_humorous": 12,
+    "energetic_run_on": 12,
+    "analytical_cool": 12,
+    "sober_specific": 12,
+    "visual_clipped": 12,
+    "precise_bitter_honest": 12,
+    "loose_slangy": 12,
+    "atmospheric_tired": 12,
+    "methodical_honest": 12,
+    "rural_unhurried": 12,
+    "l2_technical": 12,
+    "lyrical_sensory": 11,
+    "understated_restrained": 11,
+    "l2_direct": 11,
+    "fragmented_intense": 11,
+    "plain_observational": 11,
+    "reflective_wry": 11,
+    "technical_humorous": 11,
+    "quiet_precise": 11,
+    "dry_observational": 11,
+    "backstage_wry": 11,
+    "patient_specific": 11,
+    "communal_plainspoken": 11,
+    "musical_thoughtful": 11,
+    "blunt_working": 10,
+    "warm_digressive": 10,
+    "entrepreneurial_plain": 10,
+    "l2_reflective": 10,
+    "narrative_direct": 10,
+    "nerdy_earnest": 10,
+    "anxious_funny": 10,
+    "matter_of_fact_young": 10,
+    "grief_restrained": 10,
+    "l2_formal_awkward": 9,
+    "hands_on_meandering": 9
+  },
+  "l2_english": {
+    "true": 42,
+    "false": 573,
+    "note": "For bootstrap data this flag marks seeds written in a *simulated* second-language English register. It is a proxy for a real L2 population and the bias numbers derived from it must be read as indicative only."
+  },
+  "licenses": {
+    "synthetic-mit": 615
+  },
+  "preprocessing": [
+    "Unicode NFKC normalisation and CRLF -> LF (app.core.security.normalise_essay)",
+    "zero-width and control characters removed",
+    "runs of 3+ newlines collapsed to a paragraph break",
+    "exact duplicate documents removed (case- and whitespace-insensitive)",
+    "no lowercasing, no stopword removal, no stemming - the detector measures surface style, so destroying it would destroy the signal"
+  ],
+  "leakage_controls": {
+    "split_unit": "group_id (never individual samples)",
+    "polished_shares_group_with_original": true,
+    "held_out_topics_in_test_only": true,
+    "held_out_model_in_test_only": true,
+    "exact_duplicates_removed": 21,
+    "near_duplicate_threshold": 0.55,
+    "near_duplicate_findings": [
+      {
+        "record_id": "gen-working-in-a-family-business-proxy-verbose-mixtral-2",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-working-in-a-family-business-proxy-formal-70b-0",
+        "shingle_overlap": 0.5769
+      },
+      {
+        "record_id": "gen-caring-for-an-ill-relative-proxy-verbose-mixtral-6",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-building-software-nobody-used-proxy-verbose-mixtral-2",
+        "shingle_overlap": 0.5891
+      },
+      {
+        "record_id": "gen-losing-an-important-competition-proxy-verbose-mixtral-2",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-building-software-nobody-used-proxy-formal-70b-0",
+        "shingle_overlap": 0.5515
+      },
+      {
+        "record_id": "gen-immigrating-and-learning-english-proxy-warm-8b-1",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-immigrating-and-learning-english-proxy-terse-gemma-3",
+        "shingle_overlap": 0.5775
+      },
+      {
+        "record_id": "gen-immigrating-and-learning-english-proxy-verbose-mixtral-10",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-strategy-game-and-how-it-taugh-proxy-formal-70b-0",
+        "shingle_overlap": 0.568
+      },
+      {
+        "record_id": "gen-a-community-volunteering-project-proxy-verbose-mixtral-10",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-community-volunteering-project-proxy-formal-70b-0",
+        "shingle_overlap": 0.5714
+      },
+      {
+        "record_id": "gen-building-software-nobody-used-proxy-formal-70b-8",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-strategy-game-and-how-it-taugh-proxy-formal-70b-0",
+        "shingle_overlap": 0.584
+      },
+      {
+        "record_id": "gen-building-software-nobody-used-proxy-terse-gemma-11",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-building-software-nobody-used-proxy-terse-gemma-3",
+        "shingle_overlap": 0.5508
+      },
+      {
+        "record_id": "gen-supporting-a-sibling-with-a-disa-proxy-verbose-mixtral-10",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-minimum-wage-summer-job-proxy-verbose-mixtral-6",
+        "shingle_overlap": 0.5629
+      },
+      {
+        "record_id": "gen-an-ensemble-or-team-performance-proxy-verbose-mixtral-2",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-minimum-wage-summer-job-proxy-verbose-mixtral-6",
+        "shingle_overlap": 0.5762
+      },
+      {
+        "record_id": "gen-repairing-things-as-a-hobby-proxy-verbose-mixtral-2",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-an-ensemble-or-team-performance-proxy-formal-70b-0",
+        "shingle_overlap": 0.6581
+      },
+      {
+        "record_id": "gen-repairing-things-as-a-hobby-proxy-verbose-mixtral-10",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-immigrating-and-learning-english-proxy-verbose-mixtral-6",
+        "shingle_overlap": 0.5563
+      },
+      {
+        "record_id": "gen-a-strategy-game-and-how-it-taugh-proxy-formal-70b-4",
+        "split": "validation",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-strategy-game-and-how-it-taugh-proxy-formal-70b-0",
+        "shingle_overlap": 0.568
+      },
+      {
+        "record_id": "gen-an-unexpected-friendship-with-an-proxy-verbose-mixtral-2",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-an-ensemble-or-team-performance-proxy-formal-70b-0",
+        "shingle_overlap": 0.5556
+      },
+      {
+        "record_id": "gen-an-unexpected-friendship-with-an-proxy-terse-gemma-3",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-repairing-things-as-a-hobby-proxy-terse-gemma-11",
+        "shingle_overlap": 0.5536
+      },
+      {
+        "record_id": "gen-a-summer-spent-surveying-a-wetla-proxy-formal-70b-0",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-robotics-project-that-failed-proxy-verbose-mixtral-10",
+        "shingle_overlap": 0.6387
+      },
+      {
+        "record_id": "gen-organising-a-school-response-to-proxy-verbose-mixtral-2",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-strategy-game-and-how-it-taugh-proxy-formal-70b-0",
+        "shingle_overlap": 0.632
+      },
+      {
+        "record_id": "gen-a-robotics-project-that-failed-proxy-heldout-qwen-0",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-a-robotics-project-that-failed-proxy-verbose-mixtral-2",
+        "shingle_overlap": 0.5935
+      },
+      {
+        "record_id": "gen-supporting-a-sibling-with-a-disa-proxy-heldout-qwen-10",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-supporting-a-sibling-with-a-disa-proxy-warm-8b-9",
+        "shingle_overlap": 0.5776
+      },
+      {
+        "record_id": "gen-an-ensemble-or-team-performance-proxy-heldout-qwen-11",
+        "split": "test",
+        "label": "ai_generated",
+        "closest_train_record": "gen-an-ensemble-or-team-performance-proxy-formal-70b-0",
+        "shingle_overlap": 0.5641
+      }
+    ],
+    "near_duplicate_count": 20,
+    "near_duplicates_dropped": 20,
+    "near_duplicate_note": "All near-duplicate findings come from the offline procedural AI_GENERATED generator, which draws sentences from a shared template bank; two essays on different topics can therefore share 60% of their 5-grams. They are dropped from validation/test by default (pass --keep-near-duplicates to retain them), because leaving them in would inflate AI-class recall for reasons that have nothing to do with detection."
+  },
+  "known_limitations": [
+    "The human class is dominated by 36 hand-authored seed essays; grouped splitting means the effective number of independent human documents is 36, not the sample count. Confidence intervals are correspondingly wide.",
+    "Seed essays were authored for this repository, not collected from real applicants, so they may under-represent genuine variation in student writing.",
+    "The L2-English subset simulates a register rather than sampling real second-language writers.",
+    "The offline AI_GENERATED generator is template-based; it reproduces the measurable register of instruction-tuned prose but not its semantics.",
+    "No real admissions essays were scraped or used. Doing so without consent would be both a licensing and an ethics failure."
+  ]
+}

@@ -1,0 +1,961 @@
+{
+  "created_at": "2026-08-14T18:46:47.620184+00:00",
+  "split": "test",
+  "model": {
+    "name": "hybrid::lightgbm",
+    "model_version": "1.0.0",
+    "calibration": "sigmoid"
+  },
+  "data_regime": "bootstrap",
+  "summary": {
+    "n_documents": 128,
+    "n_errors": 14,
+    "error_rate": 0.1094,
+    "n_confidently_wrong": 11,
+    "confidence_threshold": 0.55,
+    "mean_confidence_when_wrong": 0.5877,
+    "mean_confidence_when_right": 0.8397,
+    "fallback_used": false,
+    "fallback_note": null
+  },
+  "confidently_wrong": [
+    {
+      "rank": 1,
+      "record_id": "h018-original",
+      "actual": "human",
+      "predicted": "ai_polished",
+      "confidence": 0.7175,
+      "probabilities": {
+        "human": 0.2754,
+        "ai_generated": 0.0071,
+        "ai_polished": 0.7175
+      },
+      "metadata": {
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "original",
+        "length_band": "medium",
+        "n_words": 256,
+        "n_sentences": 18,
+        "l2_english": false,
+        "source": "seed_authored"
+      },
+      "why_the_model_likely_failed": [
+        "The lm feature group accounted for 53% of the model's decision on this document.",
+        "`doc_hapax_ratio` measured 0.5059, which is 1.5 interquartile widths above the normal range for human documents (0.3992 to 0.4421), and closer to the ai_polished median of 0.4239.",
+        "`agg_mean_lm_mean_logprob` measured -4.63, which is 1.3 interquartile widths below the normal range for human documents (-4.321 to -4.09), and closer to the ai_polished median of -4.209.",
+        "`agg_mean_lm_log_perplexity` measured 4.63, which is 1.3 interquartile widths above the normal range for human documents (4.09 to 4.321), and closer to the ai_polished median of 4.209.",
+        "This is a false positive on human writing — the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
+      ],
+      "dominant_feature_groups": [
+        {
+          "group": "lm",
+          "share_of_contribution": 0.5267,
+          "n_features": 6
+        },
+        {
+          "group": "corpus",
+          "share_of_contribution": 0.3154,
+          "n_features": 2
+        },
+        {
+          "group": "style_shift",
+          "share_of_contribution": 0.0866,
+          "n_features": 1
+        },
+        {
+          "group": "stylometric",
+          "share_of_contribution": 0.0713,
+          "n_features": 1
+        }
+      ],
+      "relevant_features": [
+        {
+          "feature": "doc_hapax_ratio",
+          "group": "structural",
+          "value": 0.50588,
+          "true_class_iqr": [
+            0.39916,
+            0.44211
+          ],
+          "true_class_median": 0.42475,
+          "predicted_class_median": 0.42387,
+          "iqr_widths_outside": 1.49,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_mean_lm_mean_logprob",
+          "group": "lm",
+          "value": -4.62971,
+          "true_class_iqr": [
+            -4.32146,
+            -4.0897
+          ],
+          "true_class_median": -4.17817,
+          "predicted_class_median": -4.20937,
+          "iqr_widths_outside": 1.33,
+          "direction": "below"
+        },
+        {
+          "feature": "agg_mean_lm_log_perplexity",
+          "group": "lm",
+          "value": 4.62971,
+          "true_class_iqr": [
+            4.0897,
+            4.32146
+          ],
+          "true_class_median": 4.17817,
+          "predicted_class_median": 4.20937,
+          "iqr_widths_outside": 1.33,
+          "direction": "above"
+        },
+        {
+          "feature": "shift_max_abs_z_logprob",
+          "group": "style_shift",
+          "value": 3.12326,
+          "true_class_iqr": [
+            1.93007,
+            2.44739
+          ],
+          "true_class_median": 2.17679,
+          "predicted_class_median": 2.10248,
+          "iqr_widths_outside": 1.31,
+          "direction": "above"
+        },
+        {
+          "feature": "doc_root_type_token_ratio",
+          "group": "structural",
+          "value": 10.01959,
+          "true_class_iqr": [
+            8.47568,
+            9.21544
+          ],
+          "true_class_median": 8.82976,
+          "predicted_class_median": 8.84703,
+          "iqr_widths_outside": 1.09,
+          "direction": "above"
+        },
+        {
+          "feature": "doc_type_token_ratio",
+          "group": "structural",
+          "value": 0.62745,
+          "true_class_iqr": [
+            0.556,
+            0.59169
+          ],
+          "true_class_median": 0.57333,
+          "predicted_class_median": 0.57312,
+          "iqr_widths_outside": 1.0,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_std_lm_mean_logprob",
+          "group": "lm",
+          "value": 1.18029,
+          "true_class_iqr": [
+            0.6961,
+            0.94425
+          ],
+          "true_class_median": 0.78769,
+          "predicted_class_median": 0.76535,
+          "iqr_widths_outside": 0.95,
+          "direction": "above"
+        },
+        {
+          "feature": "cor_char_sim_delta_ai_human",
+          "group": "corpus",
+          "value": 0.00422,
+          "true_class_iqr": [
+            -0.01634,
+            -0.00321
+          ],
+          "true_class_median": -0.00822,
+          "predicted_class_median": 0.00625,
+          "iqr_widths_outside": 0.57,
+          "direction": "above"
+        }
+      ],
+      "model_contributions": [
+        {
+          "feature": "cor_char_sim_delta_ai_human",
+          "value": 0.004217,
+          "standardised": -0.6788,
+          "contribution": -314.26837,
+          "direction": "human-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p25_lm_std_logprob",
+          "value": 3.037876,
+          "standardised": 2.4627,
+          "contribution": 135.45015,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_mean_lm_std_logprob",
+          "value": 3.111724,
+          "standardised": 1.5384,
+          "contribution": 113.84009,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p75_lm_std_logprob",
+          "value": 3.447685,
+          "standardised": 1.2359,
+          "contribution": 113.70381,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p75_lm_mean_normalised_surprisal",
+          "value": 1.464951,
+          "standardised": 1.7161,
+          "contribution": 113.26049,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "shift_max_abs_z_logprob",
+          "value": 3.123257,
+          "standardised": 2.8103,
+          "contribution": 112.4105,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        }
+      ],
+      "possible_improvement": [
+        "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity.",
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
+      ],
+      "excerpt": "The first thing I ever cooked alone was scrambled eggs and they were, objectively, wrong. Grey. I was eleven and I had used the heat all the way up because I thought cooking was a race.\n\nMy mother works nights at a call center so dinner became mine somewhere around sixth grade, out of logistics rather than passion. For",
+      "excerpt_withheld_reason": null
+    },
+    {
+      "rank": 2,
+      "record_id": "h010-polish-shorten",
+      "actual": "ai_polished",
+      "predicted": "human",
+      "confidence": 0.6281,
+      "probabilities": {
+        "human": 0.6281,
+        "ai_generated": 0.0061,
+        "ai_polished": 0.3658
+      },
+      "metadata": {
+        "topic": "bad_app",
+        "model": "rule_based_polisher",
+        "strategy": "shorten",
+        "length_band": "medium",
+        "n_words": 221,
+        "n_sentences": 13,
+        "l2_english": false,
+        "source": "bootstrap_rule_polish"
+      },
+      "why_the_model_likely_failed": [
+        "The corpus feature group accounted for 32% of the model's decision on this document.",
+        "`bur_direction_changes` measured 0.4546, which is 1.0 interquartile widths below the normal range for ai_polished documents (0.6202 to 0.7857), and closer to the human median of 0.6923.",
+        "`agg_mean_lm_mean_logprob` measured -3.914, which is 0.9 interquartile widths above the normal range for ai_polished documents (-4.325 to -4.113), and closer to the human median of -4.178.",
+        "`agg_mean_lm_log_perplexity` measured 3.914, which is 0.9 interquartile widths below the normal range for ai_polished documents (4.113 to 4.325), and closer to the human median of 4.178.",
+        "A lightly edited essay is still mostly human text. When the edit touched only grammar or one paragraph, most sentences retain the original author's statistics, and the document-level aggregate is dominated by them."
+      ],
+      "dominant_feature_groups": [
+        {
+          "group": "corpus",
+          "share_of_contribution": 0.3245,
+          "n_features": 2
+        },
+        {
+          "group": "lm",
+          "share_of_contribution": 0.292,
+          "n_features": 4
+        },
+        {
+          "group": "stylometric",
+          "share_of_contribution": 0.1933,
+          "n_features": 2
+        },
+        {
+          "group": "style_shift",
+          "share_of_contribution": 0.1902,
+          "n_features": 2
+        }
+      ],
+      "relevant_features": [
+        {
+          "feature": "bur_direction_changes",
+          "group": "burstiness",
+          "value": 0.45455,
+          "true_class_iqr": [
+            0.62019,
+            0.78571
+          ],
+          "true_class_median": 0.71429,
+          "predicted_class_median": 0.69231,
+          "iqr_widths_outside": 1.0,
+          "direction": "below"
+        },
+        {
+          "feature": "agg_mean_lm_mean_logprob",
+          "group": "lm",
+          "value": -3.91427,
+          "true_class_iqr": [
+            -4.32549,
+            -4.1132
+          ],
+          "true_class_median": -4.20937,
+          "predicted_class_median": -4.17817,
+          "iqr_widths_outside": 0.94,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_mean_lm_log_perplexity",
+          "group": "lm",
+          "value": 3.91427,
+          "true_class_iqr": [
+            4.1132,
+            4.32549
+          ],
+          "true_class_median": 4.20937,
+          "predicted_class_median": 4.17817,
+          "iqr_widths_outside": 0.94,
+          "direction": "below"
+        },
+        {
+          "feature": "doc_type_token_ratio",
+          "group": "structural",
+          "value": 0.61991,
+          "true_class_iqr": [
+            0.55621,
+            0.59367
+          ],
+          "true_class_median": 0.57312,
+          "predicted_class_median": 0.57333,
+          "iqr_widths_outside": 0.7,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_mean_ctx_style_distance_to_doc",
+          "group": "style_shift",
+          "value": 0.73923,
+          "true_class_iqr": [
+            0.67139,
+            0.71168
+          ],
+          "true_class_median": 0.69045,
+          "predicted_class_median": 0.68793,
+          "iqr_widths_outside": 0.68,
+          "direction": "above"
+        }
+      ],
+      "model_contributions": [
+        {
+          "feature": "cor_char_sim_delta_ai_human",
+          "value": 0.001313,
+          "standardised": -0.6932,
+          "contribution": -320.96268,
+          "direction": "human-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "shift_mean_abs_z_logprob",
+          "value": 0.630183,
+          "standardised": -3.089,
+          "contribution": -148.26979,
+          "direction": "human-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_std_sty_n_words",
+          "value": 13.767297,
+          "standardised": 1.1012,
+          "contribution": 144.25069,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_std_sty_std_word_len",
+          "value": 0.970728,
+          "standardised": 2.7185,
+          "contribution": 108.73877,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_mean_lm_std_logprob",
+          "value": 2.528895,
+          "standardised": -1.4694,
+          "contribution": -108.73285,
+          "direction": "human-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "cor_pos_sim_delta_ai_human",
+          "value": -0.004922,
+          "standardised": -0.7455,
+          "contribution": -103.61985,
+          "direction": "human-like",
+          "method": "tree_importance"
+        }
+      ],
+      "possible_improvement": [
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added.",
+        "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity."
+      ],
+      "excerpt": "My app had four users. Two of them were me, on two different phones, and one was my mother, who I believe opened it once out of obligation.\n\nIt was called StudySync and it was supposed to let you see which of your friends were currently studying, so that you would feel guilty and also study. This is, I now understand, ",
+      "excerpt_withheld_reason": null
+    },
+    {
+      "rank": 3,
+      "record_id": "h018-split_merge",
+      "actual": "human",
+      "predicted": "ai_polished",
+      "confidence": 0.6241,
+      "probabilities": {
+        "human": 0.3682,
+        "ai_generated": 0.0077,
+        "ai_polished": 0.6241
+      },
+      "metadata": {
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "split_merge",
+        "length_band": "medium",
+        "n_words": 254,
+        "n_sentences": 18,
+        "l2_english": false,
+        "source": "seed_variant"
+      },
+      "why_the_model_likely_failed": [
+        "The lm feature group accounted for 51% of the model's decision on this document.",
+        "`agg_mean_sty_contraction_rate` measured 0.3949, which is 394880175.6 interquartile widths above the normal range for human documents (0 to 0), and closer to the ai_polished median of 0.",
+        "`doc_hapax_ratio` measured 0.5178, which is 1.8 interquartile widths above the normal range for human documents (0.3992 to 0.4421), and closer to the ai_polished median of 0.4239.",
+        "`agg_mean_lm_mean_logprob` measured -4.621, which is 1.3 interquartile widths below the normal range for human documents (-4.321 to -4.09), and closer to the ai_polished median of -4.209.",
+        "This is a false positive on human writing — the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
+      ],
+      "dominant_feature_groups": [
+        {
+          "group": "lm",
+          "share_of_contribution": 0.5123,
+          "n_features": 6
+        },
+        {
+          "group": "corpus",
+          "share_of_contribution": 0.3317,
+          "n_features": 2
+        },
+        {
+          "group": "style_shift",
+          "share_of_contribution": 0.0862,
+          "n_features": 1
+        },
+        {
+          "group": "stylometric",
+          "share_of_contribution": 0.0698,
+          "n_features": 1
+        }
+      ],
+      "relevant_features": [
+        {
+          "feature": "agg_mean_sty_contraction_rate",
+          "group": "stylometric",
+          "value": 0.39488,
+          "true_class_iqr": [
+            0.0,
+            0.0
+          ],
+          "true_class_median": 0.0,
+          "predicted_class_median": 0.0,
+          "iqr_widths_outside": 394880175.59,
+          "direction": "above"
+        },
+        {
+          "feature": "doc_hapax_ratio",
+          "group": "structural",
+          "value": 0.51779,
+          "true_class_iqr": [
+            0.39916,
+            0.44211
+          ],
+          "true_class_median": 0.42475,
+          "predicted_class_median": 0.42387,
+          "iqr_widths_outside": 1.76,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_mean_lm_mean_logprob",
+          "group": "lm",
+          "value": -4.62051,
+          "true_class_iqr": [
+            -4.32146,
+            -4.0897
+          ],
+          "true_class_median": -4.17817,
+          "predicted_class_median": -4.20937,
+          "iqr_widths_outside": 1.29,
+          "direction": "below"
+        },
+        {
+          "feature": "agg_mean_lm_log_perplexity",
+          "group": "lm",
+          "value": 4.62051,
+          "true_class_iqr": [
+            4.0897,
+            4.32146
+          ],
+          "true_class_median": 4.17817,
+          "predicted_class_median": 4.20937,
+          "iqr_widths_outside": 1.29,
+          "direction": "above"
+        },
+        {
+          "feature": "shift_max_abs_z_logprob",
+          "group": "style_shift",
+          "value": 3.09399,
+          "true_class_iqr": [
+            1.93007,
+            2.44739
+          ],
+          "true_class_median": 2.17679,
+          "predicted_class_median": 2.10248,
+          "iqr_widths_outside": 1.25,
+          "direction": "above"
+        },
+        {
+          "feature": "doc_type_token_ratio",
+          "group": "structural",
+          "value": 0.63636,
+          "true_class_iqr": [
+            0.556,
+            0.59169
+          ],
+          "true_class_median": 0.57333,
+          "predicted_class_median": 0.57312,
+          "iqr_widths_outside": 1.25,
+          "direction": "above"
+        },
+        {
+          "feature": "doc_root_type_token_ratio",
+          "group": "structural",
+          "value": 10.12198,
+          "true_class_iqr": [
+            8.47568,
+            9.21544
+          ],
+          "true_class_median": 8.82976,
+          "predicted_class_median": 8.84703,
+          "iqr_widths_outside": 1.23,
+          "direction": "above"
+        },
+        {
+          "feature": "agg_std_lm_mean_logprob",
+          "group": "lm",
+          "value": 1.19443,
+          "true_class_iqr": [
+            0.6961,
+            0.94425
+          ],
+          "true_class_median": 0.78769,
+          "predicted_class_median": 0.76535,
+          "iqr_widths_outside": 1.01,
+          "direction": "above"
+        }
+      ],
+      "model_contributions": [
+        {
+          "feature": "cor_char_sim_delta_ai_human",
+          "value": -0.000512,
+          "standardised": -0.7023,
+          "contribution": -325.16954,
+          "direction": "human-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p25_lm_std_logprob",
+          "value": 3.018065,
+          "standardised": 2.3699,
+          "contribution": 130.34718,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p75_lm_std_logprob",
+          "value": 3.448183,
+          "standardised": 1.2379,
+          "contribution": 113.8839,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_mean_lm_std_logprob",
+          "value": 3.100762,
+          "standardised": 1.4818,
+          "contribution": 109.65379,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "shift_max_abs_z_logprob",
+          "value": 3.093993,
+          "standardised": 2.727,
+          "contribution": 109.08121,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        },
+        {
+          "feature": "agg_p75_lm_mean_normalised_surprisal",
+          "value": 1.452354,
+          "standardised": 1.62,
+          "contribution": 106.91975,
+          "direction": "machine-like",
+          "method": "tree_importance"
+        }
+      ],
+      "possible_improvement": [
+        "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity.",
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
+      ],
+      "excerpt": "The first thing I ever cooked alone was scrambled eggs and they were, objectively, wrong. Grey. I was eleven and I had used the heat all the way up because I thought cooking was a race.\n\nMy mother works nights at a call center so dinner became mine somewhere around sixth grade, out of logistics rather than passion. For",
+      "excerpt_withheld_reason": null
+    }
+  ],
+  "false_positives_on_human_writing": {
+    "count": 8,
+    "note": "These are the errors that would do real damage: human-written essays the detector called machine-written or machine-polished.",
+    "cases": [
+      {
+        "record_id": "h007-trim",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.5708,
+        "topic": "community_garden",
+        "model": null,
+        "strategy": "trim",
+        "l2_english": false,
+        "n_words": 129,
+        "probabilities": {
+          "human": 0.4215,
+          "ai_generated": 0.0077,
+          "ai_polished": 0.5708
+        }
+      },
+      {
+        "record_id": "h010-trim",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.6165,
+        "topic": "bad_app",
+        "model": null,
+        "strategy": "trim",
+        "l2_english": false,
+        "n_words": 189,
+        "probabilities": {
+          "human": 0.3756,
+          "ai_generated": 0.0079,
+          "ai_polished": 0.6165
+        }
+      },
+      {
+        "record_id": "h013-trim",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.4942,
+        "topic": "moving_schools",
+        "model": null,
+        "strategy": "trim",
+        "l2_english": true,
+        "n_words": 182,
+        "probabilities": {
+          "human": 0.494,
+          "ai_generated": 0.0117,
+          "ai_polished": 0.4942
+        }
+      },
+      {
+        "record_id": "h018-original",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.7175,
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "original",
+        "l2_english": false,
+        "n_words": 256,
+        "probabilities": {
+          "human": 0.2754,
+          "ai_generated": 0.0071,
+          "ai_polished": 0.7175
+        }
+      },
+      {
+        "record_id": "h018-typo_filler",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.6116,
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "typo_filler",
+        "l2_english": false,
+        "n_words": 266,
+        "probabilities": {
+          "human": 0.382,
+          "ai_generated": 0.0065,
+          "ai_polished": 0.6116
+        }
+      },
+      {
+        "record_id": "h018-rough_draft",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.5875,
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "rough_draft",
+        "l2_english": false,
+        "n_words": 262,
+        "probabilities": {
+          "human": 0.4062,
+          "ai_generated": 0.0064,
+          "ai_polished": 0.5875
+        }
+      },
+      {
+        "record_id": "h018-split_merge",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.6241,
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "split_merge",
+        "l2_english": false,
+        "n_words": 254,
+        "probabilities": {
+          "human": 0.3682,
+          "ai_generated": 0.0077,
+          "ai_polished": 0.6241
+        }
+      },
+      {
+        "record_id": "h018-filler",
+        "actual": "human",
+        "predicted": "ai_polished",
+        "confidence": 0.6006,
+        "topic": "learning_to_cook",
+        "model": null,
+        "strategy": "filler",
+        "l2_english": false,
+        "n_words": 260,
+        "probabilities": {
+          "human": 0.3931,
+          "ai_generated": 0.0063,
+          "ai_polished": 0.6006
+        }
+      }
+    ]
+  },
+  "missed_machine_writing": {
+    "count": 6,
+    "note": "Machine or machine-edited documents the detector called human.",
+    "cases": [
+      {
+        "record_id": "h007-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5584,
+        "topic": "community_garden",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 205,
+        "probabilities": {
+          "human": 0.5584,
+          "ai_generated": 0.0056,
+          "ai_polished": 0.436
+        }
+      },
+      {
+        "record_id": "h007-polish-partial_paragraph",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5393,
+        "topic": "community_garden",
+        "model": "rule_based_polisher",
+        "strategy": "partial_paragraph",
+        "l2_english": false,
+        "n_words": 211,
+        "probabilities": {
+          "human": 0.5393,
+          "ai_generated": 0.0059,
+          "ai_polished": 0.4549
+        }
+      },
+      {
+        "record_id": "h010-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5601,
+        "topic": "bad_app",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 243,
+        "probabilities": {
+          "human": 0.5601,
+          "ai_generated": 0.0059,
+          "ai_polished": 0.434
+        }
+      },
+      {
+        "record_id": "h010-polish-shorten",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.6281,
+        "topic": "bad_app",
+        "model": "rule_based_polisher",
+        "strategy": "shorten",
+        "l2_english": false,
+        "n_words": 221,
+        "probabilities": {
+          "human": 0.6281,
+          "ai_generated": 0.0061,
+          "ai_polished": 0.3658
+        }
+      },
+      {
+        "record_id": "h020-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5277,
+        "topic": "math_olympiad_failure",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 256,
+        "probabilities": {
+          "human": 0.5277,
+          "ai_generated": 0.0102,
+          "ai_polished": 0.4621
+        }
+      },
+      {
+        "record_id": "h024-polish-vocabulary",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5914,
+        "topic": "resale_business",
+        "model": "rule_based_polisher",
+        "strategy": "vocabulary",
+        "l2_english": false,
+        "n_words": 271,
+        "probabilities": {
+          "human": 0.5914,
+          "ai_generated": 0.0063,
+          "ai_polished": 0.4023
+        }
+      }
+    ]
+  },
+  "ai_polished_confusions": {
+    "count": 6,
+    "note": "The AI_POLISHED class is the hardest by construction: a lightly edited human essay is mostly human text. Confusion here is expected and is the honest limit of the method.",
+    "cases": [
+      {
+        "record_id": "h007-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5584,
+        "topic": "community_garden",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 205,
+        "probabilities": {
+          "human": 0.5584,
+          "ai_generated": 0.0056,
+          "ai_polished": 0.436
+        }
+      },
+      {
+        "record_id": "h007-polish-partial_paragraph",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5393,
+        "topic": "community_garden",
+        "model": "rule_based_polisher",
+        "strategy": "partial_paragraph",
+        "l2_english": false,
+        "n_words": 211,
+        "probabilities": {
+          "human": 0.5393,
+          "ai_generated": 0.0059,
+          "ai_polished": 0.4549
+        }
+      },
+      {
+        "record_id": "h010-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5601,
+        "topic": "bad_app",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 243,
+        "probabilities": {
+          "human": 0.5601,
+          "ai_generated": 0.0059,
+          "ai_polished": 0.434
+        }
+      },
+      {
+        "record_id": "h010-polish-shorten",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.6281,
+        "topic": "bad_app",
+        "model": "rule_based_polisher",
+        "strategy": "shorten",
+        "l2_english": false,
+        "n_words": 221,
+        "probabilities": {
+          "human": 0.6281,
+          "ai_generated": 0.0061,
+          "ai_polished": 0.3658
+        }
+      },
+      {
+        "record_id": "h020-polish-clarity",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5277,
+        "topic": "math_olympiad_failure",
+        "model": "rule_based_polisher",
+        "strategy": "clarity",
+        "l2_english": false,
+        "n_words": 256,
+        "probabilities": {
+          "human": 0.5277,
+          "ai_generated": 0.0102,
+          "ai_polished": 0.4621
+        }
+      },
+      {
+        "record_id": "h024-polish-vocabulary",
+        "actual": "ai_polished",
+        "predicted": "human",
+        "confidence": 0.5914,
+        "topic": "resale_business",
+        "model": "rule_based_polisher",
+        "strategy": "vocabulary",
+        "l2_english": false,
+        "n_words": 271,
+        "probabilities": {
+          "human": 0.5914,
+          "ai_generated": 0.0063,
+          "ai_polished": 0.4023
+        }
+      }
+    ]
+  }
+}

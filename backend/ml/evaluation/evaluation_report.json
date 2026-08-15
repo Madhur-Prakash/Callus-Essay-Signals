@@ -1,0 +1,2258 @@
+{
+  "run_id": "432f1e7eb89346e6aeadc6015890b56d",
+  "created_at": "2026-08-14T18:46:37.701256+00:00",
+  "split": "test",
+  "data_regime": "bootstrap",
+  "data_regime_note": "All machine samples come from the offline procedural/rule-based generators and all human samples are hand-authored seeds. Metrics measure separability of these generators, NOT real-world detector accuracy.",
+  "model": {
+    "name": "hybrid::lightgbm",
+    "model_version": "1.0.0",
+    "dataset_version": "1.0.0",
+    "features_version": "1.0.0",
+    "calibration": "sigmoid",
+    "n_features": 411,
+    "feature_groups": [
+      "lm",
+      "stylometric",
+      "syntactic",
+      "burstiness",
+      "repetition",
+      "structural",
+      "style_shift",
+      "corpus"
+    ],
+    "trained_at": "2026-08-14T18:44:58.865452+00:00"
+  },
+  "dataset": {
+    "documents_in_split": 128,
+    "groups_in_split": 71,
+    "labels": {
+      "human": 31,
+      "ai_generated": 65,
+      "ai_polished": 32
+    },
+    "total_documents": 615,
+    "split_counts": {
+      "train": 398,
+      "validation": 89,
+      "test": 128
+    }
+  },
+  "overall": {
+    "n_samples": 128,
+    "n_classes_present": 3,
+    "classes_present": [
+      "human",
+      "ai_generated",
+      "ai_polished"
+    ],
+    "accuracy": 0.8906,
+    "balanced_accuracy": 0.8515,
+    "macro_f1": 0.8515,
+    "weighted_f1": 0.8905,
+    "cohen_kappa": 0.8238,
+    "matthews_corrcoef": 0.8242,
+    "per_class": {
+      "human": {
+        "precision": 0.7931,
+        "recall": 0.7419,
+        "f1": 0.7667,
+        "support": 31,
+        "true_positive": 23,
+        "false_positive": 6,
+        "false_negative": 8,
+        "true_negative": 91,
+        "false_positive_rate": 0.0619,
+        "false_negative_rate": 0.2581
+      },
+      "ai_generated": {
+        "precision": 1.0,
+        "recall": 1.0,
+        "f1": 1.0,
+        "support": 65,
+        "true_positive": 65,
+        "false_positive": 0,
+        "false_negative": 0,
+        "true_negative": 63,
+        "false_positive_rate": 0.0,
+        "false_negative_rate": 0.0
+      },
+      "ai_polished": {
+        "precision": 0.7647,
+        "recall": 0.8125,
+        "f1": 0.7879,
+        "support": 32,
+        "true_positive": 26,
+        "false_positive": 8,
+        "false_negative": 6,
+        "true_negative": 88,
+        "false_positive_rate": 0.0833,
+        "false_negative_rate": 0.1875
+      }
+    },
+    "confusion_matrix": {
+      "labels": [
+        "human",
+        "ai_generated",
+        "ai_polished"
+      ],
+      "matrix": [
+        [
+          23,
+          0,
+          8
+        ],
+        [
+          0,
+          65,
+          0
+        ],
+        [
+          6,
+          0,
+          26
+        ]
+      ],
+      "row_normalised": [
+        [
+          0.7419,
+          0.0,
+          0.2581
+        ],
+        [
+          0.0,
+          1.0,
+          0.0
+        ],
+        [
+          0.1875,
+          0.0,
+          0.8125
+        ]
+      ]
+    },
+    "roc_auc_ovr_macro": 0.9764,
+    "roc_auc_ovo_macro": 0.9639,
+    "roc_auc_per_class": {
+      "human": 0.9644,
+      "ai_generated": 1.0,
+      "ai_polished": 0.9648
+    },
+    "log_loss": 0.2664,
+    "brier_score_per_class": {
+      "human": 0.0706,
+      "ai_generated": 0.0036,
+      "ai_polished": 0.072
+    },
+    "expected_calibration_error": 0.0863,
+    "reliability_curve": [
+      {
+        "bin_lower": 0.4,
+        "bin_upper": 0.5,
+        "mean_confidence": 0.4942,
+        "observed_accuracy": 0.0,
+        "count": 1
+      },
+      {
+        "bin_lower": 0.5,
+        "bin_upper": 0.6,
+        "mean_confidence": 0.5561,
+        "observed_accuracy": 0.5625,
+        "count": 16
+      },
+      {
+        "bin_lower": 0.6,
+        "bin_upper": 0.7,
+        "mean_confidence": 0.6488,
+        "observed_accuracy": 0.6875,
+        "count": 16
+      },
+      {
+        "bin_lower": 0.7,
+        "bin_upper": 0.8,
+        "mean_confidence": 0.7564,
+        "observed_accuracy": 0.9375,
+        "count": 16
+      },
+      {
+        "bin_lower": 0.8,
+        "bin_upper": 0.9,
+        "mean_confidence": 0.8682,
+        "observed_accuracy": 1.0,
+        "count": 14
+      },
+      {
+        "bin_lower": 0.9,
+        "bin_upper": 1.0,
+        "mean_confidence": 0.9218,
+        "observed_accuracy": 1.0,
+        "count": 65
+      }
+    ]
+  },
+  "curves": {
+    "roc": {
+      "human": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.03226
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.51613
+        },
+        {
+          "fpr": 0.01031,
+          "tpr": 0.51613
+        },
+        {
+          "fpr": 0.01031,
+          "tpr": 0.58065
+        },
+        {
+          "fpr": 0.02062,
+          "tpr": 0.58065
+        },
+        {
+          "fpr": 0.02062,
+          "tpr": 0.6129
+        },
+        {
+          "fpr": 0.04124,
+          "tpr": 0.6129
+        },
+        {
+          "fpr": 0.04124,
+          "tpr": 0.64516
+        },
+        {
+          "fpr": 0.05155,
+          "tpr": 0.64516
+        },
+        {
+          "fpr": 0.05155,
+          "tpr": 0.67742
+        },
+        {
+          "fpr": 0.06186,
+          "tpr": 0.67742
+        },
+        {
+          "fpr": 0.06186,
+          "tpr": 0.77419
+        },
+        {
+          "fpr": 0.09278,
+          "tpr": 0.77419
+        },
+        {
+          "fpr": 0.09278,
+          "tpr": 0.83871
+        },
+        {
+          "fpr": 0.10309,
+          "tpr": 0.83871
+        },
+        {
+          "fpr": 0.10309,
+          "tpr": 0.87097
+        },
+        {
+          "fpr": 0.1134,
+          "tpr": 0.87097
+        },
+        {
+          "fpr": 0.1134,
+          "tpr": 0.96774
+        },
+        {
+          "fpr": 0.15464,
+          "tpr": 0.96774
+        },
+        {
+          "fpr": 0.15464,
+          "tpr": 1.0
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "ai_generated": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.01538
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 1.0
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ],
+      "ai_polished": [
+        {
+          "fpr": 0.0,
+          "tpr": 0.0
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.03125
+        },
+        {
+          "fpr": 0.0,
+          "tpr": 0.53125
+        },
+        {
+          "fpr": 0.01042,
+          "tpr": 0.53125
+        },
+        {
+          "fpr": 0.01042,
+          "tpr": 0.65625
+        },
+        {
+          "fpr": 0.04167,
+          "tpr": 0.65625
+        },
+        {
+          "fpr": 0.04167,
+          "tpr": 0.6875
+        },
+        {
+          "fpr": 0.05208,
+          "tpr": 0.6875
+        },
+        {
+          "fpr": 0.05208,
+          "tpr": 0.71875
+        },
+        {
+          "fpr": 0.07292,
+          "tpr": 0.71875
+        },
+        {
+          "fpr": 0.07292,
+          "tpr": 0.8125
+        },
+        {
+          "fpr": 0.11458,
+          "tpr": 0.8125
+        },
+        {
+          "fpr": 0.11458,
+          "tpr": 0.875
+        },
+        {
+          "fpr": 0.125,
+          "tpr": 0.875
+        },
+        {
+          "fpr": 0.125,
+          "tpr": 0.9375
+        },
+        {
+          "fpr": 0.13542,
+          "tpr": 0.9375
+        },
+        {
+          "fpr": 0.13542,
+          "tpr": 0.96875
+        },
+        {
+          "fpr": 0.15625,
+          "tpr": 0.96875
+        },
+        {
+          "fpr": 0.15625,
+          "tpr": 1.0
+        },
+        {
+          "fpr": 1.0,
+          "tpr": 1.0
+        }
+      ]
+    },
+    "precision_recall": {
+      "human": {
+        "average_precision": 0.8991,
+        "points": [
+          {
+            "recall": 1.0,
+            "precision": 0.24219
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.24603
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.25
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.2541
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.25833
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.26271
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.26724
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.27434
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.27928
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.2844
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.28972
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.29524
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.30097
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.30693
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.31633
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.32292
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.32979
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.33696
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.34444
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.35227
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.36471
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.37349
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.38272
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.39241
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.4026
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.41333
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.42466
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.44286
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.45588
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.4697
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.48438
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.5
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.51667
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.53448
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.56364
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.58491
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.60784
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.63265
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.65957
+          },
+          {
+            "recall": 0.96774,
+            "precision": 0.66667
+          },
+          {
+            "recall": 0.96774,
+            "precision": 0.71429
+          },
+          {
+            "recall": 0.93548,
+            "precision": 0.725
+          },
+          {
+            "recall": 0.87097,
+            "precision": 0.71053
+          },
+          {
+            "recall": 0.83871,
+            "precision": 0.72222
+          },
+          {
+            "recall": 0.80645,
+            "precision": 0.73529
+          },
+          {
+            "recall": 0.77419,
+            "precision": 0.75
+          },
+          {
+            "recall": 0.77419,
+            "precision": 0.8
+          },
+          {
+            "recall": 0.67742,
+            "precision": 0.77778
+          },
+          {
+            "recall": 0.64516,
+            "precision": 0.8
+          },
+          {
+            "recall": 0.6129,
+            "precision": 0.82609
+          },
+          {
+            "recall": 0.6129,
+            "precision": 0.90476
+          },
+          {
+            "recall": 0.58065,
+            "precision": 0.94737
+          },
+          {
+            "recall": 0.51613,
+            "precision": 0.94118
+          },
+          {
+            "recall": 0.48387,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.3871,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.32258,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.25806,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.19355,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.12903,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.06452,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.0,
+            "precision": 1.0
+          }
+        ]
+      },
+      "ai_generated": {
+        "average_precision": 1.0,
+        "points": [
+          {
+            "recall": 1.0,
+            "precision": 0.50781
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.51587
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.52419
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.53279
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.54167
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.55085
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.56034
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.57522
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.58559
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.59633
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.60748
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.61905
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.63107
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.64356
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.66327
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.67708
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.69149
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.70652
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.72222
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.73864
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.76471
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.78313
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.80247
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.82278
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.84416
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.86667
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.89041
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.92857
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.95588
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.98485
+          },
+          {
+            "recall": 0.98462,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.95385,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.92308,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.89231,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.84615,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.81538,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.78462,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.75385,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.72308,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.69231,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.64615,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.61538,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.58462,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.55385,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.52308,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.49231,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.46154,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.41538,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.38462,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.35385,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.32308,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.29231,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.26154,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.23077,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.18462,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.15385,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.12308,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.09231,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.06154,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.03077,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.0,
+            "precision": 1.0
+          }
+        ]
+      },
+      "ai_polished": {
+        "average_precision": 0.9078,
+        "points": [
+          {
+            "recall": 1.0,
+            "precision": 0.25
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.25397
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.25806
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.2623
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.26667
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.27119
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.27586
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.28319
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.28829
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.29358
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.29907
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.30476
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.31068
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.31683
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.32653
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.33333
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.34043
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.34783
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.35556
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.36364
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.37647
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.38554
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.39506
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.40506
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.41558
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.42667
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.43836
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.45714
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.47059
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.48485
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.5
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.51613
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.53333
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.55172
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.58182
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.60377
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.62745
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.65306
+          },
+          {
+            "recall": 1.0,
+            "precision": 0.68085
+          },
+          {
+            "recall": 0.96875,
+            "precision": 0.68889
+          },
+          {
+            "recall": 0.9375,
+            "precision": 0.71429
+          },
+          {
+            "recall": 0.875,
+            "precision": 0.7
+          },
+          {
+            "recall": 0.84375,
+            "precision": 0.71053
+          },
+          {
+            "recall": 0.8125,
+            "precision": 0.72222
+          },
+          {
+            "recall": 0.8125,
+            "precision": 0.76471
+          },
+          {
+            "recall": 0.78125,
+            "precision": 0.78125
+          },
+          {
+            "recall": 0.71875,
+            "precision": 0.76667
+          },
+          {
+            "recall": 0.6875,
+            "precision": 0.81481
+          },
+          {
+            "recall": 0.65625,
+            "precision": 0.84
+          },
+          {
+            "recall": 0.65625,
+            "precision": 0.91304
+          },
+          {
+            "recall": 0.625,
+            "precision": 0.95238
+          },
+          {
+            "recall": 0.5625,
+            "precision": 0.94737
+          },
+          {
+            "recall": 0.53125,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.46875,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.375,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.3125,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.25,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.1875,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.125,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.0625,
+            "precision": 1.0
+          },
+          {
+            "recall": 0.0,
+            "precision": 1.0
+          }
+        ]
+      }
+    }
+  },
+  "generalisation": {
+    "by_topic_novelty": {
+      "held_out_topic": {
+        "n_samples": 20,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 20
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 20 documents."
+      },
+      "training_topic": {
+        "n_samples": 108,
+        "classes_present": [
+          "human",
+          "ai_generated",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.8704,
+        "macro_f1": 0.8515,
+        "balanced_accuracy": 0.8515,
+        "per_class": {
+          "human": {
+            "recall": 0.7419,
+            "precision": 0.7931,
+            "false_positive_rate": 0.0779,
+            "support": 31
+          },
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 45
+          },
+          "ai_polished": {
+            "recall": 0.8125,
+            "precision": 0.7647,
+            "false_positive_rate": 0.1053,
+            "support": 32
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.8515
+      }
+    },
+    "by_topic": {
+      "a community volunteering project": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "a job in a library or archive": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "a minimum-wage summer job": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "a robotics project that failed": {
+        "n_samples": 1,
+        "too_small": true
+      },
+      "a strategy game and how it taught self-criticism": {
+        "n_samples": 6,
+        "too_small": true
+      },
+      "a summer spent surveying a wetland": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "an ensemble or team performance activity": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "an unexpected friendship with an elderly neighbour": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "bad_app": {
+        "n_samples": 11,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.7273,
+        "macro_f1": 0.4848,
+        "balanced_accuracy": 0.7333,
+        "per_class": {
+          "human": {
+            "recall": 0.8,
+            "precision": 0.6667,
+            "false_positive_rate": 0.3333,
+            "support": 5
+          },
+          "ai_polished": {
+            "recall": 0.6667,
+            "precision": 0.8,
+            "false_positive_rate": 0.2,
+            "support": 6
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.4848
+      },
+      "building software nobody used": {
+        "n_samples": 1,
+        "too_small": true
+      },
+      "caring for an ill relative": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "changing schools repeatedly": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "community_garden": {
+        "n_samples": 11,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.7273,
+        "macro_f1": 0.4848,
+        "balanced_accuracy": 0.7333,
+        "per_class": {
+          "human": {
+            "recall": 0.8,
+            "precision": 0.6667,
+            "false_positive_rate": 0.3333,
+            "support": 5
+          },
+          "ai_polished": {
+            "recall": 0.6667,
+            "precision": 0.8,
+            "false_positive_rate": 0.2,
+            "support": 6
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.4848
+      },
+      "discovering an interest in cartography": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "immigrating and learning English": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "learning an instrument late": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "learning to repair a sewing machine": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "learning_to_cook": {
+        "n_samples": 10,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.5,
+        "macro_f1": 0.2222,
+        "balanced_accuracy": 0.5,
+        "per_class": {
+          "human": {
+            "recall": 0.0,
+            "precision": 0.0,
+            "false_positive_rate": 0.0,
+            "support": 5
+          },
+          "ai_polished": {
+            "recall": 1.0,
+            "precision": 0.5,
+            "false_positive_rate": 1.0,
+            "support": 5
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.2222
+      },
+      "losing an important competition": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "math_olympiad_failure": {
+        "n_samples": 12,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.9167,
+        "macro_f1": 0.6107,
+        "balanced_accuracy": 0.9167,
+        "per_class": {
+          "human": {
+            "recall": 1.0,
+            "precision": 0.8571,
+            "false_positive_rate": 0.1667,
+            "support": 6
+          },
+          "ai_polished": {
+            "recall": 0.8333,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 6
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.6107
+      },
+      "moving_schools": {
+        "n_samples": 9,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.8889,
+        "macro_f1": 0.5926,
+        "balanced_accuracy": 0.9,
+        "per_class": {
+          "human": {
+            "recall": 0.8,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 5
+          },
+          "ai_polished": {
+            "recall": 1.0,
+            "precision": 0.8,
+            "false_positive_rate": 0.2,
+            "support": 4
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.5926
+      },
+      "organising a school response to a local flood": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "repairing things as a hobby": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "resale_business": {
+        "n_samples": 10,
+        "classes_present": [
+          "human",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.9,
+        "macro_f1": 0.5993,
+        "balanced_accuracy": 0.9,
+        "per_class": {
+          "human": {
+            "recall": 1.0,
+            "precision": 0.8333,
+            "false_positive_rate": 0.2,
+            "support": 5
+          },
+          "ai_polished": {
+            "recall": 0.8,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 5
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.5993
+      },
+      "running the sound desk at a community radio station": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "supporting a sibling with a disability": {
+        "n_samples": 2,
+        "too_small": true
+      },
+      "working in a family business": {
+        "n_samples": 3,
+        "too_small": true
+      },
+      "years of a demanding sport": {
+        "n_samples": 4,
+        "too_small": true
+      }
+    },
+    "by_generator_novelty": {
+      "held_out_model": {
+        "n_samples": 21,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 21
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 21 documents."
+      },
+      "training_model": {
+        "n_samples": 107,
+        "classes_present": [
+          "human",
+          "ai_generated",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.8692,
+        "macro_f1": 0.8515,
+        "balanced_accuracy": 0.8515,
+        "per_class": {
+          "human": {
+            "recall": 0.7419,
+            "precision": 0.7931,
+            "false_positive_rate": 0.0789,
+            "support": 31
+          },
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 44
+          },
+          "ai_polished": {
+            "recall": 0.8125,
+            "precision": 0.7647,
+            "false_positive_rate": 0.1067,
+            "support": 32
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.8515
+      }
+    },
+    "by_generator": {
+      "none": {
+        "n_samples": 31,
+        "classes_present": [
+          "human"
+        ],
+        "single_class": true,
+        "accuracy": 0.7419,
+        "macro_f1": 0.284,
+        "balanced_accuracy": 0.7419,
+        "per_class": {
+          "human": {
+            "recall": 0.7419,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 31
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 0.7419,
+        "headline_note": "This slice contains only human documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for human: 0.742 over 31 documents."
+      },
+      "proxy-formal-70b": {
+        "n_samples": 10,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 10
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 10 documents."
+      },
+      "proxy-heldout-qwen": {
+        "n_samples": 21,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 21
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 21 documents."
+      },
+      "proxy-terse-gemma": {
+        "n_samples": 7,
+        "too_small": true
+      },
+      "proxy-verbose-mixtral": {
+        "n_samples": 9,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 9
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 9 documents."
+      },
+      "proxy-warm-8b": {
+        "n_samples": 18,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 18
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 18 documents."
+      },
+      "rule_based_polisher": {
+        "n_samples": 32,
+        "classes_present": [
+          "ai_polished"
+        ],
+        "single_class": true,
+        "accuracy": 0.8125,
+        "macro_f1": 0.2989,
+        "balanced_accuracy": 0.8125,
+        "per_class": {
+          "ai_polished": {
+            "recall": 0.8125,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 32
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 0.8125,
+        "headline_note": "This slice contains only ai_polished documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_polished: 0.812 over 32 documents."
+      }
+    },
+    "by_length_band": {
+      "long": {
+        "n_samples": 22,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 22
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 22 documents."
+      },
+      "medium": {
+        "n_samples": 69,
+        "classes_present": [
+          "human",
+          "ai_generated",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.8406,
+        "macro_f1": 0.8585,
+        "balanced_accuracy": 0.859,
+        "per_class": {
+          "human": {
+            "recall": 0.7308,
+            "precision": 0.8261,
+            "false_positive_rate": 0.093,
+            "support": 26
+          },
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 17
+          },
+          "ai_polished": {
+            "recall": 0.8462,
+            "precision": 0.7586,
+            "false_positive_rate": 0.1628,
+            "support": 26
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.8585
+      },
+      "short": {
+        "n_samples": 37,
+        "classes_present": [
+          "human",
+          "ai_generated",
+          "ai_polished"
+        ],
+        "single_class": false,
+        "accuracy": 0.9189,
+        "macro_f1": 0.8182,
+        "balanced_accuracy": 0.8222,
+        "per_class": {
+          "human": {
+            "recall": 0.8,
+            "precision": 0.6667,
+            "false_positive_rate": 0.0625,
+            "support": 5
+          },
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 26
+          },
+          "ai_polished": {
+            "recall": 0.6667,
+            "precision": 0.8,
+            "false_positive_rate": 0.0323,
+            "support": 6
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.8182
+      }
+    },
+    "by_source": {
+      "bootstrap_procedural": {
+        "n_samples": 65,
+        "classes_present": [
+          "ai_generated"
+        ],
+        "single_class": true,
+        "accuracy": 1.0,
+        "macro_f1": 0.3333,
+        "balanced_accuracy": 1.0,
+        "per_class": {
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 65
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 1.0,
+        "headline_note": "This slice contains only ai_generated documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_generated: 1.000 over 65 documents."
+      },
+      "bootstrap_rule_polish": {
+        "n_samples": 32,
+        "classes_present": [
+          "ai_polished"
+        ],
+        "single_class": true,
+        "accuracy": 0.8125,
+        "macro_f1": 0.2989,
+        "balanced_accuracy": 0.8125,
+        "per_class": {
+          "ai_polished": {
+            "recall": 0.8125,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 32
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 0.8125,
+        "headline_note": "This slice contains only ai_polished documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for ai_polished: 0.812 over 32 documents."
+      },
+      "seed_authored": {
+        "n_samples": 6,
+        "too_small": true
+      },
+      "seed_variant": {
+        "n_samples": 25,
+        "classes_present": [
+          "human"
+        ],
+        "single_class": true,
+        "accuracy": 0.72,
+        "macro_f1": 0.2791,
+        "balanced_accuracy": 0.72,
+        "per_class": {
+          "human": {
+            "recall": 0.72,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 25
+          }
+        },
+        "headline_metric": "recall",
+        "headline_value": 0.72,
+        "headline_note": "This slice contains only human documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for human: 0.720 over 25 documents."
+      }
+    },
+    "by_polish_transform": {
+      "clarity": {
+        "n_samples": 4,
+        "too_small": true
+      },
+      "formalize": {
+        "n_samples": 6,
+        "too_small": true
+      },
+      "n/a": {
+        "n_samples": 96,
+        "classes_present": [
+          "human",
+          "ai_generated"
+        ],
+        "single_class": false,
+        "accuracy": 0.9167,
+        "macro_f1": 0.6173,
+        "balanced_accuracy": 0.871,
+        "per_class": {
+          "human": {
+            "recall": 0.7419,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 31
+          },
+          "ai_generated": {
+            "recall": 1.0,
+            "precision": 1.0,
+            "false_positive_rate": 0.0,
+            "support": 65
+          }
+        },
+        "headline_metric": "macro_f1",
+        "headline_value": 0.6173
+      },
+      "partial_paragraph": {
+        "n_samples": 5,
+        "too_small": true
+      },
+      "restructure": {
+        "n_samples": 6,
+        "too_small": true
+      },
+      "shorten": {
+        "n_samples": 6,
+        "too_small": true
+      },
+      "vocabulary": {
+        "n_samples": 5,
+        "too_small": true
+      }
+    },
+    "held_out_topics": [
+      "a summer spent surveying a wetland",
+      "an unexpected friendship with an elderly neighbour",
+      "discovering an interest in cartography",
+      "learning to repair a sewing machine",
+      "organising a school response to a local flood",
+      "running the sound desk at a community radio station"
+    ],
+    "held_out_models": [
+      "proxy-heldout-qwen"
+    ],
+    "notes": [
+      "Held-out topics appear in no training document. Held-out generators produced no training document.",
+      "Slices with fewer than 8 documents report `too_small` instead of a metric rather than presenting a number computed over a handful of rows."
+    ],
+    "by_word_count": [
+      {
+        "band": "<200 words",
+        "n_samples": 33,
+        "accuracy": 0.9091,
+        "macro_f1": 0.7802
+      },
+      {
+        "band": "200-280",
+        "n_samples": 90,
+        "accuracy": 0.8778,
+        "macro_f1": 0.8589
+      },
+      {
+        "band": ">=280",
+        "n_samples": 5,
+        "too_small": true
+      }
+    ]
+  },
+  "bias": {
+    "question": "Does the detector disproportionately flag human writing from second-language English writers?",
+    "metric": "false-positive rate on human documents (Wilson 95% interval)",
+    "groups": {
+      "l2_english_simulated": {
+        "n_human_documents": 5,
+        "measurable": true,
+        "underpowered": true,
+        "false_positive_rate": {
+          "point": 0.2,
+          "lower": 0.0362,
+          "upper": 0.6245,
+          "n": 5
+        },
+        "flagged_as_ai_generated": 0,
+        "flagged_as_ai_polished": 1,
+        "mean_human_probability": 0.6287
+      },
+      "l1_english": {
+        "n_human_documents": 26,
+        "measurable": true,
+        "underpowered": false,
+        "false_positive_rate": {
+          "point": 0.2692,
+          "lower": 0.137,
+          "upper": 0.4608,
+          "n": 26
+        },
+        "flagged_as_ai_generated": 0,
+        "flagged_as_ai_polished": 7,
+        "mean_human_probability": 0.6095
+      }
+    },
+    "disparity": {
+      "measurable": true,
+      "underpowered": true,
+      "n_l2_human_documents": 5,
+      "n_l1_human_documents": 26,
+      "l2_false_positive_rate": 0.2,
+      "l1_false_positive_rate": 0.2692,
+      "absolute_difference": -0.0692,
+      "ratio": 0.743,
+      "confidence_intervals_overlap": true,
+      "conclusion": "No statistically distinguishable disparity at this sample size — the Wilson intervals overlap. This is NOT evidence of fairness; it is a sample-size limitation."
+    },
+    "severe_limitation": "The L2 subset in the bootstrap corpus consists of seed essays written in a SIMULATED second-language register, not writing collected from real L2 authors. These numbers indicate whether the pipeline can detect such a disparity; they do not establish that the detector is fair to real second-language writers. Published work consistently finds that AI detectors over-flag L2 English writing, and nothing here contradicts that. Do not deploy this detector as evidence against any student.",
+    "other_subgroups": {
+      "by_voice": {
+        "entrepreneurial_plain": {
+          "n_samples": 5,
+          "too_small": true
+        },
+        "l2_formal_awkward": {
+          "n_samples": 5,
+          "too_small": true
+        },
+        "plain_observational": {
+          "n_samples": 5,
+          "too_small": true
+        },
+        "precise_bitter_honest": {
+          "n_samples": 6,
+          "classes_present": [
+            "human"
+          ],
+          "single_class": true,
+          "accuracy": 1.0,
+          "macro_f1": 0.3333,
+          "balanced_accuracy": 1.0,
+          "per_class": {
+            "human": {
+              "recall": 1.0,
+              "precision": 1.0,
+              "false_positive_rate": 0.0,
+              "support": 6
+            }
+          },
+          "headline_metric": "recall",
+          "headline_value": 1.0,
+          "headline_note": "This slice contains only human documents, so macro F1 and accuracy are not comparable with multi-class slices. The meaningful number is recall for human: 1.000 over 6 documents."
+        },
+        "technical_humorous": {
+          "n_samples": 5,
+          "too_small": true
+        },
+        "warm_digressive": {
+          "n_samples": 5,
+          "too_small": true
+        }
+      }
+    }
+  },
+  "abstention": {
+    "policy": {
+      "min_top_probability": 0.45,
+      "min_margin_between_top_two": 0.1,
+      "min_sentences": 5,
+      "min_words": 120
+    },
+    "n_documents": 128,
+    "abstained": 8,
+    "abstention_rate": 0.0625,
+    "answered": 120,
+    "accuracy_when_answering": {
+      "point": 0.9083,
+      "lower": 0.8433,
+      "upper": 0.948,
+      "n": 120
+    },
+    "note": "Accuracy-when-answering above the overall accuracy means the abstention policy is removing cases the model would have got wrong, which is its purpose. If they are equal, the policy is only costing coverage."
+  },
+  "model_comparison": {
+    "protocol": "Each feature set is refitted on the training split with an identical RandomForest and scored on the 'test' split. Only the feature set varies, which is what makes the comparison a controlled one.",
+    "estimator": "RandomForestClassifier(n_estimators=500, min_samples_leaf=2)",
+    "note": "The 'hybrid' row here is NOT the shipped model. The shipped model uses whichever estimator won grouped cross-validation, so its headline metrics in the 'overall' section can differ from this row. Holding the estimator fixed is deliberate: otherwise a feature-set comparison would be confounded by estimator choice.",
+    "models": [
+      {
+        "feature_set": "hybrid",
+        "feature_groups": [
+          "lm",
+          "stylometric",
+          "syntactic",
+          "burstiness",
+          "repetition",
+          "structural",
+          "style_shift",
+          "corpus"
+        ],
+        "n_features": 411,
+        "accuracy": 0.8906,
+        "macro_f1": 0.8518,
+        "balanced_accuracy": 0.8522,
+        "roc_auc_ovr_macro": 0.9725,
+        "human_false_positive_rate": 0.1935,
+        "per_class_f1": {
+          "human": 0.7812,
+          "ai_generated": 1.0,
+          "ai_polished": 0.7742
+        },
+        "human_recall": 0.8065
+      },
+      {
+        "feature_set": "hybrid_no_shift",
+        "feature_groups": [
+          "lm",
+          "stylometric",
+          "syntactic",
+          "burstiness",
+          "repetition",
+          "structural",
+          "corpus"
+        ],
+        "n_features": 382,
+        "accuracy": 0.8828,
+        "macro_f1": 0.8413,
+        "balanced_accuracy": 0.8414,
+        "roc_auc_ovr_macro": 0.9733,
+        "human_false_positive_rate": 0.2258,
+        "per_class_f1": {
+          "human": 0.7619,
+          "ai_generated": 1.0,
+          "ai_polished": 0.7619
+        },
+        "human_recall": 0.7742
+      },
+      {
+        "feature_set": "baseline_stylometric",
+        "feature_groups": [
+          "stylometric",
+          "syntactic",
+          "burstiness",
+          "repetition",
+          "structural"
+        ],
+        "n_features": 246,
+        "accuracy": 0.875,
+        "macro_f1": 0.8296,
+        "balanced_accuracy": 0.8317,
+        "roc_auc_ovr_macro": 0.966,
+        "human_false_positive_rate": 0.1613,
+        "per_class_f1": {
+          "human": 0.7647,
+          "ai_generated": 1.0,
+          "ai_polished": 0.7241
+        },
+        "human_recall": 0.8387
+      },
+      {
+        "feature_set": "lm_only",
+        "feature_groups": [
+          "lm"
+        ],
+        "n_features": 118,
+        "accuracy": 0.8281,
+        "macro_f1": 0.7667,
+        "balanced_accuracy": 0.7678,
+        "roc_auc_ovr_macro": 0.9279,
+        "human_false_positive_rate": 0.2903,
+        "per_class_f1": {
+          "human": 0.6667,
+          "ai_generated": 1.0,
+          "ai_polished": 0.6333
+        },
+        "human_recall": 0.7097
+      }
+    ],
+    "deltas": {
+      "hybrid_minus_baseline": 0.0222,
+      "hybrid_minus_lm_only": 0.0851,
+      "hybrid_minus_no_shift": 0.0105
+    }
+  },
+  "feature_importance": [
+    {
+      "feature": "cor_char_sim_delta_ai_human",
+      "group": "corpus",
+      "importance": 0.104777,
+      "std": 0.029216
+    },
+    {
+      "feature": "agg_mean_sty_sentence_initial_transition",
+      "group": "stylometric",
+      "importance": 0.022127,
+      "std": 0.006473
+    },
+    {
+      "feature": "agg_std_sty_sentence_initial_transition",
+      "group": "stylometric",
+      "importance": 0.020897,
+      "std": 0.005873
+    },
+    {
+      "feature": "agg_p75_sty_comma_rate",
+      "group": "stylometric",
+      "importance": 0.020872,
+      "std": 0.007654
+    },
+    {
+      "feature": "whole_lm_mean_prob",
+      "group": "lm",
+      "importance": 0.01719,
+      "std": 0.009485
+    },
+    {
+      "feature": "agg_p25_sty_punct_density",
+      "group": "stylometric",
+      "importance": 0.015969,
+      "std": 0.006827
+    },
+    {
+      "feature": "agg_std_syn_pos_propn",
+      "group": "syntactic",
+      "importance": 0.014756,
+      "std": 0.00492
+    },
+    {
+      "feature": "doc_mean_syllables_per_word",
+      "group": "structural",
+      "importance": 0.014746,
+      "std": 0.013855
+    },
+    {
+      "feature": "whole_lm_frac_top10",
+      "group": "lm",
+      "importance": 0.014731,
+      "std": 0.012019
+    },
+    {
+      "feature": "agg_mean_sty_transition_word_rate",
+      "group": "stylometric",
+      "importance": 0.01473,
+      "std": 0.006928
+    },
+    {
+      "feature": "agg_std_sty_transition_phrase_rate",
+      "group": "stylometric",
+      "importance": 0.01473,
+      "std": 0.006928
+    },
+    {
+      "feature": "agg_mean_sty_transition_phrase_rate",
+      "group": "stylometric",
+      "importance": 0.01473,
+      "std": 0.006928
+    },
+    {
+      "feature": "cor_char_sim_ai_polished",
+      "group": "corpus",
+      "importance": 0.013558,
+      "std": 0.006833
+    },
+    {
+      "feature": "agg_std_syn_coordination_ratio",
+      "group": "syntactic",
+      "importance": 0.013533,
+      "std": 0.00839
+    },
+    {
+      "feature": "agg_std_sty_std_word_len",
+      "group": "stylometric",
+      "importance": 0.013524,
+      "std": 0.009714
+    },
+    {
+      "feature": "agg_mean_sty_hedge_rate",
+      "group": "stylometric",
+      "importance": 0.013501,
+      "std": 0.008403
+    },
+    {
+      "feature": "agg_mean_syn_pos_punct",
+      "group": "syntactic",
+      "importance": 0.012313,
+      "std": 0.00429
+    },
+    {
+      "feature": "agg_std_sty_first_person_rate",
+      "group": "stylometric",
+      "importance": 0.012313,
+      "std": 0.00429
+    },
+    {
+      "feature": "whole_lm_p90_logprob",
+      "group": "lm",
+      "importance": 0.012271,
+      "std": 0.006479
+    },
+    {
+      "feature": "rep_transition_phrase_count",
+      "group": "repetition",
+      "importance": 0.011057,
+      "std": 0.003232
+    },
+    {
+      "feature": "agg_std_lm_logprob_iqr",
+      "group": "lm",
+      "importance": 0.011057,
+      "std": 0.003232
+    },
+    {
+      "feature": "shift_max_adjacent_style_distance",
+      "group": "style_shift",
+      "importance": 0.011049,
+      "std": 0.005873
+    },
+    {
+      "feature": "agg_std_sty_hedge_rate",
+      "group": "stylometric",
+      "importance": 0.009854,
+      "std": 0.00698
+    },
+    {
+      "feature": "shift_paragraph_logprob_std",
+      "group": "style_shift",
+      "importance": 0.009837,
+      "std": 0.006957
+    },
+    {
+      "feature": "agg_mean_syn_pos_det",
+      "group": "syntactic",
+      "importance": 0.009836,
+      "std": 0.0
+    }
+  ],
+  "interpretation": [
+    "REGIME WARNING: every number in this report was computed on the offline bootstrap corpus. The human class is hand-authored seed text and the machine classes come from a template generator and a rule-based editor. These metrics measure how separable those three generators are. They are NOT an estimate of performance on real student essays, and they should not be quoted as one.",
+    "The hybrid feature set beats the stylometry-only baseline by +0.022 macro F1 on the held-out split, so the language-model features are earning their cost.",
+    "Language-model features alone are 0.085 macro F1 behind the hybrid set, so perplexity-style measurements are not sufficient on their own.",
+    "FALSE POSITIVES: human recall is 0.742 — 8 of 31 human documents in this split were classified as machine-written or machine-polished. This is the failure mode that matters: overall accuracy is carried by the machine classes while a large share of genuine human writing is flagged. The detector is not fit to be pointed at a real applicant.",
+    "Topic generalisation: the held-out topic slice contains only ai_generated documents (20 of them), so macro F1 is not comparable with the in-training slice. Recall for ai_generated is 1.000 on the held-out topic against 1.000 on topics seen in training. That is a genuine cross-topic result for this class, but it says nothing about whether human writing generalises, because no human documents are in this slice — a real gap in the evaluation design that more data would close.",
+    "Generator generalisation: the held-out generator slice contains only ai_generated documents (21 of them), so macro F1 is not comparable with the in-training slice. Recall for ai_generated is 1.000 on the held-out generator against 1.000 on generators seen in training. That is a genuine cross-generator result for this class, but it says nothing about whether human writing generalises, because no human documents are in this slice — a real gap in the evaluation design that more data would close.",
+    "Bias: No statistically distinguishable disparity at this sample size — the Wilson intervals overlap. This is NOT evidence of fairness; it is a sample-size limitation.",
+    "Calibration: expected calibration error is 0.086. Confidence values are roughly trustworthy.",
+    "A flag from this system is a prompt to look more closely. It is not evidence of authorship, and it cannot be — the measurements describe text, and text does not carry a signature."
+  ]
+}
