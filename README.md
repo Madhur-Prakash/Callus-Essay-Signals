@@ -1,8 +1,27 @@
 # Essay Signals — explainable AI-writing detection for admissions essays
 
+[![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![scikit-learn](https://img.shields.io/badge/scikit--learn-1.9-F7931E?logo=scikitlearn&logoColor=white)](https://scikit-learn.org/)
+[![spaCy](https://img.shields.io/badge/spaCy-en__core__web__sm-09A3D5?logo=spacy&logoColor=white)](https://spacy.io/)
+[![React](https://img.shields.io/badge/React-18.3-61DAFB?logo=react&logoColor=black)](https://react.dev/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.7-3178C6?logo=typescript&logoColor=white)](https://www.typescriptlang.org/)
+[![Vite](https://img.shields.io/badge/Vite-6-646CFF?logo=vite&logoColor=white)](https://vite.dev/)
+[![Tailwind](https://img.shields.io/badge/Tailwind-4-06B6D4?logo=tailwindcss&logoColor=white)](https://tailwindcss.com/)
+[![MongoDB](https://img.shields.io/badge/MongoDB-optional-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
+[![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
+[![Tests](https://img.shields.io/badge/tests-163%20backend%20%7C%2045%20frontend-brightgreen)](#tests)
+[![License](https://img.shields.io/badge/license-MIT-informational)](#license)
+
 A working detector for AI-generated and AI-polished writing in college admissions
 essays. React + Vite frontend, FastAPI backend, and a hybrid ML/NLP pipeline that
 produces **measured evidence for every passage it flags**.
+
+**Documentation:** [Architecture](docs/architecture.md) ·
+[Methodology](docs/detection-methodology.md) · [Dataset](docs/dataset.md) ·
+[Evaluation](docs/evaluation.md) · [API](docs/api.md) ·
+[Privacy](docs/privacy.md) · [Limitations](docs/limitations.md) ·
+[Index](docs/README.md)
 
 **It is not an LLM wrapper.** A small local causal language model (`distilgpt2`) is
 used as a *measuring instrument* — it reports how probable each token was given the
@@ -25,23 +44,43 @@ Essay → tokeniser → local LM → token log-probs / entropy / rank
 
 ---
 
-## ⚠️ Read this before quoting any number
+## How this meets the brief
 
-Out of the box the detector is trained on a **synthetic bootstrap corpus**: the
-human class is 36 hand-authored seed essays, and the machine classes come from an
-offline template generator and a rule-based editor. The reported metrics measure
-*how separable those three generators are* — **not** how well the detector
-identifies real AI writing.
+| The brief asks for | Where it is |
+| --- | --- |
+| A working application with a real interface, not a script or a notebook | React + Vite SPA over a FastAPI service. [Quick start](#quick-start-windows-powershell) · [Architecture](docs/architecture.md) |
+| Show **where** and **why**, not "73% AI" | Sentence marks in the reader, plus an evidence panel per sentence: measured value, percentile against the human corpus, within-essay comparison, and the classifier's signed per-feature contributions. [How evidence is generated](docs/detection-methodology.md#explanation) |
+| Not a wrapper; a chat model must not make the judgement | `distilgpt2` runs locally and returns token log-probabilities only. The decision is made by our own trained LightGBM/logistic classifier in [`classifier.py`](backend/app/services/classifier.py). No hosted model is reachable from a request handler. [Why this is not a wrapper](docs/detection-methodology.md#the-core-commitment) |
+| Using an LM as an instrument is fine | That is exactly the split: [`probability_analyzer.py`](backend/app/services/probability_analyzer.py) measures, [`feature_extractor.py`](backend/app/services/feature_extractor.py) derives, [`classifier.py`](backend/app/services/classifier.py) judges |
+| Detection at the level of sentences and passages | Per-sentence and per-paragraph scores, plus a document verdict. The realistic case — a human paragraph a model later polished — is the `ai_polished` class |
+| Every flag backed by visible evidence | [`explanation_engine.py`](backend/app/services/explanation_engine.py) generates evidence deterministically from measured values. No language model writes the explanations |
+| Build the dataset; document source, size and coverage gaps | [Dataset methodology](docs/dataset.md) · [operational layout](backend/data/README.md) · the live dataset card is served at `GET /api/v1/evaluation` and rendered under Research → Dataset |
+| Honest accuracy on your own test set | [Measured results](#measured-results-bootstrap-corpus-held-out-test-split-n--128) — reported with the regime warning attached, not as a headline claim |
+| **Three essays it gets confidently wrong**, with your theory why | [Confidently wrong examples](docs/evaluation.md#confidently-wrong-examples) — three cases with the measurements that misled the model and a proposed fix for each. Also in the app under Research → Failures |
+| Flagging of second-language English writers, if present | An explicit bias study with Wilson intervals over an L2 subset. [Bias analysis](docs/evaluation.md#bias-analysis) — the honest result is *not measurable at this sample size*, which is reported as a gap rather than as fairness |
+
+---
+
+## Read this before quoting any number
+
+> [!CAUTION]
+> Out of the box the detector is trained on a **synthetic bootstrap corpus**: the
+> human class is 36 hand-authored seed essays, and the machine classes come from an
+> offline template generator and a rule-based editor. The reported metrics measure
+> *how separable those three generators are* — **not** how well the detector
+> identifies real AI writing.
 
 This is surfaced everywhere: `data_regime: "bootstrap"` in the API response and
 model metadata, a `REGIME WARNING` at the top of the evaluation report, and a
 banner in the UI. To get meaningful numbers, supply a `GROQ_API_KEY` to generate
-real machine text and add real essays to `backend/data/raw/human/`.
+real machine text and add real essays to `backend/data/raw/human/` — see
+[backend/data/README.md](backend/data/README.md).
 
-**Also honest:** on the current corpus the detector **over-flags human writing** —
-human recall sits well below the machine classes, and most errors are human essays
-called machine-polished. Overall accuracy hides this, which is why the evaluation
-report leads with it. See [docs/limitations.md](docs/limitations.md).
+> [!IMPORTANT]
+> **Also honest:** on the current corpus the detector **over-flags human writing** —
+> human recall is 0.742 against 1.000 for `ai_generated`, and most errors are human
+> essays called machine-polished. Overall accuracy hides this, which is why the
+> evaluation report leads with it. See [docs/limitations.md](docs/limitations.md).
 
 ---
 
@@ -286,8 +325,9 @@ uv run pytest -m integration           # MongoDB tests (skip cleanly if absent)
 uv run ruff check .
 
 cd frontend
-npm test                               # 36 tests
+npm test                               # 45 tests
 npm run typecheck
+npm run lint
 ```
 
 With the API running, an end-to-end check across the real HTTP surface — health,
@@ -356,16 +396,22 @@ singletons; per-stage timings are returned in the response when
 
 ## Documentation
 
+Start at the [documentation index](docs/README.md), or go straight to a page.
+Every document carries a navigation bar linking to all the others.
+
 | Document | Contents |
 | -------- | -------- |
-| [docs/architecture.md](docs/architecture.md) | System diagram, layering, model lifecycle, degradation, data flow |
+| [docs/README.md](docs/README.md) | Index, and what to read first if you only read two things |
+| [docs/architecture.md](docs/architecture.md) | System diagram, layering, model lifecycle, degradation, data flow, frontend structure |
 | [docs/detection-methodology.md](docs/detection-methodology.md) | Every feature layer, why the LM is an instrument, calibration and abstention |
 | [docs/dataset.md](docs/dataset.md) | Corpus design decisions, leakage control, what each choice costs |
 | [docs/evaluation.md](docs/evaluation.md) | Measured results, generalisation, bias, failure analysis |
 | [docs/api.md](docs/api.md) | Endpoints, schemas, error codes, examples |
 | [docs/privacy.md](docs/privacy.md) | What is stored and logged, and the structural guarantees |
 | [docs/limitations.md](docs/limitations.md) | **Ranked limitations and known failure cases** |
+| [backend/README.md](backend/README.md) | Backend-only quick start and module map |
 | [backend/data/README.md](backend/data/README.md) | Dataset layout and how to add real essays |
+| [backend/data/raw/README.md](backend/data/raw/README.md) | Sourcing rules for real human essays |
 
 ---
 
@@ -391,10 +437,28 @@ Specifically:
 - **The system abstains** when the top class is under 45%, the top two are within
   10 points, or the document is under 5 sentences / 120 words.
 
-Detection ≠ proof of authorship. Do not use this as evidence in an
-academic-integrity process, and do not reject an applicant based on it.
+> [!WARNING]
+> Detection is not proof of authorship. Do not use this as evidence in an
+> academic-integrity process, and do not reject an applicant based on it.
+
+Full ranked list, with severity and the measurement behind each one:
+[docs/limitations.md](docs/limitations.md).
+
+---
 
 ## License
 
 MIT for the code. Generated model output is subject to the terms of whichever
 provider produced it. No admissions essays were scraped.
+
+---
+
+<div align="center">
+
+Made with 💖 for Callus by **Madhur Prakash**
+
+[Architecture](docs/architecture.md) · [Methodology](docs/detection-methodology.md) ·
+[Dataset](docs/dataset.md) · [Evaluation](docs/evaluation.md) · [API](docs/api.md) ·
+[Privacy](docs/privacy.md) · [Limitations](docs/limitations.md)
+
+</div>

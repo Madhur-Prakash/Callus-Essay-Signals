@@ -1,6 +1,18 @@
+[Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
+[Methodology](detection-methodology.md) — **Dataset** · [Evaluation](evaluation.md) ·
+[API](api.md) · [Privacy](privacy.md) · [Limitations](limitations.md)
+
+---
+
 # Dataset methodology
 
-Operational instructions live in [`backend/data/README.md`](../backend/data/README.md).
+Why the corpus is shaped the way it is, and what each decision costs. The measured
+consequences are in [evaluation.md](evaluation.md); the honest summary of what this
+corpus cannot support is in [limitations.md](limitations.md).
+
+Operational instructions — layout, regenerating, adding real essays — live in
+[`backend/data/README.md`](../backend/data/README.md), with sourcing rules in
+[`backend/data/raw/README.md`](../backend/data/raw/README.md).
 This document is about the *decisions* — why the corpus is shaped the way it is,
 and what each choice costs.
 

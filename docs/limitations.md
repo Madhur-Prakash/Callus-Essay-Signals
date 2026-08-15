@@ -1,6 +1,18 @@
+[Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
+[Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
+[Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) —
+**Limitations**
+
+---
+
 # Limitations and known failure cases
 
-Read this before acting on anything this system outputs.
+> [!CAUTION]
+> Read this before acting on anything this system outputs.
+
+The measurements behind each limitation are in
+[detection-methodology.md](detection-methodology.md); the numbers that demonstrate
+them are in [evaluation.md](evaluation.md).
 
 ## The one-sentence version
 

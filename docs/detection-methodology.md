@@ -1,4 +1,15 @@
+[Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) —
+**Methodology** · [Dataset](dataset.md) · [Evaluation](evaluation.md) ·
+[API](api.md) · [Privacy](privacy.md) · [Limitations](limitations.md)
+
+---
+
 # Detection methodology
+
+What gets measured, how those measurements become a decision, and where the line
+between instrument and judge is drawn. The corpus these features are learned from
+is described in [dataset.md](dataset.md); how well the result performs is in
+[evaluation.md](evaluation.md).
 
 ## The core commitment
 

@@ -1,3 +1,10 @@
+[Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
+[Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
+[Evaluation](evaluation.md) — **API** · [Privacy](privacy.md) ·
+[Limitations](limitations.md)
+
+---
+
 # API reference
 
 Base path `/api/v1`. Interactive docs at `/docs` (Swagger) and `/redoc`; the

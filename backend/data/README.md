@@ -1,7 +1,18 @@
+[Home](../../README.md) · [Docs index](../../docs/README.md) ·
+[Dataset methodology](../../docs/dataset.md) ·
+[Evaluation](../../docs/evaluation.md) · [Limitations](../../docs/limitations.md) ·
+[Sourcing rules](raw/README.md)
+
+---
+
 # Dataset
 
-This directory holds the corpus the detector is trained and evaluated on.
+This directory holds the corpus the detector is trained and evaluated on. The
+reasoning behind its shape — three classes, generator diversity, length matching,
+leakage control — is in [docs/dataset.md](../../docs/dataset.md); this page is the
+operational half.
 
+> [!CAUTION]
 > **The single most important thing on this page.** Out of the box this corpus is
 > **synthetic**. The human class is hand-authored seed essays written for this
 > repository; the machine classes come from an offline template generator and a

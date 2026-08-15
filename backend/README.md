@@ -1,7 +1,15 @@
 # Backend — AI Essay Detector
 
 FastAPI service + hybrid ML/NLP detection pipeline.
-See the [root README](../README.md) for full setup, and [docs/](../docs/) for methodology.
+
+[Home](../README.md) · [Docs index](../docs/README.md) ·
+[Architecture](../docs/architecture.md) ·
+[Methodology](../docs/detection-methodology.md) · [Dataset](../docs/dataset.md) ·
+[Evaluation](../docs/evaluation.md) · [API](../docs/api.md) ·
+[Privacy](../docs/privacy.md) · [Limitations](../docs/limitations.md)
+
+Dataset operations: [`data/README.md`](data/README.md) ·
+[`data/raw/README.md`](data/raw/README.md)
 
 ## Quick start (Windows PowerShell)
 

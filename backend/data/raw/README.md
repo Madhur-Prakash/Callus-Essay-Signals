@@ -1,8 +1,18 @@
+[Home](../../../README.md) · [Docs index](../../../docs/README.md) ·
+[Dataset layout](../README.md) ·
+[Dataset methodology](../../../docs/dataset.md) ·
+[Privacy](../../../docs/privacy.md) ·
+[Evaluation](../../../docs/evaluation.md)
+
+---
+
 # `data/raw/` — where real essays go
 
 These directories are **inputs you supply**, not generated output. They ship empty
 on purpose: this repository contains no real admissions essays, because collecting
-them without consent would be both a licensing and an ethics failure.
+them without consent would be both a licensing and an ethics failure. The
+obligations that follow from handling this material are in
+[docs/privacy.md](../../../docs/privacy.md).
 
 Adding real human essays here is the single highest-value improvement available to
 this project — see [docs/evaluation.md](../../../docs/evaluation.md#what-would-improve-these-numbers-most).

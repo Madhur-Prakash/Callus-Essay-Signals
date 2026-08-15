@@ -1,4 +1,15 @@
+[Home](../README.md) · [Docs index](README.md) — **Architecture** ·
+[Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
+[Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) ·
+[Limitations](limitations.md)
+
+---
+
 # Architecture
+
+How the pieces fit together and what happens when one of them is missing. For what
+the pipeline actually measures, read [detection-methodology.md](detection-methodology.md);
+for the numbers it produces, [evaluation.md](evaluation.md).
 
 ## System diagram
 

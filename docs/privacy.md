@@ -1,3 +1,10 @@
+[Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
+[Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
+[Evaluation](evaluation.md) · [API](api.md) — **Privacy** ·
+[Limitations](limitations.md)
+
+---
+
 # Privacy
 
 Admissions essays are sensitive personal documents. They describe illness,
