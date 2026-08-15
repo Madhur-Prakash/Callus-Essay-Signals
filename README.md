@@ -95,7 +95,7 @@ works but results are not saved.
 cd backend
 uv venv
 uv sync                                             # includes the dev group
-Copy-Item .env.example .env
+cp .env.example .env
 
 # ---------- 2. build the corpus and train (≈20 min, one time) ----------
 uv run python -m ml.generation.bootstrap_corpus     # offline synthetic corpus

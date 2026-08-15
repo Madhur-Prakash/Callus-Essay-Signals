@@ -16,7 +16,7 @@ Dataset operations: [`data/README.md`](data/README.md) ·
 ```powershell
 uv venv
 uv sync
-Copy-Item .env.example .env
+cp .env.example .env
 uv run python -m ml.training.prepare_dataset
 uv run python -m ml.training.extract_features
 uv run python -m ml.training.train
