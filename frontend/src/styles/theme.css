@@ -1,0 +1,80 @@
+/*
+ * Tailwind theme — CSS-first, no tailwind.config.js.
+ *
+ * The important decision: the design tokens in tokens.css stay the single source
+ * of truth and Tailwind is generated *from* them. `@theme inline` maps each token
+ * onto a utility namespace, so `bg-surface`, `text-ink`, `border-line` and
+ * `text-likely` all resolve to the very custom properties the theme toggle
+ * already swaps at runtime. Light/dark therefore keeps working through one
+ * mechanism instead of two competing ones, and no colour is written twice.
+ *
+ * `inline` is what makes that work: without it Tailwind would emit
+ * `--color-surface: var(--surface)` once at :root and freeze the light values in
+ * place, because :root is where the dark defaults are declared.
+ */
+
+@theme inline {
+  /* ------------------------------------------------------------- surfaces */
+  --color-canvas: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-3: var(--surface-3);
+  --color-sunken: var(--surface-sunken);
+
+  --color-line: var(--border);
+  --color-line-strong: var(--border-strong);
+
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ink-faint: var(--ink-faint);
+
+  --color-accent: var(--accent);
+  --color-accent-bright: var(--accent-bright);
+  --color-accent-dim: var(--accent-dim);
+  --color-accent-soft: var(--accent-soft);
+
+  /* Semantic colours. These carry meaning in this product — never decoration —
+     so they are named for the verdict they represent, not for their hue. */
+  --color-human: var(--human);
+  --color-human-soft: var(--human-soft);
+  --color-uncertain: var(--uncertain);
+  --color-uncertain-soft: var(--uncertain-soft);
+  --color-possible: var(--possible);
+  --color-possible-soft: var(--possible-soft);
+  --color-likely: var(--likely);
+  --color-likely-soft: var(--likely-soft);
+
+  --color-warning-bg: var(--warning-bg);
+  --color-warning-line: var(--warning-border);
+
+  /* ----------------------------------------------------------------- type */
+  --font-serif: var(--font-serif-stack);
+  --font-sans: var(--font-sans-stack);
+  --font-mono: var(--font-mono-stack);
+
+  /* Sizes are fluid clamps, so each one carries its own line-height rather than
+     inheriting a ratio tuned for a fixed size. */
+  --text-2xs: var(--step--2);
+  --text-2xs--line-height: 1.5;
+  --text-xs: var(--step--1);
+  --text-xs--line-height: 1.55;
+  --text-base: var(--step-0);
+  --text-base--line-height: 1.62;
+  --text-lg: var(--step-1);
+  --text-lg--line-height: 1.35;
+  --text-xl: var(--step-2);
+  --text-xl--line-height: 1.18;
+  --text-2xl: var(--step-3);
+  --text-2xl--line-height: 1.12;
+  --text-3xl: var(--step-4);
+  --text-3xl--line-height: 1.05;
+
+  /* ---------------------------------------------------------------- shape */
+  /* Named for the role, not the size, and deliberately not overriding Tailwind's
+     rounded-sm/md/lg — small incidental radii still want those. */
+  --radius-control: 8px;
+  --radius-card: 14px;
+  --radius-panel: 20px;
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
+}

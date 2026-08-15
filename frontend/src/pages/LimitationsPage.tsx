@@ -1,5 +1,7 @@
 import type { Route } from '@/App';
 import { Banner } from '@/components/Banner';
+import { Button } from '@/components/ui/Button';
+import { Section } from '@/components/ui/Card';
 import type { ModelInfoResponse } from '@/types/api';
 
 interface Props {
@@ -76,10 +78,10 @@ const SEVERITY_COLOUR: Record<string, string> = {
 
 export function LimitationsPage({ modelInfo, onNavigate }: Props) {
   return (
-    <div className="stack stack--lg" style={{ maxWidth: '54rem', margin: '0 auto' }}>
+    <div className="stack stack--lg mx-auto max-w-[54rem]">
       <header>
         <h1>Limitations</h1>
-        <p className="muted" style={{ fontSize: 'var(--step-1)' }}>
+        <p className="muted text-lg">
           Read this before acting on anything this system outputs.
         </p>
       </header>
@@ -93,99 +95,74 @@ export function LimitationsPage({ modelInfo, onNavigate }: Props) {
         things.
       </Banner>
 
-      <section className="card">
-        <div className="card__head">
-          <div>
-            <p className="card__title">Ranked limitations</p>
-            <p className="section-note">Most severe first.</p>
-          </div>
-        </div>
-        <div className="card__body">
-          <ol className="limitation-list">
-            {RANKED.map((item, index) => (
-              <li className="limitation" key={item.title}>
-                <span className="limitation__rank">{index + 1}</span>
-                <div>
-                  <p className="limitation__title">
-                    {item.title}
-                    <span
-                      className="limitation__severity"
-                      style={{ color: SEVERITY_COLOUR[item.severity] }}
-                    >
-                      {item.severity}
-                    </span>
-                  </p>
-                  <p className="limitation__body">{item.body}</p>
-                </div>
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
+      <Section title="Ranked limitations" note="Most severe first.">
+        <ol className="limitation-list">
+          {RANKED.map((item, index) => (
+            <li className="limitation" key={item.title}>
+              <span className="limitation__rank">{index + 1}</span>
+              <div>
+                <p className="limitation__title">
+                  {item.title}
+                  <span
+                    className="limitation__severity"
+                    style={{ color: SEVERITY_COLOUR[item.severity] }}
+                  >
+                    {item.severity}
+                  </span>
+                </p>
+                <p className="limitation__body">{item.body}</p>
+              </div>
+            </li>
+          ))}
+        </ol>
+      </Section>
 
       <div className="two-col">
-        <section className="card">
-          <div className="card__head">
-            <p className="card__title">Do not</p>
-          </div>
-          <div className="card__body">
-            <ul className="statements">
-              <li>Use this as evidence in an academic-integrity process.</li>
-              <li>Reject an applicant based on it, in whole or in part.</li>
-              <li>Present its output to a student as a finding about their honesty.</li>
-              <li>
-                Quote its accuracy as a real-world figure while the data regime is
-                <code> bootstrap</code>.
-              </li>
-            </ul>
-          </div>
-        </section>
+        <Section title="Do not">
+          <ul className="statements">
+            <li>Use this as evidence in an academic-integrity process.</li>
+            <li>Reject an applicant based on it, in whole or in part.</li>
+            <li>Present its output to a student as a finding about their honesty.</li>
+            <li>
+              Quote its accuracy as a real-world figure while the data regime is
+              <code> bootstrap</code>.
+            </li>
+          </ul>
+        </Section>
 
-        <section className="card">
-          <div className="card__head">
-            <p className="card__title">Reasonable uses</p>
-          </div>
-          <div className="card__body">
-            <ul className="statements">
-              <li>Deciding which essays in a large pile to read more attentively.</li>
-              <li>Prompting a conversation with a writer about their process.</li>
-              <li>Research into which textual features carry signal, and which do not.</li>
-              <li>
-                Demonstrating to a non-technical audience why this problem is hard.
-              </li>
-            </ul>
-          </div>
-        </section>
+        <Section title="Reasonable uses">
+          <ul className="statements">
+            <li>Deciding which essays in a large pile to read more attentively.</li>
+            <li>Prompting a conversation with a writer about their process.</li>
+            <li>Research into which textual features carry signal, and which do not.</li>
+            <li>Demonstrating to a non-technical audience why this problem is hard.</li>
+          </ul>
+        </Section>
       </div>
 
       {modelInfo?.methodology?.limitations?.length ? (
-        <section className="card">
-          <div className="card__head">
-            <div>
-              <p className="card__title">Reported by the running model</p>
-              <p className="section-note">
-                Served from <code>GET /api/v1/model/info</code>, so it reflects this
-                deployment rather than this page.
-              </p>
-            </div>
-          </div>
-          <div className="card__body">
-            <ul className="statements">
-              {modelInfo.methodology.limitations.map((limitation, index) => (
-                <li key={index}>{limitation}</li>
-              ))}
-            </ul>
-          </div>
-        </section>
+        <Section
+          title="Reported by the running model"
+          note={
+            <>
+              Served from <code>GET /api/v1/model/info</code>, so it reflects this deployment
+              rather than this page.
+            </>
+          }
+        >
+          <ul className="statements">
+            {modelInfo.methodology.limitations.map((limitation, index) => (
+              <li key={index}>{limitation}</li>
+            ))}
+          </ul>
+        </Section>
       ) : null}
 
-      <div className="row row--wrap" style={{ justifyContent: 'center' }}>
-        <button type="button" className="btn" onClick={() => onNavigate('research')}>
-          See the measured evaluation
-        </button>
-        <button type="button" className="btn btn--ghost" onClick={() => onNavigate('how')}>
+      <div className="row row--wrap justify-center">
+        <Button onClick={() => onNavigate('research')}>See the measured evaluation</Button>
+        <Button variant="ghost" onClick={() => onNavigate('how')}>
           How the detector works
-        </button>
+        </Button>
       </div>
     </div>
   );

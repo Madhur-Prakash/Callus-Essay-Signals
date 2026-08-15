@@ -1,6 +1,7 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 
+import { Button } from '@/components/ui/Button';
 import { EASE, useDrawPath } from '@/hooks/useMotion';
 import { EXAMPLE_ESSAYS } from '@/lib/exampleEssays';
 import { countParagraphs, countSentences, countWords } from '@/lib/format';
@@ -170,22 +171,17 @@ export function EssayEditor({
             </span>
           </div>
           <div className="spacer" />
-          <button
-            type="button"
-            className="btn btn--ghost btn--sm"
+          <Button
+            variant="ghost"
+            size="sm"
             onClick={() => setShowExamples((open) => !open)}
             aria-expanded={showExamples}
           >
             {showExamples ? 'Hide examples' : 'Load an example'}
-          </button>
-          <button
-            type="button"
-            className="btn btn--ghost btn--sm"
-            onClick={onClear}
-            disabled={busy || !value}
-          >
+          </Button>
+          <Button variant="ghost" size="sm" onClick={onClear} disabled={busy || !value}>
             Clear
-          </button>
+          </Button>
         </div>
 
         <AnimatePresence initial={false}>
@@ -196,9 +192,11 @@ export function EssayEditor({
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
             transition={{ duration: 0.26, ease: EASE }}
+            // Framer animates height to 0; without clipping the content spills
+            // out of the collapsing box for the length of the transition.
             style={{ overflow: 'hidden' }}
           >
-            <p className="tiny muted" style={{ margin: '0 0 0.25rem' }}>
+            <p className="tiny muted mb-1 mt-0">
               Each example says how it was produced, not what the detector will conclude —
               that is whatever it measures.
             </p>
@@ -213,7 +211,7 @@ export function EssayEditor({
                 }}
               >
                 <strong>{example.name}</strong>
-                <span className="tiny muted" style={{ display: 'block', fontWeight: 400 }}>
+                <span className="tiny muted block font-normal">
                   {example.provenance}
                 </span>
               </button>
@@ -272,21 +270,21 @@ export function EssayEditor({
       </AnimatePresence>
 
       <div className="composer__actions">
-        <button type="button" className="btn btn--primary" onClick={onAnalyse} disabled={!canAnalyse}>
+        <Button variant="primary" onClick={onAnalyse} disabled={!canAnalyse}>
           {busy ? 'Analysing…' : 'Analyse essay'}
-        </button>
+        </Button>
       </div>
 
       <p className="privacy-line">
         {savesEssays ? (
           <>
             This server is configured to <strong>store submitted essays</strong>.{' '}
-            <label style={{ cursor: 'pointer' }}>
+            <label className="cursor-pointer">
               <input
                 type="checkbox"
                 checked={saveOptOut}
                 onChange={(event) => onSaveOptOutChange(event.target.checked)}
-                style={{ marginRight: '0.35rem' }}
+                className="mr-1.5 accent-accent align-middle"
               />
               Do not save my essay
             </label>

@@ -1,0 +1,22 @@
+/*
+ * Stylesheet entry point. Import order is the layer order, and it matters:
+ *
+ *   tailwindcss  declares @layer theme, base, components, utilities
+ *   theme.css    names the design tokens for Tailwind (@theme)
+ *   tokens.css   the runtime token values + base element styles → layer(base)
+ *   components.css / app.css   → @layer components
+ *
+ * tokens.css is pulled into `base` deliberately. Unlayered CSS outranks every
+ * layer, so leaving it unlayered would let the bare `h1 { font-size }` rule beat
+ * a `text-xl` utility on the same element — surprising, and the sort of thing
+ * that gets "fixed" with !important later. In `base` it loses to both components
+ * and utilities, which is the order you want.
+ *
+ * Everything is one Tailwind compilation unit, so no file needs @reference.
+ */
+
+@import 'tailwindcss';
+@import './theme.css';
+@import './tokens.css' layer(base);
+@import './components.css';
+@import './app.css';

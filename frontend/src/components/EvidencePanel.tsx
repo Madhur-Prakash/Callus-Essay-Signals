@@ -26,7 +26,7 @@ export function EvidencePanel({ sentence, documentEvidence, hasSentenceModel }: 
               shown.
             </p>
           )}
-          <p className="tiny muted" style={{ marginTop: 'auto' }}>
+          <p className="tiny muted mt-auto">
             Hover or click any sentence in the essay to see the measurements behind it.
           </p>
         </div>
@@ -39,7 +39,7 @@ export function EvidencePanel({ sentence, documentEvidence, hasSentenceModel }: 
   return (
     <aside className="panel">
       <div className="panel__head">
-        <div style={{ flex: 1, minWidth: 0 }}>
+        <div className="min-w-0 flex-1">
           <p className="card__title">Why this was flagged</p>
           <p className="section-note">
             Sentence {sentence.sentence_id + 1} · paragraph {sentence.paragraph_id + 1} ·{' '}
@@ -51,7 +51,6 @@ export function EvidencePanel({ sentence, documentEvidence, hasSentenceModel }: 
           style={{
             color: classColour(sentence.classification),
             borderColor: classColour(sentence.classification),
-            whiteSpace: 'nowrap',
           }}
         >
           {sentence.score !== null ? percent(sentence.score, 0) : '—'}
@@ -63,14 +62,14 @@ export function EvidencePanel({ sentence, documentEvidence, hasSentenceModel }: 
 
         <div>
           <p className="subhead">Classification</p>
-          <p style={{ margin: 0, fontSize: '0.88rem' }}>
+          <p className="m-0 text-xs">
             <strong style={{ color: classColour(sentence.classification) }}>
               {SENTENCE_LABELS[sentence.classification]}
             </strong>
             <span className="muted"> · confidence {sentence.confidence}</span>
           </p>
           {sentence.classification === 'uncertain' && sentence.n_words < 5 && (
-            <p className="tiny muted" style={{ marginTop: '0.3rem', marginBottom: 0 }}>
+            <p className="tiny muted mb-0 mt-1">
               Sentences this short give the language model too few predictions to support a
               claim either way, so they are always reported as uncertain.
             </p>
@@ -140,7 +139,7 @@ function EvidenceBody({ evidence }: { evidence: EvidenceBlock }) {
       {evidence.model_contributions.length > 0 && (
         <div>
           <p className="subhead">Model contributions</p>
-          <p className="tiny muted" style={{ marginTop: '-0.3rem' }}>
+          <p className="tiny muted -mt-1">
             The classifier's own arithmetic: each feature's weight times its standardised
             value. Red pushes toward machine, green toward human.
           </p>
@@ -150,7 +149,7 @@ function EvidenceBody({ evidence }: { evidence: EvidenceBlock }) {
         </div>
       )}
 
-      <p className="tiny muted" style={{ marginBottom: 0 }}>
+      <p className="tiny muted mb-0">
         Generated deterministically from measured values by explanation engine v
         {evidence.engine_version || '—'}. No language model was asked to explain anything.
       </p>

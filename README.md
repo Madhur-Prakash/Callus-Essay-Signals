@@ -220,10 +220,12 @@ frontend/
 ├── src/
 │   ├── api/client.ts        typed client; every failure mode → readable message
 │   ├── components/          editor · verdict · essay viewer · evidence · charts
-│   ├── pages/               Analyse · Research · How it works
+│   │   └── ui/              Button · Card/Section · Badge · Tabs (cva + Radix)
+│   ├── pages/               Analyse · Results · Research · How it works · Limitations
 │   ├── hooks/               useTheme (light/dark/system) · useMotion (gsap/lenis)
-│   ├── lib/ types/ styles/
-├── tests/                   36 tests
+│   ├── lib/ types/
+│   └── styles/              index (entry) → theme · tokens · components · app
+├── tests/                   45 tests
 └── package.json
 
 docs/                        architecture · methodology · dataset · evaluation

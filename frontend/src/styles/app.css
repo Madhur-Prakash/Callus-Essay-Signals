@@ -1,0 +1,1022 @@
+/*
+ * Domain components — the parts of the interface that only make sense in a
+ * detector: the essay reader, evidence meters, distribution charts, the verdict.
+ *
+ * These stay as classes rather than utility strings because they either repeat
+ * across many elements, or need CSS utilities cannot express: `box-decoration-break`
+ * on wrapped sentence marks, SVG chart internals, the `--verdict-colour` custom
+ * property threaded in from React, sticky panels tied to the masthead height.
+ */
+
+@layer components {
+  /* ==================================================================== shell */
+  .app {
+    @apply relative z-[1] flex flex-col;
+    min-height: 100dvh;
+  }
+
+  .masthead {
+    @apply sticky top-0 z-40 border-b border-line;
+    background: color-mix(in srgb, var(--bg) 78%, transparent);
+    backdrop-filter: saturate(1.6) blur(14px);
+    -webkit-backdrop-filter: saturate(1.6) blur(14px);
+  }
+
+  .masthead__inner {
+    @apply mx-auto flex max-w-[1400px] items-center gap-5 py-3;
+    padding-inline: var(--gutter);
+  }
+
+  .masthead__progress {
+    @apply h-0.5 overflow-hidden bg-transparent;
+  }
+
+  .masthead__progress-bar {
+    @apply h-full origin-left will-change-transform;
+    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  }
+
+  .wordmark {
+    @apply flex min-w-0 items-baseline gap-2;
+  }
+
+  .wordmark__home {
+    @apply -ml-1.5 flex items-baseline gap-2 rounded-control border-0 bg-transparent px-1.5
+      py-0.5 font-serif text-lg font-semibold tracking-tight text-ink
+      transition-[color,background] duration-150;
+  }
+
+  .wordmark__home:hover {
+    @apply bg-accent-soft text-accent-bright;
+  }
+
+  .wordmark__mark {
+    @apply text-[1.15em] leading-none text-accent transition-transform duration-300;
+  }
+
+  .wordmark__home:hover .wordmark__mark {
+    transform: translateX(2px) scaleX(1.15);
+  }
+
+  .wordmark__sub {
+    @apply font-sans text-2xs font-medium uppercase tracking-[0.09em] text-ink-faint;
+  }
+
+  @media (width <= 720px) {
+    .wordmark__sub {
+      @apply hidden;
+    }
+  }
+
+  .nav {
+    @apply ml-auto flex gap-0.5 rounded-full border border-line bg-sunken p-1;
+  }
+
+  .nav__link {
+    @apply relative isolate whitespace-nowrap rounded-full border-0 bg-transparent px-3.5
+      py-1.5 text-xs font-medium text-ink-soft transition-colors duration-150;
+  }
+
+  .nav__link:hover {
+    @apply text-ink;
+  }
+
+  .nav__link[aria-current='page'] {
+    color: var(--bg);
+  }
+
+  /* Sits behind the label so the text stays legible while the pill slides under it. */
+  .nav__indicator {
+    @apply absolute inset-0 -z-[1] rounded-full bg-ink;
+  }
+
+  .nav__label {
+    @apply relative;
+  }
+
+  .main {
+    @apply mx-auto w-full max-w-[1400px] flex-1 pb-20;
+    padding-inline: var(--gutter);
+    padding-top: clamp(1.5rem, 4vw, 3rem);
+  }
+
+  .footer {
+    @apply flex justify-center border-t border-line bg-sunken py-6 text-center text-xs text-ink-faint;
+    padding-inline: var(--gutter);
+  }
+
+  .footer p {
+    @apply m-0 max-w-[68ch];
+    text-wrap: balance;
+  }
+
+  /* ----------------------------------------------------------- theme toggle */
+  .theme-toggle {
+    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2
+      px-2.5 py-1.5 text-2xs font-semibold capitalize tracking-wide text-ink-soft
+      transition-[color,background,border-color] duration-150;
+  }
+
+  .theme-toggle:hover {
+    @apply border-line-strong bg-surface-3 text-ink;
+  }
+
+  .theme-toggle__icon {
+    @apply size-3.5 flex-none fill-none stroke-current;
+    stroke-width: 1.5;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .theme-toggle[data-choice='dark'] .theme-toggle__icon {
+    @apply fill-current stroke-none;
+  }
+
+  @media (width <= 640px) {
+    .theme-toggle__text {
+      @apply hidden;
+    }
+  }
+
+  /* ===================================================================== tabs */
+  .tabs__list {
+    @apply mb-6 flex gap-1 overflow-x-auto rounded-full border border-line bg-sunken p-1;
+    scrollbar-width: none;
+  }
+
+  .tabs__list::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  .tabs__list--sticky {
+    @apply sticky top-[3.6rem] z-20;
+    background: color-mix(in srgb, var(--surface-sunken) 88%, transparent);
+    backdrop-filter: saturate(1.6) blur(12px);
+    -webkit-backdrop-filter: saturate(1.6) blur(12px);
+  }
+
+  .tabs__trigger {
+    @apply inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full
+      border-0 bg-transparent px-4 py-2 text-xs font-medium text-ink-soft
+      transition-[color,background] duration-150;
+  }
+
+  .tabs__trigger:hover {
+    @apply text-ink;
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+  }
+
+  .tabs__trigger[data-state='active'] {
+    @apply bg-ink;
+    color: var(--bg);
+  }
+
+  .tabs__badge {
+    @apply inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5
+      font-mono text-[0.68rem] tabular-nums;
+    background: color-mix(in srgb, var(--ink-faint) 30%, transparent);
+  }
+
+  .tabs__trigger[data-state='active'] .tabs__badge {
+    background: color-mix(in srgb, var(--bg) 35%, transparent);
+  }
+
+  .tabs__panel:focus {
+    @apply outline-none;
+  }
+
+  /* ===================================================================== hero */
+  .composer {
+    @apply mx-auto max-w-[68rem];
+  }
+
+  .hero {
+    @apply relative mx-auto max-w-[48rem] text-center;
+    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
+    padding-top: clamp(0.5rem, 3vw, 2rem);
+  }
+
+  .hero__eyebrow {
+    @apply mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface-2
+      px-3 py-1 text-2xs font-semibold uppercase tracking-[0.06em] text-ink-soft;
+  }
+
+  .hero__eyebrow-dot {
+    @apply size-[0.45rem] rounded-full bg-accent;
+    box-shadow: 0 0 0 3px var(--accent-soft);
+  }
+
+  .hero h1 {
+    @apply mb-2.5 text-3xl;
+  }
+
+  .hero__lede {
+    @apply mx-auto max-w-[40ch] text-lg text-ink-soft;
+  }
+
+  .hero__wave {
+    @apply mx-auto mt-6 block h-auto w-[min(100%,32rem)] overflow-visible;
+  }
+
+  /* Drawn once by GSAP on load, then left alone. A looping animation would pull
+     the eye away from the editor, which is where the reader goes next. */
+  .hero__wave-line {
+    @apply fill-none stroke-accent;
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 5px var(--accent-glow));
+  }
+
+  .hero__wave-bar {
+    fill: var(--ink-faint);
+  }
+
+  .hero__wave-mean {
+    stroke: var(--ink-faint);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    opacity: 0.35;
+  }
+
+  /* =================================================================== editor */
+  .editor {
+    @apply relative overflow-hidden rounded-panel border border-line-strong bg-surface
+      transition-[border-color,box-shadow] duration-200;
+    box-shadow: var(--elev-lg), inset 0 1px 0 var(--hairline);
+  }
+
+  .editor:focus-within {
+    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
+    box-shadow: var(--elev-lg), 0 0 0 4px var(--accent-soft), inset 0 1px 0 var(--hairline);
+  }
+
+  .editor__label {
+    @apply block px-6 pt-4 text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+  }
+
+  .editor__textarea {
+    @apply block min-h-[20rem] w-full resize-y border-0 bg-transparent px-6 pb-5 pt-3.5
+      font-serif text-ink outline-none;
+    font-size: 1.08rem;
+    line-height: 1.78;
+  }
+
+  .editor__textarea::placeholder {
+    @apply text-ink-faint opacity-70;
+  }
+
+  .editor__bar {
+    @apply flex flex-wrap items-center gap-3 border-t border-line bg-surface-2 py-2.5 pl-6 pr-4;
+  }
+
+  .counts {
+    @apply flex gap-4 font-mono text-2xs tabular-nums text-ink-faint;
+  }
+
+  .counts strong {
+    @apply font-semibold text-ink;
+  }
+
+  .counts--warn strong {
+    @apply text-likely;
+  }
+
+  .examples {
+    @apply grid gap-2 border-t border-line bg-sunken px-6 pb-4 pt-3.5;
+  }
+
+  .example-btn {
+    @apply block w-full rounded-control border border-line bg-surface px-3.5 py-2.5
+      text-left text-ink transition-[border-color,background,transform] duration-150;
+  }
+
+  .example-btn:hover {
+    @apply translate-x-[3px] border-accent-dim bg-surface-2;
+  }
+
+  .example-btn strong {
+    @apply text-xs font-semibold;
+  }
+
+  .editor__notice {
+    @apply mb-0 mt-3.5 flex flex-wrap gap-1.5 rounded-control border px-3.5 py-2.5
+      text-xs leading-relaxed;
+  }
+
+  .editor__notice--warn {
+    @apply bg-possible-soft text-ink;
+    border-color: color-mix(in srgb, var(--possible) 35%, transparent);
+  }
+
+  .editor__notice--error {
+    @apply bg-likely-soft text-ink;
+    border-color: color-mix(in srgb, var(--likely) 35%, transparent);
+  }
+
+  .editor__notice--info {
+    @apply bg-accent-soft text-ink-soft;
+    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+  }
+
+  .editor__notice strong {
+    @apply text-ink;
+  }
+
+  .composer__actions {
+    @apply mt-7 flex flex-wrap items-center justify-center gap-3;
+  }
+
+  .privacy-line {
+    @apply mx-auto mt-4 max-w-[56ch] text-center text-xs text-ink-faint;
+  }
+
+  .privacy-line strong {
+    @apply text-ink-soft;
+  }
+
+  /* ====================================================== what gets measured */
+  .signals {
+    margin-top: clamp(2.5rem, 6vw, 4rem);
+  }
+
+  .signals__head {
+    @apply mb-6 flex flex-col items-center text-center;
+  }
+
+  .signals__head h2 {
+    @apply mb-1.5 text-xl;
+  }
+
+  /* Six cards divide evenly by 1, 2, 3 and 6 — never 4 or 5 — so the column count
+     is stated outright. `auto-fit` picked 5 on a wide screen and orphaned the last. */
+  .signals__grid {
+    @apply grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line
+      bg-line sm:grid-cols-2 lg:grid-cols-3;
+  }
+
+  .signal {
+    @apply bg-surface px-5 py-4.5 transition-colors duration-200 hover:bg-surface-2;
+  }
+
+  .signal__icon {
+    @apply mb-2.5 block h-[1.15rem] w-8 overflow-visible;
+  }
+
+  .signal__icon path,
+  .signal__icon polyline {
+    @apply fill-none stroke-accent;
+    stroke-width: 1.6;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+  }
+
+  .signal__icon rect {
+    @apply fill-accent;
+  }
+
+  .signal__name {
+    @apply mb-1 mt-0 text-xs font-semibold text-ink;
+  }
+
+  .signal__desc {
+    @apply m-0 text-2xs leading-relaxed text-ink-faint;
+  }
+
+  /* ================================================================= progress */
+  .progress {
+    @apply mx-auto mt-6 max-w-[44rem] rounded-card border border-line bg-surface p-5;
+    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+  }
+
+  .progress__track {
+    @apply mb-3.5 h-[3px] overflow-hidden rounded-sm bg-surface-3;
+  }
+
+  .progress__bar {
+    @apply h-full w-1/3 rounded-sm;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: indeterminate 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
+  }
+
+  @keyframes indeterminate {
+    from {
+      transform: translateX(-110%);
+    }
+    to {
+      transform: translateX(420%);
+    }
+  }
+
+  .progress__steps {
+    @apply grid gap-1.5 text-2xs text-ink-faint;
+  }
+
+  .progress__step--active {
+    @apply font-medium text-ink;
+  }
+
+  /* ================================================================== verdict */
+  .results {
+    @apply grid gap-7;
+  }
+
+  .verdict {
+    @apply relative overflow-hidden rounded-panel border border-line bg-surface;
+    box-shadow: var(--elev), inset 0 1px 0 var(--hairline);
+  }
+
+  /* A hairline of the verdict's own colour across the top edge. */
+  .verdict::before {
+    @apply absolute inset-x-0 top-0 h-[3px] content-[''];
+    background: linear-gradient(
+      90deg,
+      var(--verdict-colour, var(--uncertain)),
+      color-mix(in srgb, var(--verdict-colour, var(--uncertain)) 25%, transparent)
+    );
+  }
+
+  .verdict__top {
+    @apply grid grid-cols-1 lg:[grid-template-columns:minmax(0,1.3fr)_minmax(0,1fr)];
+  }
+
+  .verdict__main {
+    @apply border-b border-line p-7 lg:border-b-0 lg:border-r;
+  }
+
+  .verdict__eyebrow {
+    @apply mb-2 text-2xs font-bold uppercase tracking-[0.11em] text-ink-faint;
+  }
+
+  .verdict__label {
+    @apply m-0 mb-3 flex flex-wrap items-center gap-3 font-serif text-2xl;
+  }
+
+  .verdict__dot {
+    @apply size-[0.58em] flex-none rounded-full;
+    background: var(--verdict-colour, var(--uncertain));
+    box-shadow: 0 0 0 5px
+      color-mix(in srgb, var(--verdict-colour, var(--uncertain)) 16%, transparent);
+  }
+
+  .verdict__description {
+    @apply mb-4 max-w-[44ch] text-ink-soft;
+  }
+
+  .verdict__confidence {
+    @apply m-0 flex flex-wrap items-baseline gap-2 text-xs;
+  }
+
+  .verdict__confidence dt {
+    @apply text-ink-faint;
+  }
+
+  .verdict__confidence dd {
+    @apply m-0 text-base font-bold capitalize;
+  }
+
+  /* The parenthetical next to it is prose; capitalising it produced Title Case. */
+  .verdict__confidence dd.verdict__confidence-note {
+    @apply text-xs font-normal normal-case;
+  }
+
+  .verdict__abstain {
+    @apply mt-4 rounded-control border border-line bg-uncertain-soft px-3.5 py-3 text-xs;
+  }
+
+  .verdict__side {
+    @apply bg-sunken p-7;
+  }
+
+  .probs {
+    @apply m-0 grid gap-3.5;
+  }
+
+  .prob {
+    @apply grid grid-cols-[1fr_auto] items-baseline gap-x-2.5 gap-y-1;
+  }
+
+  .prob__name {
+    @apply text-xs text-ink-soft;
+  }
+
+  .prob__value {
+    @apply font-mono text-xs font-semibold tabular-nums text-ink;
+  }
+
+  .prob__track {
+    @apply col-span-full h-[7px] overflow-hidden rounded;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
+  }
+
+  .prob__fill {
+    @apply h-full rounded;
+  }
+
+  .verdict__strip {
+    @apply grid border-t border-line bg-surface-2
+      [grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr))];
+  }
+
+  .stat {
+    @apply border-r border-line px-5 py-4 last:border-r-0;
+  }
+
+  .stat__value {
+    @apply font-mono text-xl font-semibold tabular-nums tracking-tight;
+  }
+
+  .stat__label {
+    @apply mt-1.5 text-2xs text-ink-faint;
+  }
+
+  /* ========================================================== reader + panel */
+  .reader-grid {
+    @apply grid grid-cols-1 items-start gap-7 xl:[grid-template-columns:minmax(0,1fr)_23.5rem];
+  }
+
+  .essay {
+    @apply max-w-[40rem] font-serif text-ink;
+    font-size: 1.075rem;
+    line-height: 1.9;
+  }
+
+  .essay__paragraph {
+    @apply relative mb-5 border-l-2 border-transparent pl-4.5 transition-colors duration-200;
+  }
+
+  .essay__paragraph--flagged {
+    @apply border-l-likely;
+  }
+  .essay__paragraph--possible {
+    @apply border-l-possible;
+  }
+  .essay__paragraph--uncertain {
+    @apply border-l-uncertain;
+  }
+  .essay__paragraph--human {
+    border-left-color: color-mix(in srgb, var(--human) 45%, transparent);
+  }
+
+  .essay__meta {
+    @apply mb-1.5 flex flex-wrap items-center gap-2 font-sans text-2xs uppercase
+      tracking-wide text-ink-faint;
+  }
+
+  /* Sentence marks read as an editor's underline, not a highlighter block.
+     `box-decoration-break: clone` keeps the underline and the rounding intact on
+     every line a wrapped sentence occupies — no utility expresses this. */
+  .sentence {
+    @apply -mx-px cursor-pointer rounded-sm px-px py-0.5
+      transition-[background,box-shadow] duration-150;
+    box-decoration-break: clone;
+    -webkit-box-decoration-break: clone;
+  }
+
+  /* A word space between adjacent sentences, without putting whitespace inside
+     the interactive element where it would land in its accessible name. */
+  .sentence + .sentence::before {
+    content: ' ';
+  }
+
+  .sentence:hover {
+    @apply bg-accent-soft;
+  }
+
+  .sentence--likely_ai_assisted {
+    @apply bg-likely-soft;
+    box-shadow: inset 0 -2px 0 var(--likely);
+  }
+
+  .sentence--possibly_ai_assisted {
+    @apply bg-possible-soft;
+    box-shadow: inset 0 -2px 0 var(--possible);
+  }
+
+  .sentence--uncertain {
+    box-shadow: inset 0 -1px 0 var(--uncertain);
+  }
+
+  .sentence--selected {
+    background: var(--accent-soft) !important;
+    box-shadow: inset 0 -2px 0 var(--accent);
+  }
+
+  .legend {
+    @apply mb-6 flex flex-wrap gap-x-5 gap-y-2.5 border-b border-line pb-4.5 text-2xs text-ink-soft;
+  }
+
+  .legend__item {
+    @apply inline-flex items-center gap-1.5;
+  }
+
+  .legend__swatch {
+    @apply inline-block h-2.5 w-6 rounded-sm;
+  }
+
+  .panel {
+    @apply sticky top-[4.9rem] flex flex-col overflow-hidden rounded-card border
+      border-line bg-surface;
+    max-height: calc(100vh - 6.5rem);
+    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+  }
+
+  @media (width <= 1120px) {
+    .panel {
+      @apply static max-h-none;
+    }
+  }
+
+  .panel__head {
+    @apply flex items-start gap-2.5 border-b border-line bg-surface-2 px-4.5 py-4;
+  }
+
+  .panel__body {
+    @apply flex flex-col gap-5 overflow-y-auto p-4.5;
+  }
+
+  .panel__quote {
+    @apply m-0 border-l-2 border-accent-dim py-0.5 pl-3.5 font-serif text-ink;
+    font-size: 0.98rem;
+    line-height: 1.65;
+  }
+
+  .panel__empty {
+    @apply px-5 py-8 text-center text-xs text-ink-faint;
+  }
+
+  /* =================================================================== meters */
+  .meter {
+    @apply mb-4;
+  }
+
+  .meter__row {
+    @apply mb-1.5 flex items-baseline gap-2;
+  }
+
+  .meter__label {
+    @apply min-w-0 flex-1 text-xs text-ink;
+  }
+
+  .meter__level {
+    @apply text-2xs font-bold uppercase tracking-wide;
+  }
+
+  .meter__blocks {
+    @apply flex h-2.5 gap-0.5;
+  }
+
+  .meter__block {
+    @apply flex-1 rounded-sm transition-colors duration-200;
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .meter__block--on {
+    background: var(--level-color, var(--accent));
+  }
+
+  .meter__foot {
+    @apply mt-1.5 flex justify-between gap-2.5 font-mono text-2xs tabular-nums text-ink-faint;
+  }
+
+  .meter__detail {
+    @apply mt-1.5 text-2xs leading-relaxed text-ink-soft;
+  }
+
+  .measure-list {
+    @apply m-0 grid gap-2.5;
+  }
+
+  .measure {
+    @apply grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 border-b border-dashed border-line
+      pb-2 last:border-b-0 last:pb-0;
+  }
+
+  .measure__name {
+    @apply text-xs text-ink;
+  }
+
+  .measure__value {
+    @apply whitespace-nowrap font-mono text-xs font-semibold tabular-nums;
+  }
+
+  .measure__ref {
+    @apply col-span-full font-mono text-2xs text-ink-faint;
+  }
+
+  .contrib {
+    @apply grid grid-cols-[1fr_auto] items-center gap-x-2.5 gap-y-1 py-1 text-2xs;
+  }
+
+  .contrib__name {
+    @apply font-mono text-2xs text-ink-soft [overflow-wrap:anywhere];
+  }
+
+  .contrib__bar-wrap {
+    @apply col-span-full grid h-[5px] grid-cols-2 overflow-hidden rounded-sm;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+
+  .contrib__neg {
+    @apply flex h-full justify-end;
+  }
+  .contrib__pos {
+    @apply flex h-full;
+  }
+  .contrib__neg span {
+    @apply rounded-l-sm bg-human;
+  }
+  .contrib__pos span {
+    @apply rounded-r-sm bg-likely;
+  }
+
+  .contrib__value {
+    @apply font-mono text-2xs tabular-nums text-ink-faint;
+  }
+
+  /* =================================================================== charts */
+  .chart {
+    @apply w-full overflow-visible;
+  }
+
+  .chart__axis {
+    stroke: var(--border-strong);
+    stroke-width: 1;
+  }
+
+  .chart__grid {
+    stroke: var(--border);
+    stroke-width: 1;
+    stroke-dasharray: 2 4;
+  }
+
+  .chart__mean {
+    stroke: var(--accent);
+    stroke-width: 1.25;
+    stroke-dasharray: 5 4;
+    opacity: 0.8;
+  }
+
+  .chart__label {
+    font-family: var(--font-mono-stack);
+    font-size: 9px;
+    fill: var(--ink-faint);
+  }
+
+  .chart__bar {
+    @apply cursor-pointer transition-opacity duration-150 hover:opacity-70;
+  }
+
+  .chart-legend {
+    @apply mt-3 flex flex-wrap gap-5 border-t border-line pt-3 text-2xs text-ink-faint;
+  }
+
+  /* ========================================================== paragraph list */
+  .para-list {
+    @apply grid gap-2;
+  }
+
+  .para-row {
+    @apply grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-3 rounded-control
+      border border-line bg-surface-2 px-3 py-2.5 text-left
+      transition-[border-color,background,transform] duration-150;
+  }
+
+  .para-row:hover {
+    @apply translate-x-[3px] border-line-strong bg-surface-3;
+  }
+
+  .para-row__id {
+    @apply whitespace-nowrap font-mono text-2xs text-ink-faint;
+  }
+
+  .para-row__bar {
+    @apply h-2 overflow-hidden rounded;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
+  }
+
+  .para-row__fill {
+    @apply h-full rounded;
+  }
+
+  .para-row__meta {
+    @apply whitespace-nowrap font-mono text-2xs tabular-nums text-ink-soft;
+  }
+
+  .para-row__sentences {
+    @apply col-span-full mt-1 flex gap-0.5;
+  }
+
+  .para-row__tick {
+    @apply h-1 min-w-[3px] flex-1 rounded-sm;
+  }
+
+  .phrase-list {
+    @apply grid gap-2;
+  }
+
+  .phrase {
+    @apply flex flex-wrap items-baseline gap-2.5 text-xs;
+  }
+
+  .phrase__text {
+    @apply rounded border border-line bg-surface-3 px-1.5 py-0.5 font-mono text-2xs;
+  }
+
+  .phrase__count {
+    @apply whitespace-nowrap text-2xs text-ink-faint;
+  }
+
+  /* ================================================================= research */
+  .research-head {
+    @apply mb-6 max-w-[52rem];
+  }
+
+  .research-grid {
+    @apply grid gap-6;
+  }
+
+  .metric-row {
+    @apply grid gap-px overflow-hidden rounded-control bg-line
+      [grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr))];
+  }
+
+  .metric {
+    @apply bg-surface px-3.5 py-3;
+  }
+
+  .metric__value {
+    @apply font-mono text-xl font-semibold tabular-nums;
+  }
+
+  .metric__label {
+    @apply mt-1 text-2xs text-ink-faint;
+  }
+
+  .metric__hint {
+    @apply text-[0.68rem] text-ink-faint opacity-80;
+  }
+
+  .confusion {
+    @apply text-xs;
+    border-collapse: separate;
+    border-spacing: 3px;
+  }
+
+  .confusion th {
+    @apply whitespace-nowrap px-1.5 py-1 text-2xs font-bold uppercase tracking-wide text-ink-faint;
+  }
+
+  .confusion th.row-head {
+    @apply text-right;
+  }
+
+  .confusion td {
+    @apply h-[3.1rem] w-[5.6rem] rounded-control border border-line text-center
+      align-middle font-mono tabular-nums;
+  }
+
+  .confusion td.diag {
+    border-color: color-mix(in srgb, var(--human) 55%, transparent);
+  }
+
+  .confusion__count {
+    @apply block text-base font-semibold leading-tight;
+  }
+
+  .confusion__pct {
+    @apply text-[0.68rem] opacity-80;
+  }
+
+  .interpretation {
+    @apply m-0 grid list-none gap-3 p-0;
+  }
+
+  .interpretation li {
+    @apply relative pl-4.5 text-xs leading-relaxed text-ink-soft;
+  }
+
+  .interpretation li::before {
+    @apply absolute left-0 text-ink-faint;
+    content: '—';
+  }
+
+  .interpretation li.critical {
+    @apply rounded-r-control border-l-[3px] border-likely bg-likely-soft px-3.5 py-2.5 text-ink;
+  }
+
+  .interpretation li.regime {
+    @apply rounded-r-control border-l-[3px] border-possible bg-warning-bg px-3.5 py-2.5 text-ink;
+  }
+
+  .interpretation li.critical::before,
+  .interpretation li.regime::before {
+    content: none;
+  }
+
+  .importance {
+    @apply grid gap-1.5;
+  }
+
+  .importance__row {
+    @apply grid grid-cols-[1.2fr_2fr_auto] items-center gap-2.5 text-2xs;
+  }
+
+  .importance__name {
+    @apply truncate font-mono text-2xs text-ink-soft;
+  }
+
+  .importance__track {
+    @apply h-2.5 overflow-hidden rounded-sm;
+    background: color-mix(in srgb, var(--border) 55%, transparent);
+  }
+
+  .importance__fill {
+    @apply h-full rounded-sm;
+  }
+
+  .importance__value {
+    @apply font-mono text-2xs tabular-nums text-ink-faint;
+  }
+
+  .group-legend {
+    @apply mt-2.5 flex flex-wrap gap-x-3.5 gap-y-1.5 text-2xs text-ink-faint;
+  }
+
+  .group-legend__dot {
+    @apply mr-1 inline-block size-2.5 rounded-sm;
+  }
+
+  .failure {
+    @apply overflow-hidden rounded-card border border-line;
+  }
+
+  .failure__head {
+    @apply flex flex-wrap items-center gap-2.5 border-b border-line bg-likely-soft px-3.5 py-2.5;
+  }
+
+  .failure__arrow {
+    @apply font-mono text-xs font-semibold;
+  }
+
+  .failure__body {
+    @apply grid gap-3.5 p-3.5;
+  }
+
+  .failure__excerpt {
+    @apply m-0 border-l-2 border-line-strong pl-3 font-serif text-xs leading-relaxed text-ink-soft;
+  }
+
+  .bias-bar {
+    @apply mb-2 grid grid-cols-[9rem_1fr_auto] items-center gap-2.5 text-xs;
+  }
+
+  .bias-bar__track {
+    @apply relative h-6 rounded-control;
+    background: color-mix(in srgb, var(--border) 45%, transparent);
+  }
+
+  .bias-bar__interval {
+    @apply absolute top-1.5 h-2.5 rounded-sm;
+    background: color-mix(in srgb, var(--likely) 30%, transparent);
+  }
+
+  .bias-bar__point {
+    @apply absolute top-1 h-4 w-0.5 bg-likely;
+  }
+
+  .dist-bar {
+    @apply flex h-6 overflow-hidden rounded-control border border-line;
+  }
+
+  .dist-bar__seg {
+    @apply flex min-w-0 items-center justify-center overflow-hidden whitespace-nowrap
+      font-mono text-[0.7rem] text-white;
+  }
+
+  /* ============================================================== limitations */
+  .limitation-list {
+    @apply m-0 grid list-none gap-4.5 p-0;
+  }
+
+  .limitation {
+    @apply grid grid-cols-[auto_1fr] items-start gap-3.5;
+  }
+
+  .limitation__rank {
+    @apply inline-flex size-6.5 flex-none items-center justify-center rounded-full border
+      border-line-strong bg-surface-2 font-mono text-2xs text-ink-faint;
+  }
+
+  .limitation__title {
+    @apply mb-1 mt-0 flex flex-wrap items-baseline gap-2.5 text-base font-semibold;
+  }
+
+  .limitation__severity {
+    @apply text-2xs font-bold uppercase tracking-[0.06em];
+  }
+
+  .limitation__body {
+    @apply m-0 text-xs leading-relaxed text-ink-soft;
+  }
+}

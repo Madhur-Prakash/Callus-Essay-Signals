@@ -54,7 +54,7 @@ export function HighlightedEssay({
 
   return (
     <div>
-      <div className="legend" style={{ marginBottom: '1rem' }}>
+      <div className="legend mb-4">
         <LegendItem colour="var(--likely)" soft="var(--likely-soft)" label="Likely AI-assisted" />
         <LegendItem
           colour="var(--possible)"

@@ -209,19 +209,56 @@ from the test essay.
 
 ## Frontend architecture
 
-Hash-based routing across three views (Analyse, Research, How it works) — no
-router dependency for three routes. Charts are hand-rolled SVG: a charting library
-would cost more in bundle size and styling friction than it saves, and the axes
-need to say what these particular measurements mean.
+Hash-based routing across five views (Analyse, Results, Research, How it works,
+Limitations) — no router dependency for five routes. Charts are hand-rolled SVG: a
+charting library would cost more in bundle size and styling friction than it saves,
+and the axes need to say what these particular measurements mean.
 
-State is local to `AnalysePage`; there is no store, because there is one document
-in flight at a time. The API client turns every failure mode into a typed
-`ApiError` with copy written for a person, so no component has to invent error
-text.
+State lives in `App`; there is no store, because there is one document in flight at
+a time. The API client turns every failure mode into a typed `ApiError` with copy
+written for a person, so no component has to invent error text.
 
 The frontend fetches `/essays/privacy` rather than hard-coding the storage notice.
 A privacy claim that can drift out of step with the server's actual setting is the
 one thing a privacy notice must never do.
+
+### Styling
+
+Tailwind v4, configured in CSS — there is no `tailwind.config.js` and no PostCSS
+step; `@tailwindcss/vite` handles it. Four files, imported in order by
+`src/styles/index.css`, which is the layer order:
+
+| File | Holds | Layer |
+| --- | --- | --- |
+| `theme.css` | `@theme inline` — names the tokens for Tailwind | `theme` |
+| `tokens.css` | the runtime token values + base element styles | `base` |
+| `components.css` | generic primitives: card, btn, tag, banner, table | `components` |
+| `app.css` | domain components: essay reader, meters, charts, verdict | `components` |
+
+The load-bearing decision is that the tokens stay the single source of truth and
+Tailwind is generated *from* them. `--color-surface: var(--surface)` under `@theme
+inline` means `bg-surface` compiles to `background-color: var(--surface)` — the
+very property the theme toggle swaps — so light/dark works through one mechanism
+rather than a Tailwind `dark:` variant competing with a CSS custom property. The
+`inline` keyword is what makes this work: without it Tailwind would resolve
+`var(--surface)` once at `:root` and freeze the dark values in place.
+
+Tokens are pulled into `@layer base` deliberately. Unlayered CSS outranks every
+layer, so a bare `h1 { font-size }` rule would beat a `text-xl` utility on the same
+element — surprising, and the sort of thing that gets "fixed" with `!important`
+later.
+
+A class exists rather than a utility string when it is applied across many
+elements, or when it needs CSS utilities cannot express: `box-decoration-break` on
+wrapped sentence marks, SVG chart internals, the `--verdict-colour` custom property
+threaded in from React. One-off layout stays as utilities in the JSX. Dynamic
+values — a bar width from a percentage, a colour from a classification — stay as
+inline `style` props, because they are data, not design.
+
+`components/ui/` holds shadcn-style primitives (`Button`, `Card`/`Section`,
+`Badge`) built on `cva` + `tailwind-merge`. They wrap the component classes rather
+than inlining utilities, so the paint stays in one place and the variant names are
+typed — `<Button variant="primry">` fails at compile time.
 
 ## Reproducibility
 

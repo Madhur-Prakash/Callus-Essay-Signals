@@ -51,13 +51,7 @@ export function SummaryStats({ summary }: { summary: AnalysisSummary }) {
   ];
 
   return (
-    <div
-      style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fit, minmax(17rem, 1fr))',
-        gap: '1.4rem',
-      }}
-    >
+    <div className="grid gap-6 grid-cols-[repeat(auto-fit,minmax(17rem,1fr))]">
       {groups.map((group) => (
         <div key={group.title}>
           <p className="subhead">{group.title}</p>

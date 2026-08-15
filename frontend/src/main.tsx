@@ -2,9 +2,7 @@ import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 
 import { App } from './App';
-import './styles/global.css';
-import './styles/analysis.css';
-import './styles/research.css';
+import './styles/index.css';
 
 const container = document.getElementById('root');
 if (!container) {

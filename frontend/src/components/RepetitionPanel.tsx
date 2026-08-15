@@ -1,3 +1,4 @@
+import { Button } from '@/components/ui/Button';
 import type { AnalysisResponse } from '@/types/api';
 
 interface Props {
@@ -10,14 +11,14 @@ export function RepetitionPanel({ repetition, onSelectSentence }: Props) {
 
   if (phrases.length === 0 && templates.length === 0) {
     return (
-      <p className="small muted" style={{ margin: 0 }}>
+      <p className="small muted m-0">
         No repeated phrases or syntactic templates were found above the reporting threshold.
       </p>
     );
   }
 
   return (
-    <div style={{ display: 'grid', gap: '1.2rem' }}>
+    <div className="grid gap-5">
       {phrases.length > 0 && (
         <div>
           <p className="subhead">Repeated phrases</p>
@@ -30,20 +31,20 @@ export function RepetitionPanel({ repetition, onSelectSentence }: Props) {
                 </span>
                 <span className="spacer" />
                 {phrase.sentence_indices.slice(0, 4).map((id) => (
-                  <button
+                  <Button
                     key={id}
-                    type="button"
-                    className="btn btn--ghost btn--sm"
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onSelectSentence(id)}
                     title={`Jump to sentence ${id + 1}`}
                   >
                     s{id + 1}
-                  </button>
+                  </Button>
                 ))}
               </div>
             ))}
           </div>
-          <p className="tiny muted" style={{ marginTop: '0.5rem', marginBottom: 0 }}>
+          <p className="tiny muted mb-0 mt-2">
             Repeated wording is ambiguous on its own — it appears in machine text drawing on a
             phrase bank and in human drafts written quickly.
           </p>
@@ -62,19 +63,20 @@ export function RepetitionPanel({ repetition, onSelectSentence }: Props) {
                 </span>
                 <span className="spacer" />
                 {template.sentence_indices.slice(0, 4).map((id) => (
-                  <button
+                  <Button
                     key={id}
-                    type="button"
-                    className="btn btn--ghost btn--sm"
+                    variant="ghost"
+                    size="sm"
                     onClick={() => onSelectSentence(id)}
+                    title={`Jump to sentence ${id + 1}`}
                   >
                     s{id + 1}
-                  </button>
+                  </Button>
                 ))}
               </div>
             ))}
           </div>
-          <p className="tiny muted" style={{ marginTop: '0.5rem', marginBottom: 0 }}>
+          <p className="tiny muted mb-0 mt-2">
             The same grammatical skeleton recurring across sentences survives paraphrasing,
             which makes it a more specific signal than repeated wording.
           </p>

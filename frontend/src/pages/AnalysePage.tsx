@@ -5,6 +5,7 @@ import { ApiError, analyseEssay, fetchPrivacy, pollAnalysis } from '@/api/client
 import { Banner } from '@/components/Banner';
 import { EssayEditor } from '@/components/EssayEditor';
 import { SignalStrip } from '@/components/SignalStrip';
+import { Button } from '@/components/ui/Button';
 import type { AnalysisResponse, HealthResponse, ModelInfoResponse } from '@/types/api';
 
 interface Props {
@@ -128,13 +129,9 @@ export function AnalysePage({
           class, and a template generator plus a rule-based editor for the machine classes. Any
           verdict below is a demonstration of the pipeline, not a reliable measurement of
           authorship.{' '}
-          <button
-            type="button"
-            className="btn btn--ghost btn--sm"
-            onClick={() => onNavigate('research')}
-          >
+          <Button variant="ghost" size="sm" onClick={() => onNavigate('research')}>
             See the evaluation
-          </button>
+          </Button>
         </Banner>
       )}
 
@@ -175,9 +172,9 @@ export function AnalysePage({
           title="Analysis failed"
           action={
             error.retryable ? (
-              <button type="button" className="btn btn--sm" onClick={runAnalysis}>
+              <Button size="sm" onClick={runAnalysis}>
                 Try again
-              </button>
+              </Button>
             ) : undefined
           }
         >

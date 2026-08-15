@@ -1,0 +1,286 @@
+/*
+ * Design tokens — the runtime values Tailwind's @theme maps onto.
+ *
+ * These stay in plain CSS rather than Tailwind config for one reason: the theme
+ * toggle has three states (system / light / dark), and expressing "an explicit
+ * choice overrides the OS, in both directions" needs three selectors that a
+ * config object cannot express. Tailwind reads them through `@theme inline`, so
+ * `bg-surface` and `var(--surface)` are always the same colour.
+ *
+ * Direction: a measuring instrument that respects the text it reads. The essay is
+ * set in a serif at a comfortable measure; everything the machine says about it is
+ * grotesk, and every number is tabular mono. Colour is scarce and always carries
+ * meaning — amber "possibly assisted", clay "likely", slate "uncertain", green
+ * "reads as human".
+ */
+
+:root {
+  color-scheme: dark light;
+
+  /* ------------------------------------------------------------------ type */
+  --font-serif-stack: 'Iowan Old Style', 'Palatino Linotype', Palatino,
+    'Book Antiqua', Georgia, 'Times New Roman', serif;
+  --font-sans-stack: 'Inter', ui-sans-serif, -apple-system, 'Segoe UI', Roboto,
+    Helvetica, Arial, sans-serif;
+  --font-mono-stack: ui-monospace, 'SF Mono', 'Cascadia Mono', 'JetBrains Mono',
+    Menlo, Consolas, monospace;
+
+  --step--2: clamp(0.69rem, 0.67rem + 0.1vw, 0.75rem);
+  --step--1: clamp(0.8rem, 0.77rem + 0.14vw, 0.875rem);
+  --step-0: clamp(0.94rem, 0.91rem + 0.15vw, 1rem);
+  --step-1: clamp(1.1rem, 1.03rem + 0.35vw, 1.3rem);
+  --step-2: clamp(1.35rem, 1.2rem + 0.72vw, 1.8rem);
+  --step-3: clamp(1.7rem, 1.4rem + 1.45vw, 2.6rem);
+  --step-4: clamp(2.1rem, 1.55rem + 2.6vw, 3.6rem);
+
+  /* -------------------------------------------------------------- surfaces */
+  /* Layered rather than flat: each step up is lighter and gains a hairline top
+     highlight, which is what reads as depth without heavy shadows. */
+  --bg: #0b0d11;
+  --surface: #14181f;
+  --surface-2: #191e26;
+  --surface-3: #1f2530;
+  --surface-sunken: #0d1015;
+
+  --border: #232a35;
+  --border-strong: #313a48;
+  --hairline: rgb(255 255 255 / 0.055);
+
+  --ink: #e8ecf2;
+  --ink-soft: #a8b2c1;
+  --ink-faint: #6d7889;
+
+  /* ---------------------------------------------------------------- accent */
+  --accent: #5eabf0;
+  --accent-bright: #8cc6ff;
+  --accent-dim: #2d6a9f;
+  --accent-soft: rgb(94 171 240 / 0.12);
+  --accent-glow: rgb(94 171 240 / 0.28);
+
+  /* ------------------------------------------------------------- semantics */
+  --human: #56c08a;
+  --human-soft: rgb(86 192 138 / 0.13);
+  --uncertain: #8b95a6;
+  --uncertain-soft: rgb(139 149 166 / 0.13);
+  --possible: #e0a94a;
+  --possible-soft: rgb(224 169 74 / 0.13);
+  --likely: #e8735a;
+  --likely-soft: rgb(232 115 90 / 0.13);
+
+  --warning-bg: rgb(224 169 74 / 0.09);
+  --warning-border: rgb(224 169 74 / 0.32);
+
+  /* ------------------------------------------------------------- elevation */
+  --elev-sm: 0 1px 2px rgb(0 0 0 / 0.35);
+  --elev: 0 4px 18px -4px rgb(0 0 0 / 0.5), 0 1px 3px rgb(0 0 0 / 0.35);
+  --elev-lg: 0 24px 60px -18px rgb(0 0 0 / 0.72), 0 2px 8px rgb(0 0 0 / 0.4);
+
+  --gutter: clamp(1rem, 3.5vw, 2.75rem);
+}
+
+/* Light values, declared once and applied by two selectors: follow the OS while
+   the choice is "system", and win outright when the user picked light. */
+@media (prefers-color-scheme: light) {
+  :root:not([data-theme='dark']) {
+    --bg: #f7f5f1;
+    --surface: #ffffff;
+    --surface-2: #fbfaf8;
+    --surface-3: #f4f2ed;
+    --surface-sunken: #f0ede7;
+
+    --border: #e3ded4;
+    --border-strong: #cec7b9;
+    --hairline: rgb(0 0 0 / 0.035);
+
+    --ink: #16181c;
+    --ink-soft: #4c525c;
+    --ink-faint: #7d8593;
+
+    --accent: #1d6fb8;
+    --accent-bright: #14559a;
+    --accent-dim: #7fb0e0;
+    --accent-soft: rgb(29 111 184 / 0.09);
+    --accent-glow: rgb(29 111 184 / 0.18);
+
+    --human: #2c7a56;
+    --human-soft: rgb(44 122 86 / 0.1);
+    --uncertain: #666e7c;
+    --uncertain-soft: rgb(102 110 124 / 0.1);
+    --possible: #9a6a12;
+    --possible-soft: rgb(154 106 18 / 0.1);
+    --likely: #b0432a;
+    --likely-soft: rgb(176 67 42 / 0.1);
+
+    --warning-bg: rgb(154 106 18 / 0.07);
+    --warning-border: rgb(154 106 18 / 0.28);
+
+    --elev-sm: 0 1px 2px rgb(20 18 14 / 0.05);
+    --elev: 0 4px 16px -6px rgb(20 18 14 / 0.12), 0 1px 3px rgb(20 18 14 / 0.06);
+    --elev-lg: 0 24px 56px -20px rgb(20 18 14 / 0.22), 0 2px 8px rgb(20 18 14 / 0.08);
+  }
+}
+
+:root[data-theme='light'] {
+  --bg: #f7f5f1;
+  --surface: #ffffff;
+  --surface-2: #fbfaf8;
+  --surface-3: #f4f2ed;
+  --surface-sunken: #f0ede7;
+
+  --border: #e3ded4;
+  --border-strong: #cec7b9;
+  --hairline: rgb(0 0 0 / 0.035);
+
+  --ink: #16181c;
+  --ink-soft: #4c525c;
+  --ink-faint: #7d8593;
+
+  --accent: #1d6fb8;
+  --accent-bright: #14559a;
+  --accent-dim: #7fb0e0;
+  --accent-soft: rgb(29 111 184 / 0.09);
+  --accent-glow: rgb(29 111 184 / 0.18);
+
+  --human: #2c7a56;
+  --human-soft: rgb(44 122 86 / 0.1);
+  --uncertain: #666e7c;
+  --uncertain-soft: rgb(102 110 124 / 0.1);
+  --possible: #9a6a12;
+  --possible-soft: rgb(154 106 18 / 0.1);
+  --likely: #b0432a;
+  --likely-soft: rgb(176 67 42 / 0.1);
+
+  --warning-bg: rgb(154 106 18 / 0.07);
+  --warning-border: rgb(154 106 18 / 0.28);
+
+  --elev-sm: 0 1px 2px rgb(20 18 14 / 0.05);
+  --elev: 0 4px 16px -6px rgb(20 18 14 / 0.12), 0 1px 3px rgb(20 18 14 / 0.06);
+  --elev-lg: 0 24px 56px -20px rgb(20 18 14 / 0.22), 0 2px 8px rgb(20 18 14 / 0.08);
+}
+
+/* --------------------------------------------------------------- base ---- */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans-stack);
+  font-size: var(--step-0);
+  line-height: 1.62;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+  font-feature-settings: 'kern', 'liga', 'cv11';
+}
+
+/* A very soft radial wash so the page is not a flat slab. */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 0;
+  background:
+    radial-gradient(70rem 40rem at 50% -8rem, var(--accent-soft), transparent 65%),
+    radial-gradient(50rem 30rem at 100% 0%, rgb(224 169 74 / 0.05), transparent 60%);
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-serif-stack);
+  font-weight: 600;
+  line-height: 1.14;
+  letter-spacing: -0.018em;
+  margin: 0;
+  text-wrap: balance;
+}
+
+h1 {
+  font-size: var(--step-3);
+}
+h2 {
+  font-size: var(--step-1);
+}
+h3 {
+  font-size: var(--step-0);
+}
+
+p {
+  margin: 0 0 0.85em;
+  text-wrap: pretty;
+}
+
+a {
+  color: var(--accent);
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+a:hover {
+  color: var(--accent-bright);
+}
+
+code,
+.mono,
+.num {
+  font-family: var(--font-mono-stack);
+  font-variant-numeric: tabular-nums;
+  font-size: 0.88em;
+}
+
+button {
+  font-family: inherit;
+  font-size: inherit;
+  cursor: pointer;
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 4px;
+}
+
+::selection {
+  background: var(--accent-glow);
+  color: var(--ink);
+}
+
+/* Windows' default scrollbars are visually loud next to this palette. */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border-strong) transparent;
+}
+
+*::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+*::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 999px;
+  border: 3px solid var(--bg);
+}
+
+*::-webkit-scrollbar-thumb:hover {
+  background: var(--ink-faint);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

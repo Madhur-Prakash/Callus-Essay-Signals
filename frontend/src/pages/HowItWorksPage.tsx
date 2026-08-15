@@ -1,3 +1,5 @@
+import { Section } from '@/components/ui/Card';
+import { cn } from '@/lib/cn';
 import { GROUP_LABELS } from '@/lib/format';
 import type { ModelInfoResponse } from '@/types/api';
 
@@ -23,73 +25,33 @@ export function HowItWorksPage({ modelInfo }: Props) {
   const pipeline = methodology?.pipeline ?? FALLBACK_PIPELINE;
 
   return (
-    <div className="stack stack--lg" style={{ maxWidth: '52rem', margin: '0 auto' }}>
+    <div className="stack stack--lg mx-auto max-w-[52rem]">
       <header>
         <h1>How this works</h1>
-        <p className="muted" style={{ fontSize: '1rem' }}>
+        <p className="muted text-base">
           {methodology?.summary ??
             'This detector does not ask another AI whether an essay is AI-written. It measures properties of the writing and feeds those measurements to a classifier we trained ourselves.'}
         </p>
       </header>
 
-      <section className="card">
-        <div className="card__head">
-          <p className="card__title">The thing it is not</p>
-        </div>
-        <div className="card__body">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(15rem, 1fr))',
-              gap: '1.2rem',
-            }}
-          >
-            <div>
-              <p className="subhead" style={{ color: 'var(--likely)' }}>
-                Not this
-              </p>
-              <pre
-                className="mono"
-                style={{
-                  margin: 0,
-                  fontSize: '0.76rem',
-                  lineHeight: 1.7,
-                  color: 'var(--ink-soft)',
-                  background: 'var(--likely-soft)',
-                  padding: '0.8rem',
-                  borderRadius: 'var(--radius-sm)',
-                  whiteSpace: 'pre',
-                  overflowX: 'auto',
-                }}
-              >
-{`Essay
+      <Section title="The thing it is not">
+        <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
+          <div>
+            <p className="subhead text-likely">Not this</p>
+            <Flow tone="likely">
+              {`Essay
   ↓
 Chat model
   ↓
 "Is this AI?"
   ↓
 Verdict`}
-              </pre>
-            </div>
-            <div>
-              <p className="subhead" style={{ color: 'var(--human)' }}>
-                This
-              </p>
-              <pre
-                className="mono"
-                style={{
-                  margin: 0,
-                  fontSize: '0.76rem',
-                  lineHeight: 1.7,
-                  color: 'var(--ink-soft)',
-                  background: 'var(--human-soft)',
-                  padding: '0.8rem',
-                  borderRadius: 'var(--radius-sm)',
-                  whiteSpace: 'pre',
-                  overflowX: 'auto',
-                }}
-              >
-{`Essay
+            </Flow>
+          </div>
+          <div>
+            <p className="subhead text-human">This</p>
+            <Flow tone="human">
+              {`Essay
   ↓
 Tokeniser
   ↓
@@ -106,75 +68,45 @@ Calibration
 Evidence engine
   ↓
 Result`}
-              </pre>
+            </Flow>
+          </div>
+        </div>
+        <hr className="divider" />
+        <p className="mb-0">
+          {methodology?.what_the_language_model_does ??
+            'The language model provides one number per token: how probable that token was given the preceding text. It is a measuring instrument, like a thermometer. It is never asked to judge authorship.'}
+        </p>
+      </Section>
+
+      <Section title="The pipeline">
+        <ol className="m-0 grid list-decimal gap-1.5 pl-5 text-xs">
+          {pipeline.map((step, index) => (
+            <li key={index}>{step}</li>
+          ))}
+        </ol>
+      </Section>
+
+      <Section
+        title="What gets measured"
+        note="Grouped the way the ablation study groups them, so each block's contribution can be tested independently."
+      >
+        <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]">
+          {Object.entries(GROUP_LABELS).map(([key, label]) => (
+            <div key={key}>
+              <p className="mb-0.5 mt-0 text-xs font-semibold">{label}</p>
+              <p className="tiny muted m-0">{GROUP_DESCRIPTIONS[key]}</p>
             </div>
-          </div>
-          <hr className="divider" />
-          <p style={{ marginBottom: 0 }}>
-            {methodology?.what_the_language_model_does ??
-              'The language model provides one number per token: how probable that token was given the preceding text. It is a measuring instrument, like a thermometer. It is never asked to judge authorship.'}
-          </p>
+          ))}
         </div>
-      </section>
+      </Section>
 
-      <section className="card">
-        <div className="card__head">
-          <p className="card__title">The pipeline</p>
-        </div>
-        <div className="card__body">
-          <ol style={{ margin: 0, paddingLeft: '1.3rem', display: 'grid', gap: '0.4rem' }}>
-            {pipeline.map((step, index) => (
-              <li key={index} style={{ fontSize: '0.9rem' }}>
-                {step}
-              </li>
-            ))}
-          </ol>
-        </div>
-      </section>
-
-      <section className="card">
-        <div className="card__head">
-          <div>
-            <p className="card__title">What gets measured</p>
-            <p className="section-note">
-              Grouped the way the ablation study groups them, so each block's contribution can
-              be tested independently.
-            </p>
-          </div>
-        </div>
-        <div className="card__body">
-          <div
-            style={{
-              display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(14rem, 1fr))',
-              gap: '1rem',
-            }}
-          >
-            {Object.entries(GROUP_LABELS).map(([key, label]) => (
-              <div key={key}>
-                <p style={{ margin: '0 0 0.15rem', fontWeight: 600, fontSize: '0.88rem' }}>
-                  {label}
-                </p>
-                <p className="tiny muted" style={{ margin: 0 }}>
-                  {GROUP_DESCRIPTIONS[key]}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="card">
-        <div className="card__head">
-          <p className="card__title">What makes the decision</p>
-        </div>
-        <div className="card__body">
-          <p>
-            {methodology?.what_makes_the_decision ??
-              'A scikit-learn classifier trained on our labelled corpus, with document-level grouped splits and probability calibration.'}
-          </p>
-          {modelInfo?.document_model && (
-            <table className="data" style={{ marginTop: '0.6rem' }}>
+      <Section title="What makes the decision">
+        <p>
+          {methodology?.what_makes_the_decision ??
+            'A scikit-learn classifier trained on our labelled corpus, with document-level grouped splits and probability calibration.'}
+        </p>
+        {modelInfo?.document_model && (
+          <table className="data mt-2.5">
               <tbody>
                 <tr>
                   <td>Classifier</td>
@@ -207,31 +139,22 @@ Result`}
                   <td className="num">{modelInfo.data_regime ?? '—'}</td>
                 </tr>
               </tbody>
-            </table>
-          )}
-        </div>
-      </section>
+          </table>
+        )}
+      </Section>
 
-      <section className="card">
-        <div className="card__head">
-          <p className="card__title">Limitations</p>
-        </div>
-        <div className="card__body">
-          <ul className="statements">
-            {(methodology?.limitations ?? DEFAULT_LIMITATIONS).map((limitation, index) => (
-              <li key={index}>{limitation}</li>
-            ))}
-          </ul>
-        </div>
-      </section>
+      <Section title="Limitations">
+        <ul className="statements">
+          {(methodology?.limitations ?? DEFAULT_LIMITATIONS).map((limitation, index) => (
+            <li key={index}>{limitation}</li>
+          ))}
+        </ul>
+      </Section>
 
-      <section
-        className="card"
-        style={{ borderColor: 'var(--warning-border)', background: 'var(--warning-bg)' }}
-      >
+      <section className="card border-warning-line bg-warning-bg">
         <div className="card__body">
-          <h3 style={{ marginBottom: '0.4rem' }}>Detection is not proof of authorship</h3>
-          <p style={{ marginBottom: 0 }}>
+          <h3 className="mb-1.5">Detection is not proof of authorship</h3>
+          <p className="mb-0">
             These measurements describe text. Text does not carry a signature. A flag means
             "this passage has statistical properties in common with the machine-written examples
             in our evaluation data" — which is a reason to read more carefully and, if it
@@ -241,6 +164,25 @@ Result`}
         </div>
       </section>
     </div>
+  );
+}
+
+/**
+ * The two ASCII pipeline sketches. `whitespace-pre` rather than `whitespace-pre-wrap`
+ * on purpose — the arrows only line up if the diagram is allowed to overflow and
+ * scroll rather than reflow, which is why it also gets its own scroll container.
+ */
+function Flow({ tone, children }: { tone: 'likely' | 'human'; children: string }) {
+  return (
+    <pre
+      className={cn(
+        'mono m-0 overflow-x-auto whitespace-pre rounded-control p-3 text-[0.76rem]',
+        'leading-relaxed text-ink-soft',
+        tone === 'likely' ? 'bg-likely-soft' : 'bg-human-soft',
+      )}
+    >
+      {children}
+    </pre>
   );
 }
 

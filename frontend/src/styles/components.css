@@ -1,0 +1,225 @@
+/*
+ * Generic interface primitives — the vocabulary the whole app is built from.
+ *
+ * Tailwind's own guidance is to extract a class once a utility string is repeated
+ * across many elements, which is exactly what these are: cards, buttons, tags,
+ * banners and data tables appear dozens of times each. Domain-specific pieces
+ * (the essay reader, meters, charts) live in app.css; one-off layout stays as
+ * plain utilities in the JSX where you can read it next to the markup.
+ */
+
+@layer components {
+  /* -------------------------------------------------------------- surfaces */
+  .card {
+    @apply relative overflow-hidden rounded-card border border-line bg-surface;
+    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+  }
+
+  .card__head {
+    @apply flex items-center gap-2.5 border-b border-line bg-surface-2 px-5 py-4;
+  }
+
+  .card__body {
+    @apply p-5;
+  }
+
+  .card__title {
+    @apply m-0 font-sans text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+  }
+
+  .section-note {
+    @apply mb-0 mt-1 max-w-[68ch] text-xs text-ink-faint;
+  }
+
+  /* --------------------------------------------------------------- buttons */
+  .btn {
+    @apply inline-flex items-center justify-center gap-2 rounded-control border
+      border-line-strong bg-surface-2 px-4 py-2 text-xs font-medium leading-tight text-ink
+      transition-[background,border-color,transform,box-shadow] duration-150;
+    box-shadow: inset 0 1px 0 var(--hairline);
+  }
+
+  .btn:hover:not(:disabled) {
+    @apply -translate-y-px border-ink-faint bg-surface-3;
+  }
+
+  .btn:active:not(:disabled) {
+    @apply translate-y-0;
+  }
+
+  .btn:disabled {
+    @apply cursor-not-allowed opacity-40;
+  }
+
+  .btn--primary {
+    @apply border-transparent px-7 py-3 text-base font-semibold text-white;
+    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dim) 100%);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.18) inset,
+      0 6px 20px -6px var(--accent-glow);
+  }
+
+  .btn--primary:hover:not(:disabled) {
+    filter: brightness(1.08);
+    box-shadow:
+      0 1px 0 rgb(255 255 255 / 0.22) inset,
+      0 10px 28px -8px var(--accent-glow);
+  }
+
+  .btn--ghost {
+    @apply border-transparent bg-transparent text-ink-soft shadow-none;
+  }
+
+  .btn--ghost:hover:not(:disabled) {
+    @apply border-transparent text-ink;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
+  }
+
+  .btn--sm {
+    @apply rounded-md px-2.5 py-1.5 text-2xs;
+  }
+
+  /* ------------------------------------------------------------------ tags */
+  .tag {
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border
+      border-line bg-surface-2 px-2.5 py-1 text-2xs font-medium text-ink-soft;
+  }
+
+  /* --------------------------------------------------------------- banners */
+  .banner {
+    @apply relative overflow-hidden rounded-card border border-line bg-surface
+      py-3.5 pl-5 pr-4 text-xs;
+    box-shadow: inset 0 1px 0 var(--hairline);
+  }
+
+  .banner::before {
+    @apply absolute inset-y-0 left-0 w-[3px] bg-ink-faint content-[''];
+  }
+
+  .banner--warning {
+    @apply border-warning-line bg-warning-bg;
+  }
+  .banner--warning::before {
+    @apply bg-possible;
+  }
+
+  .banner--danger {
+    @apply bg-likely-soft;
+    border-color: color-mix(in srgb, var(--likely) 40%, transparent);
+  }
+  .banner--danger::before {
+    @apply bg-likely;
+  }
+
+  .banner--info {
+    @apply bg-accent-soft;
+    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+  }
+  .banner--info::before {
+    @apply bg-accent;
+  }
+
+  .banner__title {
+    @apply mb-1 mt-0 font-semibold text-ink;
+  }
+
+  .banner code {
+    @apply rounded px-1 py-0.5;
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  /* ---------------------------------------------------------------- tables */
+  table.data {
+    @apply w-full border-collapse text-xs;
+  }
+
+  table.data th,
+  table.data td {
+    @apply whitespace-nowrap border-b border-line px-3 py-2 text-left;
+  }
+
+  table.data th {
+    @apply sticky top-0 bg-surface-2 text-2xs font-bold uppercase tracking-[0.07em] text-ink-faint;
+  }
+
+  table.data td.num,
+  table.data th.num {
+    @apply text-right font-mono tabular-nums;
+  }
+
+  table.data tbody tr:last-child td {
+    @apply border-b-0;
+  }
+
+  table.data tbody tr {
+    @apply transition-colors duration-100 hover:bg-surface-2;
+  }
+
+  /* --------------------------------------------------------------- helpers */
+  .stack {
+    @apply flex flex-col;
+  }
+  .stack--sm {
+    @apply gap-2;
+  }
+  .stack--md {
+    @apply gap-4;
+  }
+  .stack--lg {
+    @apply gap-7;
+  }
+
+  .row {
+    @apply flex items-center gap-2.5;
+  }
+  .row--wrap {
+    @apply flex-wrap;
+  }
+  .spacer {
+    @apply flex-1;
+  }
+  .muted {
+    @apply text-ink-faint;
+  }
+  .small {
+    @apply text-xs;
+  }
+  .tiny {
+    @apply text-2xs leading-normal;
+  }
+
+  .two-col {
+    @apply grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(21rem,1fr))];
+  }
+
+  .scroll-x {
+    @apply overflow-x-auto;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: thin;
+  }
+
+  .divider {
+    @apply my-5 h-px border-0 bg-line;
+  }
+
+  .chips {
+    @apply flex flex-wrap gap-1.5;
+  }
+
+  .statements {
+    @apply m-0 grid list-disc gap-2 pl-4 text-xs leading-relaxed text-ink-soft;
+  }
+
+  .statements li::marker {
+    color: var(--accent-dim);
+  }
+
+  .subhead {
+    @apply mb-2.5 mt-0 text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+  }
+
+  .visually-hidden {
+    @apply absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0;
+    clip: rect(0, 0, 0, 0);
+  }
+}

@@ -47,7 +47,7 @@ export function VerdictCard({ result }: Props) {
           )}
 
           {summary.flagged_paragraphs > 0 && (
-            <p className="small muted" style={{ marginTop: '0.8rem', marginBottom: 0 }}>
+            <p className="small muted mb-0 mt-3">
               Evidence detected in <strong>{summary.flagged_paragraphs}</strong> of{' '}
               <strong>{summary.n_paragraphs}</strong> paragraphs.
             </p>
@@ -76,7 +76,7 @@ export function VerdictCard({ result }: Props) {
               );
             })}
           </dl>
-          <p className="tiny muted" style={{ marginTop: '0.8rem', marginBottom: 0 }}>
+          <p className="tiny muted mb-0 mt-3">
             Calibrated with Platt scaling on a held-out split. These are estimates from a
             model trained on a specific corpus, not measurements of truth.
           </p>

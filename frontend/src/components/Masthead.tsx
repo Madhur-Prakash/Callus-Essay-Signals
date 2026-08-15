@@ -93,21 +93,11 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
 
         <ThemeToggle choice={theme.choice} resolved={theme.resolved} onCycle={theme.cycle} />
 
-        <span
-          className="tag"
-          title={statusText}
-          style={{ whiteSpace: 'nowrap' }}
-          data-testid="health-chip"
-        >
+        <span className="tag" title={statusText} data-testid="health-chip">
           <span
             aria-hidden="true"
-            style={{
-              width: '0.5rem',
-              height: '0.5rem',
-              borderRadius: '50%',
-              background: statusColour,
-              display: 'inline-block',
-            }}
+            className="inline-block size-2 rounded-full"
+            style={{ background: statusColour }}
           />
           {health?.status ?? '…'}
         </span>
