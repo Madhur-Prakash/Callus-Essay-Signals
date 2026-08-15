@@ -471,7 +471,7 @@
   }
 
   .tabs__list--sticky {
-    @apply sticky top-[5.4rem] z-20;
+    @apply sticky z-20;
   }
 
   .tabs__trigger {
@@ -541,6 +541,41 @@
     background: color-mix(in srgb, var(--ink) 4%, transparent);
   }
 
+  /*
+   * `white-space: nowrap` is right on a wide screen — it stops a metric name
+   * folding in half — and wrong on a phone, where it pushes the table past the
+   * viewport. `body` has `overflow-x: hidden`, so that overflow does not even
+   * produce a scrollbar to rescue it; the column simply becomes unreachable.
+   * Below this width, labels wrap and numbers stay intact.
+   */
+  @media (width <= 700px) {
+    table.data th,
+    table.data td {
+      @apply whitespace-normal px-2.5;
+    }
+
+    table.data td.num,
+    table.data th.num {
+      @apply whitespace-nowrap;
+    }
+  }
+
+  /*
+   * Parks just under the masthead. The offset is measured from what the bar
+   * actually is — outer padding, border, inner padding, tallest control — plus a
+   * few pixels of air, and it has to grow when the bar becomes two rows.
+   */
+  .tabs__list--sticky {
+    top: 4.6rem;
+  }
+
+  /* Matches the width at which the masthead becomes two rows. */
+  @media (width <= 560px) {
+    .tabs__list--sticky {
+      top: 6.8rem;
+    }
+  }
+
   /* ================================================================= helpers */
   .stack {
     @apply flex flex-col;
@@ -574,8 +609,15 @@
     @apply text-2xs leading-normal;
   }
 
+  /*
+   * `minmax(21rem, 1fr)` is a trap: the 21rem is a hard floor, so on a viewport
+   * narrower than that the track keeps its width and the grid overflows rather
+   * than collapsing to one column. `min(21rem, 100%)` lets the floor give way
+   * when there is less room than that, which is what "auto-fit" is assumed to do
+   * and does not. Every auto-fit grid in this app is written this way.
+   */
   .two-col {
-    @apply grid gap-6 grid-cols-[repeat(auto-fit,minmax(21rem,1fr))];
+    @apply grid gap-6 grid-cols-[repeat(auto-fit,minmax(min(21rem,100%),1fr))];
   }
 
   .scroll-x {

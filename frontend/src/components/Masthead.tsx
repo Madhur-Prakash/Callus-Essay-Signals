@@ -72,7 +72,7 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
   return (
     <header className="masthead" data-scrolled={scrolled || undefined}>
       <div className="masthead__inner">
-        <div className="masthead__zone">
+        <div className="masthead__zone masthead__zone--start">
           {/* Routing is hash-based and owned by App.tsx — there is no Router
               provider, so a react-router <Link> would crash here. */}
           <button

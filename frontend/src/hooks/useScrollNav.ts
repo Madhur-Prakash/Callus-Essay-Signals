@@ -6,8 +6,11 @@
  *   scrollToSection  smooth scroll to a section, routed through Lenis when it is
  *                    running so the two do not fight over the scroll position
  *
- * Reading position lives in `components/ui/ScrollProgress` rather than here,
- * because a per-frame value has no business in React state — see the note there.
+ * There is no reading-position hook. One existed, driving a progress line under
+ * the masthead; it held the scroll fraction in React state and re-rendered the
+ * whole bar on every scroll event, which is what made scrolling feel heavy. If
+ * one is ever wanted again, it belongs in a self-contained component writing
+ * straight to a `transform` — never in state.
  *
  * The ScrollTrigger-backed pieces are inert under `prefers-reduced-motion` and
  * under test, matching the gate in useMotion.

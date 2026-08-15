@@ -35,7 +35,7 @@ export function HowItWorksPage({ modelInfo }: Props) {
       </header>
 
       <Section title="The thing it is not">
-        <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(15rem,1fr))]">
+        <div className="grid gap-5 grid-cols-[repeat(auto-fit,minmax(min(15rem,100%),1fr))]">
           <div>
             <p className="subhead text-likely">Not this</p>
             <Flow tone="likely">
@@ -90,7 +90,7 @@ Result`}
         title="What gets measured"
         note="Grouped the way the ablation study groups them, so each block's contribution can be tested independently."
       >
-        <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(14rem,1fr))]">
+        <div className="grid gap-4 grid-cols-[repeat(auto-fit,minmax(min(14rem,100%),1fr))]">
           {Object.entries(GROUP_LABELS).map(([key, label]) => (
             <div key={key}>
               <p className="mb-0.5 mt-0 text-xs font-semibold">{label}</p>
