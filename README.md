@@ -448,13 +448,6 @@ Full ranked list, with severity and the measurement behind each one:
 
 ---
 
-## License
-
-MIT for the code. Generated model output is subject to the terms of whichever
-provider produced it. No admissions essays were scraped.
-
----
-
 <div align="center">
 
 Made with 💖 for Callus by **Madhur Prakash**
