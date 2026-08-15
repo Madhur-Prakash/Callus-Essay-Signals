@@ -9,7 +9,7 @@
  *                  scroll-triggered choreography, pointer-driven effects
  *
  * GSAP is loaded dynamically in every hook below so it stays out of the initial
- * bundle and off the critical path — nothing here runs before first paint.
+ * bundle and off the critical path - nothing here runs before first paint.
  *
  * Every one of them yields to `prefers-reduced-motion`, and all of them no-op
  * under test so the suite stays deterministic and fast. The rule for what earns
@@ -29,7 +29,7 @@ export function motionEnabled(): boolean {
   return !IS_TEST && !prefersReducedMotion();
 }
 
-/** The house easing curve — a fast start that settles, never a bounce. */
+/** The house easing curve - a fast start that settles, never a bounce. */
 export const EASE = [0.22, 1, 0.36, 1] as const;
 export const GSAP_EASE = 'power3.out';
 
@@ -252,8 +252,8 @@ export function useScrollReveal(
  * original markup is captured first and restored on cleanup, so React re-renders
  * and Strict Mode's double-effect both stay safe.
  *
- * Splitting happens on *rendered* lines, measured after layout — not on `<br>` or
- * word count — so it stays correct at every viewport width.
+ * Splitting happens on *rendered* lines, measured after layout - not on `<br>` or
+ * word count - so it stays correct at every viewport width.
  */
 export function useLineReveal<T extends HTMLElement = HTMLHeadingElement>(
   deps: unknown[] = [],
@@ -337,7 +337,7 @@ export function useLineReveal<T extends HTMLElement = HTMLHeadingElement>(
       ctx?.revert();
       // Restore the node this effect actually rewrote, not whatever the ref
       // points at now. If React swapped the element between run and cleanup,
-      // `ref.current` is a fresh node we never touched — writing the captured
+      // `ref.current` is a fresh node we never touched - writing the captured
       // markup into it would duplicate content rather than undo anything.
       node.innerHTML = original;
     };
@@ -351,7 +351,7 @@ export function useLineReveal<T extends HTMLElement = HTMLHeadingElement>(
  * Magnetic hover: the element leans toward the cursor and springs back on exit.
  *
  * Deliberately small (a few pixels) and pointer-only. It is applied to the two
- * primary calls to action, not to every button — the effect says "this one is
+ * primary calls to action, not to every button - the effect says "this one is
  * the target", which stops being true the moment everything does it.
  */
 export function useMagnetic<T extends HTMLElement = HTMLButtonElement>(strength = 0.32) {
@@ -406,7 +406,7 @@ export function useMagnetic<T extends HTMLElement = HTMLButtonElement>(strength 
  * can put a soft light where the cursor is.
  *
  * Writing custom properties rather than animating a real element keeps this to a
- * single style mutation per frame and leaves the highlight entirely to CSS — the
+ * single style mutation per frame and leaves the highlight entirely to CSS - the
  * panel decides how to use the light, this only says where it is.
  */
 export function useSpotlight<T extends HTMLElement = HTMLDivElement>() {

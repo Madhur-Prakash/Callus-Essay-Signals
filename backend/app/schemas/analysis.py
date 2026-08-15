@@ -38,7 +38,7 @@ class AnalysisRequest(BaseModel):
     returns specific, actionable codes (``essay_empty``, ``essay_too_short``,
     ``essay_too_long``). Duplicating the check at the schema layer meant
     whitespace-only input was rejected with a generic ``validation_error``
-    instead — two validators for one rule, and the less helpful one won.
+    instead - two validators for one rule, and the less helpful one won.
     """
 
     text: str = Field(
@@ -54,7 +54,7 @@ class AnalysisRequest(BaseModel):
         description=(
             "Override the server's persistence default for this request. When false "
             "the essay text is never written to storage; only derived metrics are. "
-            "The server's SAVE_ESSAYS setting is the ceiling — this flag can opt out, "
+            "The server's SAVE_ESSAYS setting is the ceiling - this flag can opt out, "
             "never in."
         ),
     )

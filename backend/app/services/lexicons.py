@@ -41,8 +41,8 @@ STOPWORDS: frozenset[str] = frozenset(FUNCTION_WORDS)
 # Words that make an n-gram uninformative *for display purposes*. Kept separate
 # from FUNCTION_WORDS on purpose: FUNCTION_WORDS defines a feature vector whose
 # width is baked into every trained artifact, so it must not drift. This set only
-# decides whether a repeated phrase is worth showing a user — "is one of the"
-# repeating three times is not evidence of anything — and can grow freely.
+# decides whether a repeated phrase is worth showing a user - "is one of the"
+# repeating three times is not evidence of anything - and can grow freely.
 UNINFORMATIVE_NGRAM_WORDS: frozenset[str] = STOPWORDS | frozenset(
     {
         "one", "two", "three", "four", "five", "six", "seven", "eight", "nine",

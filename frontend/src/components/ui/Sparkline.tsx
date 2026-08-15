@@ -7,7 +7,7 @@ interface SparklineProps {
   bars?: boolean;
   /** Draw the connecting trace. */
   line?: boolean;
-  /** Draw a dashed rule at the mean — the reference the trace varies around. */
+  /** Draw a dashed rule at the mean - the reference the trace varies around. */
   mean?: boolean;
   /** Animate the trace on mount, and re-run when these change. */
   draw?: boolean;

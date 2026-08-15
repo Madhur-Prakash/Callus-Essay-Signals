@@ -59,7 +59,7 @@ METHODOLOGY = {
     "limitations": [
         "Detection is probabilistic. A flag is evidence for review, never proof of "
         "authorship.",
-        "Low perplexity on its own is not evidence of machine authorship — clear, "
+        "Low perplexity on its own is not evidence of machine authorship - clear, "
         "conventional human prose also scores low.",
         "Uniform sentence length on its own is not evidence either; many people "
         "write evenly.",
@@ -97,9 +97,9 @@ def _thresholds(settings) -> dict[str, object]:  # noqa: ANN001
 
     Two different gates, and conflating them produces a misleading UI:
 
-    * ``min_chars`` / ``max_chars`` are **hard** — outside them the request is
+    * ``min_chars`` / ``max_chars`` are **hard** - outside them the request is
       rejected with 4xx.
-    * ``min_sentences_for_verdict`` / ``min_words_for_verdict`` are **soft** — the
+    * ``min_sentences_for_verdict`` / ``min_words_for_verdict`` are **soft** - the
       request succeeds, but the detector declines to name a class because the
       distributional measurements are not stable on so little text.
 

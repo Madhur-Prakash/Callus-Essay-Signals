@@ -45,7 +45,7 @@
         "`doc_hapax_ratio` measured 0.5059, which is 1.5 interquartile widths above the normal range for human documents (0.3992 to 0.4421), and closer to the ai_polished median of 0.4239.",
         "`agg_mean_lm_mean_logprob` measured -4.63, which is 1.3 interquartile widths below the normal range for human documents (-4.321 to -4.09), and closer to the ai_polished median of -4.209.",
         "`agg_mean_lm_log_perplexity` measured 4.63, which is 1.3 interquartile widths above the normal range for human documents (4.09 to 4.321), and closer to the ai_polished median of 4.209.",
-        "This is a false positive on human writing — the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
+        "This is a false positive on human writing - the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
       ],
       "dominant_feature_groups": [
         {
@@ -227,7 +227,7 @@
       ],
       "possible_improvement": [
         "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity.",
-        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus - with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
       ],
       "excerpt": "The first thing I ever cooked alone was scrambled eggs and they were, objectively, wrong. Grey. I was eleven and I had used the heat all the way up because I thought cooking was a race.\n\nMy mother works nights at a call center so dinner became mine somewhere around sixth grade, out of logistics rather than passion. For",
       "excerpt_withheld_reason": null
@@ -400,7 +400,7 @@
         }
       ],
       "possible_improvement": [
-        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added.",
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus - with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added.",
         "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity."
       ],
       "excerpt": "My app had four users. Two of them were me, on two different phones, and one was my mother, who I believe opened it once out of obligation.\n\nIt was called StudySync and it was supposed to let you see which of your friends were currently studying, so that you would feel guilty and also study. This is, I now understand, ",
@@ -432,7 +432,7 @@
         "`agg_mean_sty_contraction_rate` measured 0.3949, which is 394880175.6 interquartile widths above the normal range for human documents (0 to 0), and closer to the ai_polished median of 0.",
         "`doc_hapax_ratio` measured 0.5178, which is 1.8 interquartile widths above the normal range for human documents (0.3992 to 0.4421), and closer to the ai_polished median of 0.4239.",
         "`agg_mean_lm_mean_logprob` measured -4.621, which is 1.3 interquartile widths below the normal range for human documents (-4.321 to -4.09), and closer to the ai_polished median of -4.209.",
-        "This is a false positive on human writing — the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
+        "This is a false positive on human writing - the failure mode with real consequences. The measurements that triggered it describe register, not authorship: a human writing formally, evenly, and without contractions produces the same numbers as a machine."
       ],
       "dominant_feature_groups": [
         {
@@ -614,7 +614,7 @@
       ],
       "possible_improvement": [
         "The language-model probability features drove this error. distilgpt2 is a small, 2019-vintage model: text whose vocabulary or topic sits outside its training distribution looks 'surprising' regardless of who wrote it. Try a larger instrument model (MODEL_NAME=gpt2-medium), and add features that normalise surprisal by local entropy rather than using raw perplexity.",
-        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus — with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
+        "Corpus-similarity features drove this error: the document sat closer to the machine reference centroid than the human one. This is the feature group most exposed to a narrow training corpus - with only a few dozen independent human documents, the human centroid is a poor summary of human writing in general. It is the first thing that should improve when real essays are added."
       ],
       "excerpt": "The first thing I ever cooked alone was scrambled eggs and they were, objectively, wrong. Grey. I was eleven and I had used the heat all the way up because I thought cooking was a race.\n\nMy mother works nights at a call center so dinner became mine somewhere around sixth grade, out of logistics rather than passion. For",
       "excerpt_withheld_reason": null

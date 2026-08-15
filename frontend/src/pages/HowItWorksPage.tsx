@@ -110,7 +110,7 @@ Result`}
               <tbody>
                 <tr>
                   <td>Classifier</td>
-                  <td className="num">{modelInfo.document_model.name ?? '—'}</td>
+                  <td className="num">{modelInfo.document_model.name ?? '-'}</td>
                 </tr>
                 <tr>
                   <td>Document features used</td>
@@ -123,20 +123,20 @@ Result`}
                 <tr>
                   <td>Instrument model</td>
                   <td className="num">
-                    {String(modelInfo.language_model?.name ?? '—')}
+                    {String(modelInfo.language_model?.name ?? '-')}
                   </td>
                 </tr>
                 <tr>
                   <td>Model version</td>
-                  <td className="num">{modelInfo.model_version ?? '—'}</td>
+                  <td className="num">{modelInfo.model_version ?? '-'}</td>
                 </tr>
                 <tr>
                   <td>Trained at</td>
-                  <td className="num">{modelInfo.trained_at ?? '—'}</td>
+                  <td className="num">{modelInfo.trained_at ?? '-'}</td>
                 </tr>
                 <tr>
                   <td>Data regime</td>
-                  <td className="num">{modelInfo.data_regime ?? '—'}</td>
+                  <td className="num">{modelInfo.data_regime ?? '-'}</td>
                 </tr>
               </tbody>
           </table>
@@ -157,7 +157,7 @@ Result`}
           <p className="mb-0">
             These measurements describe text. Text does not carry a signature. A flag means
             "this passage has statistical properties in common with the machine-written examples
-            in our evaluation data" — which is a reason to read more carefully and, if it
+            in our evaluation data" - which is a reason to read more carefully and, if it
             matters, to talk to the writer. It is never a reason to accuse anyone, and it must
             never be the sole basis for a decision about a person.
           </p>
@@ -169,7 +169,7 @@ Result`}
 
 /**
  * The two ASCII pipeline sketches. `whitespace-pre` rather than `whitespace-pre-wrap`
- * on purpose — the arrows only line up if the diagram is allowed to overflow and
+ * on purpose - the arrows only line up if the diagram is allowed to overflow and
  * scroll rather than reflow, which is why it also gets its own scroll container.
  */
 function Flow({ tone, children }: { tone: 'likely' | 'human'; children: string }) {
@@ -201,12 +201,12 @@ const GROUP_DESCRIPTIONS: Record<string, string> = {
   style_shift:
     'How far each sentence sits from the author’s own baseline, plus change-point detection across the essay.',
   corpus:
-    'Similarity to the human and machine reference corpora using character n-grams, POS n-grams and function-word profiles — deliberately topic-free.',
+    'Similarity to the human and machine reference corpora using character n-grams, POS n-grams and function-word profiles - deliberately topic-free.',
 };
 
 const DEFAULT_LIMITATIONS = [
   'Detection is probabilistic. A flag is evidence for review, never proof of authorship.',
-  'Low perplexity alone is not evidence of machine authorship — clear, conventional human prose also scores low.',
+  'Low perplexity alone is not evidence of machine authorship - clear, conventional human prose also scores low.',
   'AI detectors are known to over-flag writing by people who learned English as an additional language.',
   'A lightly edited human essay is mostly human text, so the AI-polished class is inherently the hardest to identify.',
 ];

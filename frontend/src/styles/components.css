@@ -1,5 +1,5 @@
 /*
- * The interface kit's paint — everything under `components/ui/`.
+ * The interface kit's paint - everything under `components/ui/`.
  *
  * These are classes rather than utility strings because they are applied dozens
  * of times each, and because most of them need CSS that utilities cannot express:
@@ -16,7 +16,7 @@
 
   .atmosphere__glow {
     @apply absolute rounded-full;
-    /* A blur this large on a fixed layer is cheap because it never repaints —
+    /* A blur this large on a fixed layer is cheap because it never repaints -
        only the transform changes, and that stays on the compositor. */
     filter: blur(90px);
     will-change: transform;
@@ -542,8 +542,8 @@
   }
 
   /*
-   * `white-space: nowrap` is right on a wide screen — it stops a metric name
-   * folding in half — and wrong on a phone, where it pushes the table past the
+   * `white-space: nowrap` is right on a wide screen - it stops a metric name
+   * folding in half - and wrong on a phone, where it pushes the table past the
    * viewport. `body` has `overflow-x: hidden`, so that overflow does not even
    * produce a scrollbar to rescue it; the column simply becomes unreachable.
    * Below this width, labels wrap and numbers stay intact.
@@ -562,7 +562,7 @@
 
   /*
    * Parks just under the masthead. The offset is measured from what the bar
-   * actually is — outer padding, border, inner padding, tallest control — plus a
+   * actually is - outer padding, border, inner padding, tallest control - plus a
    * few pixels of air, and it has to grow when the bar becomes two rows.
    */
   .tabs__list--sticky {

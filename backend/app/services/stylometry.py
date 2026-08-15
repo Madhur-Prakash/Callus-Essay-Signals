@@ -1,7 +1,7 @@
 """Stylometric feature extraction: surface, lexical and syntactic.
 
 Every function here is a pure measurement over text or a spaCy span. Nothing in
-this module makes a judgement about authorship — it only produces numbers that
+this module makes a judgement about authorship - it only produces numbers that
 the trained classifier is free to weight (or ignore).
 
 Feature name prefixes
@@ -190,7 +190,7 @@ def surface_features(text: str) -> dict[str, float]:
     first_word = lower[0] if lower else ""
     n_commas = text.count(",")
     stop_count = sum(1 for w in lower if w in STOPWORDS)
-    punctuation = sum(1 for ch in text if ch in ",.;:!?—–-()[]\"'…")
+    punctuation = sum(1 for ch in text if ch in ",.;:!?-–-()[]\"'…")
 
     return {
         "sty_n_words": float(n_words),
@@ -212,7 +212,7 @@ def surface_features(text: str) -> dict[str, float]:
         "sty_comma_rate": _rate(n_commas, n_words, 100),
         "sty_semicolon_rate": _rate(text.count(";"), n_words, 100),
         "sty_colon_rate": _rate(text.count(":"), n_words, 100),
-        "sty_dash_rate": _rate(text.count("—") + text.count("–") + len(re.findall(r"\s-\s", text)), n_words, 100),
+        "sty_dash_rate": _rate(text.count("-") + text.count("–") + len(re.findall(r"\s-\s", text)), n_words, 100),
         "sty_paren_rate": _rate(text.count("(") + text.count("["), n_words, 100),
         "sty_quote_rate": _rate(text.count('"') + text.count("“") + text.count("”"), n_words, 100),
         "sty_exclaim_rate": _rate(text.count("!"), n_words, 100),

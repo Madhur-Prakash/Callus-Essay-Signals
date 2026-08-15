@@ -32,7 +32,7 @@ interface Props {
  *
  * Previously this was one page carrying the verdict, the marked-up essay, the
  * rhythm chart, the paragraph rollup, repetition findings and a full statistics
- * table — several screens of dense material with no way to get back to a specific
+ * table - several screens of dense material with no way to get back to a specific
  * part. Tabs give each concern its own surface and make the second visit fast.
  *
  * The verdict stays *outside* the tabs on purpose: it is the answer to the
@@ -135,7 +135,7 @@ export function ResultsPage({ result, essayText, onNavigate, onClear }: Props) {
             <div className="stack stack--lg">
               <Section
                 title="Sentence rhythm"
-                note="Sentence lengths across the essay, against its own mean. Variation here is one feature among many — uniformity alone is not evidence of anything."
+                note="Sentence lengths across the essay, against its own mean. Variation here is one feature among many - uniformity alone is not evidence of anything."
               >
                 <RhythmChart
                   rhythm={result.rhythm}

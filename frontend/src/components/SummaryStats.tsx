@@ -3,7 +3,7 @@ import type { AnalysisSummary } from '@/types/api';
 
 /**
  * The raw statistics table. Every value here comes straight from the analysis
- * response — nothing is recomputed in the browser, so the table can never
+ * response - nothing is recomputed in the browser, so the table can never
  * disagree with the evidence panel.
  */
 export function SummaryStats({ summary }: { summary: AnalysisSummary }) {

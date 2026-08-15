@@ -1,5 +1,5 @@
 /*
- * Tailwind theme — CSS-first, no tailwind.config.js.
+ * Tailwind theme - CSS-first, no tailwind.config.js.
  *
  * The important decision: the design tokens in tokens.css stay the single source
  * of truth and Tailwind is generated *from* them. `@theme inline` maps each token
@@ -38,7 +38,7 @@
   --color-glass-strong: var(--glass-strong);
   --color-glass-line: var(--glass-line);
 
-  /* Semantic colours. These carry meaning in this product — never decoration —
+  /* Semantic colours. These carry meaning in this product - never decoration -
      so they are named for the verdict they represent, not for their hue. */
   --color-human: var(--human);
   --color-human-soft: var(--human-soft);
@@ -76,7 +76,7 @@
 
   /* ---------------------------------------------------------------- shape */
   /* Named for the role, not the size, and deliberately not overriding Tailwind's
-     rounded-sm/md/lg — small incidental radii still want those. */
+     rounded-sm/md/lg - small incidental radii still want those. */
   --radius-control: 8px;
   --radius-card: 14px;
   --radius-panel: 20px;

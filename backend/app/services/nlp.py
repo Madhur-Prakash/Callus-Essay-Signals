@@ -241,7 +241,7 @@ def _paragraph_of(position: int, spans: list[tuple[int, int]]) -> int:
     for i, (start, end) in enumerate(spans):
         if start <= position < end:
             return i
-    # Position falls in the gap between paragraphs — attach to the nearest
+    # Position falls in the gap between paragraphs - attach to the nearest
     # preceding paragraph.
     for i in range(len(spans) - 1, -1, -1):
         if spans[i][0] <= position:

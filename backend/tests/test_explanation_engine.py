@@ -119,7 +119,7 @@ class TestDirectionality:
 
     def test_low_sentence_variation_reads_as_machine_leaning(self, engine) -> None:  # noqa: ANN001
         """Uniformity is machine-leaning, so a LOW coefficient of variation must
-        produce a HIGH strength — the inverted direction is easy to get wrong."""
+        produce a HIGH strength - the inverted direction is easy to get wrong."""
         evidence = engine.explain_document({"bur_cv_sent_len": 0.36})
         meter = next(m for m in evidence.meters if m.key == "sentence_uniformity")
         assert meter.strength > NOTABLE_STRENGTH
@@ -139,7 +139,7 @@ class TestDirectionality:
 
     def test_value_level_tracks_the_value_not_the_signal(self, engine) -> None:  # noqa: ANN001
         """For an inverted feature a LOW value gives a HIGH signal. The statement
-        must not therefore claim the value is high — that is self-contradictory."""
+        must not therefore claim the value is high - that is self-contradictory."""
         evidence = engine.explain_document({"bur_cv_sent_len": 0.36})
         meter = next(m for m in evidence.meters if m.key == "sentence_uniformity")
         assert meter.level in {"elevated", "high"}, "signal should be machine-leaning"

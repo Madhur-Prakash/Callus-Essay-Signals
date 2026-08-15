@@ -45,7 +45,7 @@ export function RepetitionPanel({ repetition, onSelectSentence }: Props) {
             ))}
           </div>
           <p className="tiny muted mb-0 mt-2">
-            Repeated wording is ambiguous on its own — it appears in machine text drawing on a
+            Repeated wording is ambiguous on its own - it appears in machine text drawing on a
             phrase bank and in human drafts written quickly.
           </p>
         </div>

@@ -8,7 +8,7 @@
  *
  * tokens.css is pulled into `base` deliberately. Unlayered CSS outranks every
  * layer, so leaving it unlayered would let the bare `h1 { font-size }` rule beat
- * a `text-xl` utility on the same element — surprising, and the sort of thing
+ * a `text-xl` utility on the same element - surprising, and the sort of thing
  * that gets "fixed" with !important later. In `base` it loses to both components
  * and utilities, which is the order you want.
  *

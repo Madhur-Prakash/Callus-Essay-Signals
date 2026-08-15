@@ -78,7 +78,7 @@ def classification_metrics(
         # `labels` is passed explicitly so macro F1 always averages over the same
         # three classes as the confusion matrix. Without it sklearn infers labels
         # from the data, and a slice containing a single class scores a meaningless
-        # 1.0 — which would then be reported as perfect generalisation.
+        # 1.0 - which would then be reported as perfect generalisation.
         "macro_f1": round(
             float(f1_score(y_true, y_pred, labels=labels, average="macro", zero_division=0)), 4
         ),

@@ -6,7 +6,7 @@ import { cn } from '@/lib/cn';
 /**
  * Tones are named for the verdict they carry, not the colour they paint. A badge
  * reading "likely" is the same amber as the sentence underline and the paragraph
- * rule, because in this product colour *is* the claim — using it decoratively
+ * rule, because in this product colour *is* the claim - using it decoratively
  * would teach the reader to ignore it in the one place it matters.
  */
 const badge = cva('tag', {

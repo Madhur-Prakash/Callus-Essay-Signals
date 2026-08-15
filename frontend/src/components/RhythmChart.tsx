@@ -20,7 +20,7 @@ const PAD = { top: 14, right: 12, bottom: 26, left: 34 };
  * This is the burstiness picture: a human draft usually shows tall/short
  * alternation around the mean, while regularised prose sits flat against it. The
  * bars are coloured by each sentence's own machine-likeness score so the shape and
- * the verdict can be read together — and disagreements between them are visible
+ * the verdict can be read together - and disagreements between them are visible
  * rather than smoothed away.
  */
 export function RhythmChart({

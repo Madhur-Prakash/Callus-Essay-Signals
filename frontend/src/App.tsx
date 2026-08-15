@@ -122,7 +122,7 @@ export function App() {
           hasResult={Boolean(result)}
         />
         <main className="main">
-          {/* `mode="wait"` so the outgoing view finishes before the next arrives —
+          {/* `mode="wait"` so the outgoing view finishes before the next arrives -
               cross-fading two full pages of dense text is unreadable. */}
           <AnimatePresence mode="wait" initial={false}>
             <motion.div

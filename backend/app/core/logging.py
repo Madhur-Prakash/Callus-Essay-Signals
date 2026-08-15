@@ -5,7 +5,7 @@ enforced by construction rather than by convention:
 
 1. **No essay text ever reaches a log record.** :func:`safe_text_meta` is the
    only sanctioned way to describe a piece of user text in a log, and it emits
-   lengths and a truncated SHA-256 digest — never characters.
+   lengths and a truncated SHA-256 digest - never characters.
 2. **No `print()`.** Anything worth showing goes through logifyx so it lands in
    the console *and* the rotating file handler with consistent structure.
 """
@@ -31,7 +31,7 @@ _LOGGERS: dict[str, Logifyx] = {}
 # every third-party library starts emitting through our console handler. Torch,
 # transformers and httpx are extremely chatty at INFO (a model load prints the
 # entire config), so they are pinned to WARNING. Our own ``app.*`` loggers are
-# unaffected — they are created explicitly with the configured level.
+# unaffected - they are created explicitly with the configured level.
 _NOISY_LIBRARIES: tuple[str, ...] = (
     "aiokafka",
     "asyncio",

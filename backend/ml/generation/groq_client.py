@@ -3,7 +3,7 @@
 Scope discipline matters here: this client is used **exclusively offline, to
 build training data**. It is never imported by the API, and no request path in
 ``app/`` can reach a hosted model. The detector's verdict is produced entirely by
-our own trained classifier — see ``docs/detection-methodology.md``.
+our own trained classifier - see ``docs/detection-methodology.md``.
 """
 
 from __future__ import annotations

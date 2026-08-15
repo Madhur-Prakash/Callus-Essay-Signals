@@ -3,7 +3,7 @@
  *
  * These exist so a first-time visitor can see the tool work without pasting
  * anything of their own. The labels describe *how each was produced*, not what
- * the detector will say about it — the detector's answer is whatever it measures,
+ * the detector will say about it - the detector's answer is whatever it measures,
  * and presenting an expected verdict would be pre-loading the conclusion.
  */
 
@@ -43,7 +43,7 @@ export const EXAMPLE_ESSAYS: ExampleEssay[] = [
     id: 'human-style',
     name: 'Hand-written draft',
     provenance:
-      'A hand-authored seed essay from this project’s corpus — uneven sentence lengths, contractions, concrete detail.',
+      'A hand-authored seed essay from this project’s corpus - uneven sentence lengths, contractions, concrete detail.',
     text: HUMAN_STYLE,
   },
   {
@@ -57,7 +57,7 @@ export const EXAMPLE_ESSAYS: ExampleEssay[] = [
     id: 'mixed-style',
     name: 'Human draft, one paragraph rewritten',
     provenance:
-      'The hand-written draft with its second paragraph formalised — the localised-edit case the style-shift analysis targets.',
+      'The hand-written draft with its second paragraph formalised - the localised-edit case the style-shift analysis targets.',
     text: MIXED_STYLE,
   },
 ];

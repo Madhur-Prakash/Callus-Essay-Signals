@@ -111,7 +111,7 @@ export function ResearchPage() {
         <p className="muted">
           Held-out metrics for the shipped detector, plus the generalisation, bias and failure
           analyses. Everything on this page is read from the artifacts written by{' '}
-          <code>ml.evaluation.evaluate</code> and <code>ml.evaluation.find_failures</code> — no
+          <code>ml.evaluation.evaluate</code> and <code>ml.evaluation.find_failures</code> - no
           number is computed in the browser.
         </p>
         <div className="chips mt-3">
@@ -121,7 +121,7 @@ export function ResearchPage() {
             regime: {report.data_regime ?? 'unknown'}
           </Badge>
           <Badge mono>
-            model v{String((report.model as Record<string, unknown>).model_version ?? '—')}
+            model v{String((report.model as Record<string, unknown>).model_version ?? '-')}
           </Badge>
           <Badge>
             calibration: {String((report.model as Record<string, unknown>).calibration ?? 'none')}
@@ -439,7 +439,7 @@ function ModelComparison({ report }: { report: EvaluationReport }) {
         <div className="chips mt-3">
           {Object.entries(comparison.deltas).map(([key, value]) => (
             <Badge mono key={key} tone={value !== null && value > 0 ? 'human' : 'neutral'}>
-              {key.replace(/_/g, ' ')}: {value === null ? '—' : value > 0 ? `+${value}` : value}
+              {key.replace(/_/g, ' ')}: {value === null ? '-' : value > 0 ? `+${value}` : value}
             </Badge>
           ))}
       </div>
@@ -455,7 +455,7 @@ function FeatureImportance({ report }: { report: EvaluationReport }) {
   return (
     <Section
       title="Most influential features"
-      note="Permutation importance on the validation split — how much accuracy depends on each measurement. Not hardcoded; read from the trained model."
+      note="Permutation importance on the validation split - how much accuracy depends on each measurement. Not hardcoded; read from the trained model."
     >
       {items.length === 0 ? (
         <p className="small muted">No importance data in the report.</p>
@@ -533,10 +533,10 @@ function Generalisation({ report }: { report: EvaluationReport }) {
                   return (
                     <tr key={name}>
                       <td>{name}</td>
-                      <td className="num">{String(row.n_samples ?? '—')}</td>
+                      <td className="num">{String(row.n_samples ?? '-')}</td>
                       <td className="num">
                         {tooSmall
-                          ? '—'
+                          ? '-'
                           : fixed(Number(row.headline_value ?? row.macro_f1 ?? 0), 3)}
                       </td>
                       <td className="tiny muted">
@@ -572,7 +572,7 @@ function BiasSection({ report }: { report: EvaluationReport }) {
                 <div className="bias-bar" key={name}>
                   <span>{name.replace(/_/g, ' ')}</span>
                   <span className="small muted">
-                    {group.n_human_documents} human documents — not measurable
+                    {group.n_human_documents} human documents - not measurable
                   </span>
                   <span />
                 </div>
@@ -618,7 +618,7 @@ function BiasSection({ report }: { report: EvaluationReport }) {
         </Banner>
       )}
 
-      <Banner tone="danger" title="Severe limitation — read this">
+      <Banner tone="danger" title="Severe limitation - read this">
         {bias.severe_limitation}
       </Banner>
     </Section>

@@ -1,4 +1,4 @@
-"""Kafka producer — disabled by default, and for good reason.
+"""Kafka producer - disabled by default, and for good reason.
 
 A 250-word essay takes ~0.3 s to analyse and a 1,200-word essay ~1.7 s. Putting
 that behind a message queue would add a broker round trip, a polling loop in the
@@ -7,7 +7,7 @@ is synchronous.
 
 Kafka earns its place for work that genuinely does not fit a request:
 
-* essays above ``ASYNC_THRESHOLD_CHARS`` (25,000 characters — roughly 4,000
+* essays above ``ASYNC_THRESHOLD_CHARS`` (25,000 characters - roughly 4,000
   words, where analysis moves into tens of seconds)
 * batch dataset generation and corpus processing
 * evaluation and training runs triggered from the API

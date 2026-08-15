@@ -1,14 +1,14 @@
 /**
  * Theme control: system / light / dark.
  *
- * "System" is a real third state, not a synonym for one of the other two — it
+ * "System" is a real third state, not a synonym for one of the other two - it
  * means "keep following the OS", so a user who switches their machine to dark at
  * sunset gets dark here too. The choice is written to `data-theme` on <html>
  * (absent when following the system) and persisted to localStorage.
  *
  * The corresponding CSS defines the palette three times: on bare `:root` (light),
  * under `prefers-color-scheme: dark` guarded by `:not([data-theme="light"])`, and
- * under `[data-theme="dark"]` — so an explicit choice wins in both directions.
+ * under `[data-theme="dark"]` - so an explicit choice wins in both directions.
  */
 
 import { useCallback, useEffect, useState } from 'react';

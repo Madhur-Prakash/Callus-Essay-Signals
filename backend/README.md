@@ -1,4 +1,4 @@
-# Backend — AI Essay Detector
+# Backend - AI Essay Detector
 
 FastAPI service + hybrid ML/NLP detection pipeline.
 

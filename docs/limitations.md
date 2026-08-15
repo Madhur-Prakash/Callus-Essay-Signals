@@ -1,6 +1,6 @@
 [Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
 [Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
-[Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) —
+[Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) -
 **Limitations**
 
 ---
@@ -30,7 +30,7 @@ strongest honest claim available is:
 > examples in our evaluation data."
 
 Not: "this was written by AI." The measurements cannot distinguish a machine from a
-human who writes formally, evenly, and without contractions — because *there is no
+human who writes formally, evenly, and without contractions - because *there is no
 measurable difference between those two things in the text alone*.
 
 ## Ranked limitations
@@ -48,7 +48,7 @@ Mitigation: run the Groq generators for real machine text, and add real essays t
 ### 2. False positives on human writing
 
 Human recall is far below the machine classes. Most errors are human essays called
-`ai_polished` — the two classes overlap heavily by construction, because a lightly
+`ai_polished` - the two classes overlap heavily by construction, because a lightly
 polished essay *is* mostly human text.
 
 Consequence: if this were used on real applicants, a substantial fraction of
@@ -68,7 +68,7 @@ tell", not "fair".
 ### 4. The `ai_polished` class is inherently hard
 
 A grammar-only pass leaves nearly every measurement intact. The system usually
-calls those essays human — correctly, in the sense that most of the text *is*
+calls those essays human - correctly, in the sense that most of the text *is*
 human, and unhelpfully, in the sense that the edit happened. Where the edit is
 heavy enough to be detectable, it is often indistinguishable from fully generated
 text. The distinction between "heavily rewritten" and "generated" may not be
@@ -92,7 +92,7 @@ this reason.
 
 `distilgpt2` is an 82M-parameter model from 2019. Text whose vocabulary or topic
 sits outside its training distribution looks "surprising" regardless of who wrote
-it — which means unusual-but-human writing is penalised. A larger instrument
+it - which means unusual-but-human writing is penalised. A larger instrument
 (`LM_MODEL_NAME=gpt2-medium`) measures better at ~3× the cost.
 
 ### 8. Trivially evadable by anyone who reads this page
@@ -146,15 +146,15 @@ is the first thing that improves when real essays are added.
 | Question                                                     | Answer from the current evaluation                                                                          |
 | ------------------------------------------------------------ | ----------------------------------------------------------------------------------------------------------- |
 | Which features distinguish human and machine writing?        | On this corpus: reference-corpus similarity, sentence-initial transitions, transition-phrase counts, LM log-probability dispersion. See feature importance. |
-| Does combining LM + stylometric features help?               | Yes, modestly — the hybrid set leads the stylometry-only baseline on the held-out split, by a margin comparable to CV noise. |
+| Does combining LM + stylometric features help?               | Yes, modestly - the hybrid set leads the stylometry-only baseline on the held-out split, by a margin comparable to CV noise. |
 | Are LM features sufficient alone?                            | No. `lm_only` is the weakest feature set.                                                                    |
 | Can it detect AI-polished writing?                           | Partially. Recall is reasonable; precision is poor because human essays are pulled into this class.          |
 | Does within-document style shift improve detection?          | Small positive effect on the held-out split, inside CV noise during training. Retained because the per-paragraph shift analysis is a user-facing output in its own right. |
-| Does it generalise across topics?                            | For the machine class, yes — recall holds on topics absent from training. Unknown for human writing: the held-out-topic slice contains no human documents, a real gap in the evaluation design. |
+| Does it generalise across topics?                            | For the machine class, yes - recall holds on topics absent from training. Unknown for human writing: the held-out-topic slice contains no human documents, a real gap in the evaluation design. |
 | Does it generalise across generators?                        | Same answer, same caveat.                                                                                    |
 | How does performance change with length?                     | Short documents are markedly worse. Every distributional estimate behind these features is noisy at low sentence counts. |
 | Which features contribute most to false positives?           | Burstiness and corpus similarity, per the failure analysis.                                                  |
-| Does it disproportionately flag L2 English writing?          | Not established either way — the subset is underpowered. Assume the published risk applies.                  |
+| Does it disproportionately flag L2 English writing?          | Not established either way - the subset is underpowered. Assume the published risk applies.                  |
 | Where does it confidently fail?                              | Three documented cases in `failure_report.json`, each with measured features and a proposed fix.             |
 
 ## Do not

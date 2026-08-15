@@ -7,7 +7,7 @@ This is the class that matters most, because it is the realistic case:
 Every polished sample keeps a pointer to the human original (``parent_id``) and a
 side-by-side record is written to ``data/processed/polish_pairs.jsonl`` with the
 measured word delta and overlap. That file is what makes the AI_POLISHED class
-auditable — you can read exactly what the edit changed.
+auditable - you can read exactly what the edit changed.
 
 Group discipline: a polished essay is assigned **the same** ``group_id`` as the
 human original, so the two can never land on opposite sides of a train/test
@@ -137,7 +137,7 @@ def polish(
             text = _clean(completion.text)
             overlap = _overlap(human.text, text)
             if text.strip() == human.text.strip():
-                # An edit that changed nothing cannot be labelled AI_POLISHED —
+                # An edit that changed nothing cannot be labelled AI_POLISHED -
                 # the same string would carry two labels.
                 unchanged += 1
                 log_event(

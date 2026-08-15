@@ -1,6 +1,6 @@
 [Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
 [Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
-[Evaluation](evaluation.md) · [API](api.md) — **Privacy** ·
+[Evaluation](evaluation.md) · [API](api.md) - **Privacy** ·
 [Limitations](limitations.md)
 
 ---
@@ -8,7 +8,7 @@
 # Privacy
 
 Admissions essays are sensitive personal documents. They describe illness,
-immigration status, family finances, grief, disability and religion — the
+immigration status, family finances, grief, disability and religion - the
 categories a person is least likely to want retained by a service they used once.
 This system is built on the assumption that the safe default is to keep nothing.
 
@@ -37,14 +37,14 @@ hits the cache.
 Because it makes the privacy default *usable* rather than a downgrade. The
 sentence-level highlighting needs to know where each sentence is, not what it says.
 When a stored analysis is reloaded, the frontend slices the essay the user still
-has in their editor using the stored offsets — so the highlighting works fully
+has in their editor using the stored offsets - so the highlighting works fully
 without the server ever having held the text.
 
 ## Structural guarantees, not conventions
 
 **Text cannot reach a log.** `app/core/logging.safe_text_meta()` is the only
 sanctioned way to describe user text in a log record, and it emits lengths and a
-truncated digest — never characters. `scrub()` defensively removes email
+truncated digest - never characters. `scrub()` defensively removes email
 addresses, phone numbers and SSNs from any string that might echo user input, and
 is applied to exception messages before they are logged. `logifyx` is configured
 with `mask=True`.
@@ -57,7 +57,7 @@ that phrase (`test_essay_text_never_reaches_the_log_file`).
 field, and `GET /essays/{id}` pops `text` before returning.
 
 **Request logging is path-only.** The HTTP middleware logs method, path, status and
-duration — never query strings or bodies.
+duration - never query strings or bodies.
 
 ## Per-request opt-out
 
@@ -106,7 +106,7 @@ leave the server.
 
 The failure report shows excerpts of misclassified documents so a reviewer can see
 what went wrong. Excerpts are **withheld** for any document whose source is
-`ingested_real` — operator-supplied real essays are never reproduced in reports,
+`ingested_real` - operator-supplied real essays are never reproduced in reports,
 and the report says so in `excerpt_withheld_reason`.
 
 `.gitignore` excludes `backend/data/raw/human/*.txt`, so real essays cannot be
@@ -119,10 +119,10 @@ committed by accident.
 - Fixed-window rate limiting (Redis-backed when available, per-process otherwise).
 - Pydantic validation on every request.
 - Unicode normalisation strips zero-width, bidi and control characters.
-- No stack traces in responses — every error returns `{error: {code, message}}`.
+- No stack traces in responses - every error returns `{error: {code, message}}`.
 - No hardcoded credentials anywhere; `.env` is gitignored, `.env.example` has no secrets.
 - nginx sets `X-Content-Type-Options`, `X-Frame-Options`, `Referrer-Policy`, and hides its version.
-- The MongoDB dev container has no credentials on purpose — the port is bound to
+- The MongoDB dev container has no credentials on purpose - the port is bound to
   localhost and a bootstrap corpus holds nothing sensitive. **Any deployment must
   set `MONGO_INITDB_ROOT_*` and supply credentials through `MONGODB_URL` as a
   secret**, never in the compose file.

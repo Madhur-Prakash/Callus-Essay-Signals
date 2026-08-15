@@ -4,7 +4,7 @@ Deliberately varied along five axes so the dataset does not encode one model's
 fingerprint: **model family**, **prompt strategy**, **topic**, **length band**
 and **sampling temperature**. One of the strategies (``anti_detection``)
 explicitly instructs the model to vary sentence length and avoid the usual
-giveaway vocabulary — without adversarial samples the reported accuracy would be
+giveaway vocabulary - without adversarial samples the reported accuracy would be
 optimistic in a way that matters.
 
 Usage

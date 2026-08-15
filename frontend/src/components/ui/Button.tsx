@@ -10,7 +10,7 @@ import { cn } from '@/lib/cn';
  * change to the hover state is one edit rather than a hunt through TSX.
  *
  * What `cva` adds over a plain `className` string is that the variant names are
- * typed — `<Button variant="primry">` fails at compile time.
+ * typed - `<Button variant="primry">` fails at compile time.
  */
 const button = cva('btn', {
   variants: {

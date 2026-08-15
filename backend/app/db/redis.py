@@ -1,4 +1,4 @@
-"""Redis cache — used only where it measurably helps.
+"""Redis cache - used only where it measurably helps.
 
 Two justified uses in this system:
 
@@ -7,7 +7,7 @@ Two justified uses in this system:
    roughly 1-3 seconds of CPU. The pipeline is deterministic for a fixed
    ``(essay, detector_version, model_version)`` triple, so the result is exactly
    cacheable under ``SHA256(essay + detector_version + model_version)``.
-   Re-analysing the same draft — which users do constantly while editing — then
+   Re-analysing the same draft - which users do constantly while editing - then
    costs a single round trip.
 2. **Distributed rate limiting** (see :mod:`app.core.rate_limit`), which needs
    shared state to be correct across workers.

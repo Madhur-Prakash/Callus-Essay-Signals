@@ -1,4 +1,4 @@
-# Essay Signals — explainable AI-writing detection for admissions essays
+# Essay Signals - explainable AI-writing detection for admissions essays
 
 [![Python](https://img.shields.io/badge/Python-3.11%20%7C%203.12-3776AB?logo=python&logoColor=white)](https://www.python.org/)
 [![FastAPI](https://img.shields.io/badge/FastAPI-0.115-009688?logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
@@ -24,7 +24,7 @@ produces **measured evidence for every passage it flags**.
 [Index](docs/README.md)
 
 **It is not an LLM wrapper.** A small local causal language model (`distilgpt2`) is
-used as a *measuring instrument* — it reports how probable each token was given the
+used as a *measuring instrument* - it reports how probable each token was given the
 tokens before it. Those numbers, plus stylometric, syntactic, burstiness,
 repetition, within-essay style-shift and reference-corpus features (411 document
 features in all), go into a classifier **we train ourselves**. No hosted chat model
@@ -52,12 +52,12 @@ Essay → tokeniser → local LM → token log-probs / entropy / rank
 | Show **where** and **why**, not "73% AI" | Sentence marks in the reader, plus an evidence panel per sentence: measured value, percentile against the human corpus, within-essay comparison, and the classifier's signed per-feature contributions. [How evidence is generated](docs/detection-methodology.md#explanation) |
 | Not a wrapper; a chat model must not make the judgement | `distilgpt2` runs locally and returns token log-probabilities only. The decision is made by our own trained LightGBM/logistic classifier in [`classifier.py`](backend/app/services/classifier.py). No hosted model is reachable from a request handler. [Why this is not a wrapper](docs/detection-methodology.md#the-core-commitment) |
 | Using an LM as an instrument is fine | That is exactly the split: [`probability_analyzer.py`](backend/app/services/probability_analyzer.py) measures, [`feature_extractor.py`](backend/app/services/feature_extractor.py) derives, [`classifier.py`](backend/app/services/classifier.py) judges |
-| Detection at the level of sentences and passages | Per-sentence and per-paragraph scores, plus a document verdict. The realistic case — a human paragraph a model later polished — is the `ai_polished` class |
+| Detection at the level of sentences and passages | Per-sentence and per-paragraph scores, plus a document verdict. The realistic case - a human paragraph a model later polished - is the `ai_polished` class |
 | Every flag backed by visible evidence | [`explanation_engine.py`](backend/app/services/explanation_engine.py) generates evidence deterministically from measured values. No language model writes the explanations |
 | Build the dataset; document source, size and coverage gaps | [Dataset methodology](docs/dataset.md) · [operational layout](backend/data/README.md) · the live dataset card is served at `GET /api/v1/evaluation` and rendered under Research → Dataset |
-| Honest accuracy on your own test set | [Measured results](#measured-results-bootstrap-corpus-held-out-test-split-n--128) — reported with the regime warning attached, not as a headline claim |
-| **Three essays it gets confidently wrong**, with your theory why | [Confidently wrong examples](docs/evaluation.md#confidently-wrong-examples) — three cases with the measurements that misled the model and a proposed fix for each. Also in the app under Research → Failures |
-| Flagging of second-language English writers, if present | An explicit bias study with Wilson intervals over an L2 subset. [Bias analysis](docs/evaluation.md#bias-analysis) — the honest result is *not measurable at this sample size*, which is reported as a gap rather than as fairness |
+| Honest accuracy on your own test set | [Measured results](#measured-results-bootstrap-corpus-held-out-test-split-n--128) - reported with the regime warning attached, not as a headline claim |
+| **Three essays it gets confidently wrong**, with your theory why | [Confidently wrong examples](docs/evaluation.md#confidently-wrong-examples) - three cases with the measurements that misled the model and a proposed fix for each. Also in the app under Research → Failures |
+| Flagging of second-language English writers, if present | An explicit bias study with Wilson intervals over an L2 subset. [Bias analysis](docs/evaluation.md#bias-analysis) - the honest result is *not measurable at this sample size*, which is reported as a gap rather than as fairness |
 
 ---
 
@@ -67,17 +67,17 @@ Essay → tokeniser → local LM → token log-probs / entropy / rank
 > Out of the box the detector is trained on a **synthetic bootstrap corpus**: the
 > human class is 36 hand-authored seed essays, and the machine classes come from an
 > offline template generator and a rule-based editor. The reported metrics measure
-> *how separable those three generators are* — **not** how well the detector
+> *how separable those three generators are* - **not** how well the detector
 > identifies real AI writing.
 
 This is surfaced everywhere: `data_regime: "bootstrap"` in the API response and
 model metadata, a `REGIME WARNING` at the top of the evaluation report, and a
 banner in the UI. To get meaningful numbers, supply a `GROQ_API_KEY` to generate
-real machine text and add real essays to `backend/data/raw/human/` — see
+real machine text and add real essays to `backend/data/raw/human/` - see
 [backend/data/README.md](backend/data/README.md).
 
 > [!IMPORTANT]
-> **Also honest:** on the current corpus the detector **over-flags human writing** —
+> **Also honest:** on the current corpus the detector **over-flags human writing** -
 > human recall is 0.742 against 1.000 for `ai_generated`, and most errors are human
 > essays called machine-polished. Overall accuracy hides this, which is why the
 > evaluation report leads with it. See [docs/limitations.md](docs/limitations.md).
@@ -87,7 +87,7 @@ real machine text and add real essays to `backend/data/raw/human/` — see
 ## Quick start (Windows PowerShell)
 
 Prerequisites: **Python 3.11 or 3.12**, **Node 20+**, **[uv](https://docs.astral.sh/uv/)**,
-and MongoDB (local install or Docker). MongoDB is optional — without it analysis
+and MongoDB (local install or Docker). MongoDB is optional - without it analysis
 works but results are not saved.
 
 ```powershell
@@ -163,7 +163,7 @@ Feature-set ablation, identical estimator, only the features vary:
 
 So the language-model features do add value over stylometry alone (+0.022) and are
 insufficient on their own (−0.085). The `ai_generated` row being perfect is a **red
-flag, not a triumph** — the offline template generator is trivially separable. Full
+flag, not a triumph** - the offline template generator is trivially separable. Full
 analysis, generalisation slices, bias study and the three confidently wrong cases:
 [docs/evaluation.md](docs/evaluation.md).
 
@@ -173,16 +173,16 @@ analysis, generalisation slices, bias study and the three confidently wrong case
 
 ### Theme and motion
 
-- **Light / dark / system** theme toggle. "System" is a genuine third state — it
+- **Light / dark / system** theme toggle. "System" is a genuine third state - it
   keeps following the OS rather than freezing whatever it said at first paint.
   The choice persists to `localStorage` and sets `data-theme` on `<html>`.
 - **Framer Motion** for React state transitions (page changes, results stagger,
   the sliding nav indicator), **GSAP** for imperative timeline work (SVG path
   drawing, number count-ups, scroll-triggered reveals), **Lenis** for page scroll.
   Each library has one job; none of them overlap.
-- All three obey `prefers-reduced-motion` — Framer via `MotionConfig
+- All three obey `prefers-reduced-motion` - Framer via `MotionConfig
   reducedMotion="user"`, GSAP and Lenis via an explicit gate in
-  [useMotion.ts](frontend/src/hooks/useMotion.ts) — and all three no-op under test
+  [useMotion.ts](frontend/src/hooks/useMotion.ts) - and all three no-op under test
   so the suite stays deterministic. Lenis is kept deliberately gentle and is
   disabled outright under reduced motion, because heavy scroll smoothing makes
   dense evidence tables harder to read, not nicer.
@@ -194,25 +194,25 @@ analysis, generalisation slices, bias study and the three confidently wrong case
 - **Honest input gating**: hard limits (rejected by the server) are separated from
   the soft floors below which the detector abstains. Both are read from
   `GET /model/info`, so the UI cannot advertise a limit the server does not
-  enforce — paste 200 characters of one long sentence and it tells you up front
+  enforce - paste 200 characters of one long sentence and it tells you up front
   that the result will be "insufficient evidence".
-- **Overall assessment** — a named class, a confidence *band* (not a fake
+- **Overall assessment** - a named class, a confidence *band* (not a fake
   two-decimal percentage), calibrated per-class probabilities, and an explicit
   "insufficient evidence" verdict when the measurements do not support a call.
-- **The essay, marked up** — sentence-level marks styled as an editor's underline
+- **The essay, marked up** - sentence-level marks styled as an editor's underline
   rather than a heat map. Hover or click any sentence for its evidence.
-- **Evidence panel** — discrete ten-block meters with the measured value, its
+- **Evidence panel** - discrete ten-block meters with the measured value, its
   percentile within the human training distribution, within-essay comparisons
   ("perplexity 14.2 against an essay median of 31.8"), and the classifier's own
   signed per-feature contributions.
-- **Sentence rhythm chart** — sentence lengths against the essay mean, each bar
+- **Sentence rhythm chart** - sentence lengths against the essay mean, each bar
   coloured by that sentence's own score, so shape and verdict can be read together.
 - **Paragraph breakdown**, **repetition findings**, and a full table of every
   measured statistic.
 
 ### The research view
 
-Read from the evaluation artifacts — nothing is computed in the browser:
+Read from the evaluation artifacts - nothing is computed in the browser:
 
 Overall and per-class metrics · confusion matrix · ROC and precision-recall curves ·
 calibration reliability diagram with ECE · four-way feature-set comparison ·
@@ -240,7 +240,7 @@ backend/
 │   │   ├── style_shift.py         within-essay deviation + change points
 │   │   ├── corpus_analyzer.py     topic-free reference-corpus similarity
 │   │   ├── feature_extractor.py   single source of truth for the feature space
-│   │   ├── classifier.py          our trained models — makes the decision
+│   │   ├── classifier.py          our trained models - makes the decision
 │   │   ├── calibration.py         Platt scaling · bands · abstention
 │   │   ├── explanation_engine.py  deterministic evidence, no LLM
 │   │   └── detector.py            orchestration
@@ -330,7 +330,7 @@ npm run typecheck
 npm run lint
 ```
 
-With the API running, an end-to-end check across the real HTTP surface — health,
+With the API running, an end-to-end check across the real HTTP surface - health,
 model info, privacy, three contrasting essays, persistence round-trip, every error
 path, the evaluation report and the OpenAPI schema:
 
@@ -351,7 +351,7 @@ that matter:
 | `SAVE_ESSAYS`     | `false`          | When false the essay text is **never** stored. A request can opt out, never in. |
 | `MONGODB_URL`     | `localhost:27017`| Optional; without it analysis works but is not persisted.  |
 | `REDIS_ENABLED`   | `false`          | Caches deterministic results; nothing breaks without it.   |
-| `KAFKA_ENABLED`   | `false`          | Off deliberately — see below.                              |
+| `KAFKA_ENABLED`   | `false`          | Off deliberately - see below.                              |
 | `LM_MODEL_NAME`   | `distilgpt2`     | The instrument. `gpt2-medium` measures better at ~3× cost. |
 | `CORS_ORIGINS`    | `localhost:5173` | Comma-separated exact origins.                             |
 | `MIN/MAX_ESSAY_CHARS` | `200` / `60000` | Input bounds.                                          |
@@ -359,8 +359,8 @@ that matter:
 ### Why Redis is optional
 
 Two justified uses and no others: caching deterministic analysis results under
-`SHA256(essay + detector_version + model_version)` — users re-analyse the same
-draft constantly while editing — and distributed rate limiting, which needs shared
+`SHA256(essay + detector_version + model_version)` - users re-analyse the same
+draft constantly while editing - and distributed rate limiting, which needs shared
 state to be correct. Disabled by default; nothing degrades without it beyond losing
 the cache.
 
@@ -369,8 +369,8 @@ the cache.
 A 250-word essay analyses in ~0.3 s and a 1,200-word essay in ~1.7 s. Putting that
 behind a broker would add a round trip, a polling loop in the frontend and two new
 failure modes for no benefit. Kafka is wired up and tested for work that genuinely
-does not fit a request — essays above 25,000 characters, batch generation,
-evaluation runs — and when disabled the code refuses to queue even if asked, because
+does not fit a request - essays above 25,000 characters, batch generation,
+evaluation runs - and when disabled the code refuses to queue even if asked, because
 queueing to a broker that is not there would hang the request forever.
 
 ---

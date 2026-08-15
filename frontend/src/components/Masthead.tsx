@@ -26,7 +26,7 @@ const BASE_NAV: Array<{ id: Route; label: string }> = [
  * Only failures appear in the bar.
  *
  * A healthy backend is the expected case, and spending a permanent indicator on
- * saying so is how a status light becomes furniture — by the time it turns red,
+ * saying so is how a status light becomes furniture - by the time it turns red,
  * nobody is looking at it any more. Nothing renders for `ok`, and nothing while
  * the check is still in flight, so the bar never flickers a chip on first load.
  *
@@ -42,14 +42,14 @@ const HEALTH_ALERT: Record<string, { colour: string; label: string; title: strin
   unavailable: {
     colour: 'var(--likely)',
     label: 'Detector offline',
-    title: 'The detector is unavailable — analysis will fail',
+    title: 'The detector is unavailable - analysis will fail',
   },
 };
 
 /**
  * The app bar.
  *
- * Three zones on a `1fr auto 1fr` grid — wordmark, navigation, utilities — so the
+ * Three zones on a `1fr auto 1fr` grid - wordmark, navigation, utilities - so the
  * nav is optically centred no matter how wide the other two get. A flex row with
  * `margin-left: auto` pushed the nav against the utilities and left the bar with
  * no rhythm.
@@ -73,13 +73,13 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
     <header className="masthead" data-scrolled={scrolled || undefined}>
       <div className="masthead__inner">
         <div className="masthead__zone masthead__zone--start">
-          {/* Routing is hash-based and owned by App.tsx — there is no Router
+          {/* Routing is hash-based and owned by App.tsx - there is no Router
               provider, so a react-router <Link> would crash here. */}
           <button
             type="button"
             className="wordmark"
             onClick={() => onNavigate('analyse')}
-            aria-label="Essay Signals — go to the analyse page"
+            aria-label="Essay Signals - go to the analyse page"
           >
             <span className="wordmark__mark" aria-hidden="true">
               ∿
@@ -122,7 +122,7 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
               title={alert.title}
               data-testid="health-chip"
               // One property drives both the dot and its halo, so the two can
-              // never drift apart — the halo is mixed from it in CSS.
+              // never drift apart - the halo is mixed from it in CSS.
               style={{ ['--dot' as string]: alert.colour }}
             >
               <span className="health__dot" aria-hidden="true" />

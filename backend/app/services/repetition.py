@@ -3,13 +3,13 @@
 Three kinds of repetition are measured separately because they mean different
 things:
 
-* **Lexical n-gram repetition** — the same words in the same order. Common in
+* **Lexical n-gram repetition** - the same words in the same order. Common in
   drafts written under time pressure *and* in machine text that reuses a phrase
   bank, so on its own it is ambiguous.
-* **Syntactic template repetition** — the same POS skeleton across sentences
+* **Syntactic template repetition** - the same POS skeleton across sentences
   (e.g. a run of ``PRON VERB DET ADJ NOUN``). This is the signal most associated
   with generated text, and it survives paraphrasing.
-* **Discourse-pattern repetition** — repeated sentence openers and connectives.
+* **Discourse-pattern repetition** - repeated sentence openers and connectives.
 
 Feature prefix: ``rep_``. Concrete repeated spans are also returned for the
 explanation engine, so the UI can name the exact phrase that triggered a flag.

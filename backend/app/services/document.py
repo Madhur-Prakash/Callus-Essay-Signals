@@ -76,7 +76,7 @@ class ParsedDocument:
     doc: Any | None = field(default=None, repr=False)
     """The spaCy ``Doc`` for the whole essay, when available."""
     segmentation_backend: str = "spacy"
-    """``spacy`` or ``regex`` — surfaced in debug info so a degraded parse is
+    """``spacy`` or ``regex`` - surfaced in debug info so a degraded parse is
     never silently mistaken for a full one."""
 
     @property

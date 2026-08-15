@@ -23,7 +23,7 @@ interface SectionProps extends Omit<SurfaceProps, 'title' | 'children'> {
   title: ReactNode;
   /** One line under the title explaining what the reader is looking at. */
   note?: ReactNode;
-  /** Rendered at the far right of the head — a filter, a count, a legend. */
+  /** Rendered at the far right of the head - a filter, a count, a legend. */
   action?: ReactNode;
   /** A short mono string in the corner: a count, a version, a slice size. */
   meta?: ReactNode;
@@ -38,7 +38,7 @@ interface SectionProps extends Omit<SurfaceProps, 'title' | 'children'> {
  *
  * `<section>` rather than `<div>` so each is a landmark, and the title is a `<p>`
  * rather than a heading because these are peers of each other, not a document
- * outline — promoting them to `<h2>` would imply a hierarchy the tabs already own.
+ * outline - promoting them to `<h2>` would imply a hierarchy the tabs already own.
  */
 export function Section({
   title,

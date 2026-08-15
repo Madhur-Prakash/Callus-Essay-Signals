@@ -2,7 +2,7 @@
 
 Two separate jobs:
 
-1. **Calibration fitting** (training time) — Platt scaling / isotonic regression
+1. **Calibration fitting** (training time) - Platt scaling / isotonic regression
    over a held-out split, so that "0.8" means roughly "80% of documents scoring
    this way had this label". See :func:`fit_calibrator`.
 2. **Turning a calibrated probability into words** (request time). The UI never
@@ -103,7 +103,7 @@ def build_verdict(
 ) -> Verdict:
     """Turn calibrated class probabilities into a user-facing verdict.
 
-    Abstains — reporting ``insufficient_evidence`` — when the document is too
+    Abstains - reporting ``insufficient_evidence`` - when the document is too
     short to measure, when no class is clearly ahead, or when the top two classes
     are within :data:`ABSTAIN_MARGIN`. Abstaining is a feature: a detector that
     always names a class is overstating what it knows.
@@ -216,7 +216,7 @@ def fit_calibrator(
     for larger corpora and is the better choice once the calibration split has a
     few hundred examples per class.
 
-    Returns ``(calibrated_or_original, method_used)`` — if calibration cannot be
+    Returns ``(calibrated_or_original, method_used)`` - if calibration cannot be
     fit (a class missing from the split, for example) the uncalibrated estimator
     is returned with method ``"none"``. Any failure is logged with its cause: a
     silently uncalibrated model is worse than a loud one, because the UI would go

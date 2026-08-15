@@ -1,4 +1,4 @@
-[Home](../README.md) · [Docs index](README.md) — **Architecture** ·
+[Home](../README.md) · [Docs index](README.md) - **Architecture** ·
 [Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
 [Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) ·
 [Limitations](limitations.md)
@@ -78,7 +78,7 @@ for the numbers it produces, [evaluation.md](evaluation.md).
 ## Layering
 
 Each layer depends only on the ones above it. `app/services/` has no imports from
-`app/api/`, and `ml/` imports from `app/services/` — never the reverse. That
+`app/api/`, and `ml/` imports from `app/services/` - never the reverse. That
 one-way dependency is what makes train/serve consistency structural rather than
 aspirational: the training pipeline and the request handler run the *same*
 feature-extraction code.
@@ -106,9 +106,9 @@ and spaCy ~5 s on CPU, against ~0.3 s for the analysis itself. So both are
 process-wide singletons loaded once during the FastAPI lifespan, followed by a
 warm-up pass that compiles the lazy code paths.
 
-- `LanguageModelService` — thread-safe double-checked lock, loads on first use.
-- `NlpPipeline` — same pattern, records load time and any error.
-- `DetectorModels` — loads the joblib artifacts and the reference stats.
+- `LanguageModelService` - thread-safe double-checked lock, loads on first use.
+- `NlpPipeline` - same pattern, records load time and any error.
+- `DetectorModels` - loads the joblib artifacts and the reference stats.
 - `POST /api/v1/model/reload` picks up a newly trained model without a restart,
   and invalidates the Redis cache so results are not served from a previous model
   version.
@@ -129,7 +129,7 @@ causing outages. `GET /api/v1/health` reports per component, because a flat
 | Kafka            | everything runs synchronously (the default anyway)          |
 | spaCy model      | regex segmentation, no POS/dependency features, warning set  |
 | Corpus reference | `cor_*` features are zero, warning set                      |
-| **Trained model**| **analysis unavailable — 503 with instructions**             |
+| **Trained model**| **analysis unavailable - 503 with instructions**             |
 
 Only the trained model is load-bearing. Everything else has a documented fallback,
 and each fallback sets a warning that reaches the response and the UI.
@@ -159,14 +159,14 @@ new failure modes in exchange for nothing.
 Kafka earns its place only for work that genuinely does not fit a request: essays
 above `ASYNC_THRESHOLD_CHARS` (25,000 chars ≈ 4,000 words, where analysis moves
 into tens of seconds), batch dataset generation, and evaluation runs. When it is
-disabled, `should_queue()` returns `False` unconditionally — even for a huge essay
-with `async_mode: true` — because queueing to a broker that is not there would
+disabled, `should_queue()` returns `False` unconditionally - even for a huge essay
+with `async_mode: true` - because queueing to a broker that is not there would
 hang the request forever.
 
 The worker dispatches its model work through `asyncio.to_thread` so the consumer
 keeps heartbeating; without that, a long analysis looks like a dead consumer and
 the broker rebalances the partition mid-job. Offsets are committed even for
-messages that fail, so a poison message cannot block a partition — the failure is
+messages that fail, so a poison message cannot block a partition - the failure is
 recorded in MongoDB instead.
 
 ## Data flow for one analysis
@@ -204,12 +204,12 @@ POST /api/v1/analysis {text}
 
 Two storage documents, both built to be safe by construction:
 
-- `analyses` — verdict, summary, evidence, timings. No essay text.
-- `analysis_results` — per-sentence rows as `(start, end, score, classification)`.
+- `analyses` - verdict, summary, evidence, timings. No essay text.
+- `analysis_results` - per-sentence rows as `(start, end, score, classification)`.
   Sentence *text* is included only when `SAVE_ESSAYS=true`.
 
 Because offsets are always kept, a reloaded analysis can be re-rendered against
-the copy the user still has in their editor — without the server ever having
+the copy the user still has in their editor - without the server ever having
 stored it. The frontend does exactly that.
 
 Logging has two structural guarantees: `safe_text_meta()` is the only sanctioned
@@ -221,7 +221,7 @@ from the test essay.
 ## Frontend architecture
 
 Hash-based routing across five views (Analyse, Results, Research, How it works,
-Limitations) — no router dependency for five routes. Charts are hand-rolled SVG: a
+Limitations) - no router dependency for five routes. Charts are hand-rolled SVG: a
 charting library would cost more in bundle size and styling friction than it saves,
 and the axes need to say what these particular measurements mean.
 
@@ -238,12 +238,12 @@ one thing a privacy notice must never do.
 `src/components/ui/` is a self-contained set of primitives with one barrel export.
 The rule that keeps it reusable: **nothing in `ui/` may know what an essay is.**
 Anything that does lives one level up in `components/`, usually as a thin adapter
-— `MeterBar` knows what a percentile against the human corpus means and hands a
+- `MeterBar` knows what a percentile against the human corpus means and hands a
 0–1 value to the generic `Meter`, which only knows how to draw a level.
 
 | Primitive | What it is |
 | --- | --- |
-| `Surface` | the panel material — `glass` / `solid` / `sunken`, optional cursor spotlight |
+| `Surface` | the panel material - `glass` / `solid` / `sunken`, optional cursor spotlight |
 | `Card`, `Section` | a titled panel; `Section` collapses the head/title/note/body scaffold |
 | `Button` | `cva` variants, optional magnetic hover, loading state that holds its width |
 | `Badge` | tones named for the verdict they carry, never for their hue |
@@ -266,7 +266,7 @@ The rule for what earns an animation: it either shows a **relationship** (where
 this came from, what it became) or reports **state** (working, arriving, changing).
 Decoration that does neither is not worth the frame budget or the vestibular risk.
 Concretely: one line-reveal heading per page, one magnetic button per page, the
-spotlight only on the landing grid — the effects say "this is the target", which
+spotlight only on the landing grid - the effects say "this is the target", which
 stops being true the moment everything has them.
 
 All three obey `prefers-reduced-motion`: `MotionConfig reducedMotion="user"` for
@@ -278,45 +278,45 @@ Two GSAP details worth knowing. `useLineReveal` rewrites a heading's DOM into on
 masked wrapper per *rendered* line, measured after layout rather than split on
 `<br>` or word count, so it stays correct at every viewport width; it captures the
 original markup and restores that exact node on cleanup. `useMagnetic` uses
-`gsap.quickTo`, which reuses one tween instead of allocating per `pointermove` —
+`gsap.quickTo`, which reuses one tween instead of allocating per `pointermove` -
 the difference between smooth and jittery at 120Hz.
 
 ### Styling
 
-Tailwind v4, configured in CSS — there is no `tailwind.config.js` and no PostCSS
+Tailwind v4, configured in CSS - there is no `tailwind.config.js` and no PostCSS
 step; `@tailwindcss/vite` handles it. Four files, imported in order by
 `src/styles/index.css`, which is the layer order:
 
 | File | Holds | Layer |
 | --- | --- | --- |
-| `theme.css` | `@theme inline` — names the tokens for Tailwind | `theme` |
+| `theme.css` | `@theme inline` - names the tokens for Tailwind | `theme` |
 | `tokens.css` | the runtime token values + base element styles | `base` |
 | `components.css` | generic primitives: card, btn, tag, banner, table | `components` |
 | `app.css` | domain components: essay reader, meters, charts, verdict | `components` |
 
 The load-bearing decision is that the tokens stay the single source of truth and
 Tailwind is generated *from* them. `--color-surface: var(--surface)` under `@theme
-inline` means `bg-surface` compiles to `background-color: var(--surface)` — the
-very property the theme toggle swaps — so light/dark works through one mechanism
+inline` means `bg-surface` compiles to `background-color: var(--surface)` - the
+very property the theme toggle swaps - so light/dark works through one mechanism
 rather than a Tailwind `dark:` variant competing with a CSS custom property. The
 `inline` keyword is what makes this work: without it Tailwind would resolve
 `var(--surface)` once at `:root` and freeze the dark values in place.
 
 Tokens are pulled into `@layer base` deliberately. Unlayered CSS outranks every
 layer, so a bare `h1 { font-size }` rule would beat a `text-xl` utility on the same
-element — surprising, and the sort of thing that gets "fixed" with `!important`
+element - surprising, and the sort of thing that gets "fixed" with `!important`
 later.
 
 A class exists rather than a utility string when it is applied across many
 elements, or when it needs CSS utilities cannot express: `box-decoration-break` on
 wrapped sentence marks, SVG chart internals, the `--verdict-colour` custom property
 threaded in from React. One-off layout stays as utilities in the JSX. Dynamic
-values — a bar width from a percentage, a colour from a classification — stay as
+values - a bar width from a percentage, a colour from a classification - stay as
 inline `style` props, because they are data, not design.
 
 One v4 trap worth recording: `px-[--gutter]` does **not** work. Tailwind v4 removed
 the bracket shorthand for a bare custom property and emits the token unwrapped
-(`padding-inline: --gutter`) rather than failing the build — so the rule is simply
+(`padding-inline: --gutter`) rather than failing the build - so the rule is simply
 dropped by the browser and the page silently loses its padding. Use `px-(--gutter)`
 or plain `padding-inline: var(--gutter)`.
 
@@ -332,5 +332,5 @@ one accented phrase, and the progress bar.
 Every trained model records `model_version`, `dataset_version`, `features_version`,
 `lexicon_version`, training configuration, seed, CV protocol, platform, Python
 version, and metrics. `GET /api/v1/model/info` exposes the active versions, and
-the content hash used for caching includes them — so a model change cannot serve
+the content hash used for caching includes them - so a model change cannot serve
 stale results.

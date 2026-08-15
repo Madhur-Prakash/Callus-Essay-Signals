@@ -2,7 +2,7 @@
 #
 # The default `docker compose up` starts exactly what the application needs:
 # MongoDB, the API and the frontend. Redis and Kafka are behind profiles because
-# neither is required — see the comments on each service and docs/architecture.md.
+# neither is required - see the comments on each service and docs/architecture.md.
 #
 #   docker compose up --build                    # mongodb + backend + frontend
 #   docker compose --profile cache up --build    # ... plus redis

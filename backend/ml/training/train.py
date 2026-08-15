@@ -21,7 +21,7 @@ Protocol
    number meaningless.
 
 Also trains the binary sentence-level model used for highlighting, and writes
-``reference_stats.json`` — the per-class feature percentiles that the explanation
+``reference_stats.json`` - the per-class feature percentiles that the explanation
 engine turns into English.
 
 Usage
@@ -330,8 +330,8 @@ def _feature_importance(
     """Permutation importance on the validation split.
 
     Permutation importance is used rather than raw coefficients or Gini
-    importance because it answers the question the dashboard actually asks — "how
-    much does the model's accuracy depend on this measurement?" — and it is
+    importance because it answers the question the dashboard actually asks - "how
+    much does the model's accuracy depend on this measurement?" - and it is
     comparable across linear and tree models.
     """
     from sklearn.inspection import permutation_importance
@@ -538,7 +538,7 @@ def train(
 
     # The hybrid model is the shipped detector. It is selected by design (it is
     # the system being built), and the ablation table reports whether that design
-    # choice is justified — see ml/evaluation/evaluate.py for the test-set numbers.
+    # choice is justified - see ml/evaluation/evaluate.py for the test-set numbers.
     chosen = trained["hybrid"]
     # Calibration and permutation importance both use the validation split; the
     # chosen pipeline is already fitted on train.
@@ -627,7 +627,7 @@ def train(
             "reason": (
                 "The hybrid feature set is the system under construction; the "
                 "estimator within it was chosen by grouped CV macro F1. Note that "
-                "the shipped model is NOT simply the top row of the table — see "
+                "the shipped model is NOT simply the top row of the table - see "
                 "'findings' for why."
             ),
         },
@@ -694,7 +694,7 @@ def train(
         "metrics": {
             "note": (
                 "Cross-validation numbers on the training split only. Held-out test "
-                "metrics live in ml/evaluation/evaluation_report.json — run "
+                "metrics live in ml/evaluation/evaluation_report.json - run "
                 "`uv run python -m ml.evaluation.evaluate`."
             ),
             "cv": {
@@ -802,7 +802,7 @@ def _train_sentence_model(
 
     Trained only on sentences from ``human`` and ``ai_generated`` documents. Rows
     from ``ai_polished`` documents are excluded because their sentence-level
-    authorship is genuinely mixed — some sentences in a polished essay are
+    authorship is genuinely mixed - some sentences in a polished essay are
     untouched human text, so treating them all as "machine" would teach the model
     that ordinary human sentences are machine-like, which is precisely the failure
     mode that produces false positives on real students.
@@ -903,7 +903,7 @@ def _train_sentence_model(
 
     # A near-perfect score at the sentence level is a warning sign, not a result.
     # It means the two sentence populations in the training corpus are trivially
-    # separable — which is true of the bootstrap generators and will NOT be true of
+    # separable - which is true of the bootstrap generators and will NOT be true of
     # real essays. Recording it here keeps it from being read as a capability.
     auc = validation_metrics.get("roc_auc")
     if auc is not None and auc >= 0.99:

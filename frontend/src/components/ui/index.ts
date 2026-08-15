@@ -4,7 +4,7 @@
  * One import path for every reusable primitive, so a page reads as a composition
  * of named pieces rather than a pile of relative imports. Anything domain-specific
  * (the essay reader, the rhythm chart, the evidence panel) lives one level up in
- * `components/` — the rule is that nothing in here may know what an essay is.
+ * `components/` - the rule is that nothing in here may know what an essay is.
  */
 
 export { Atmosphere } from './Atmosphere';

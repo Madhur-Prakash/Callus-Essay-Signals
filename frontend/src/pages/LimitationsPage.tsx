@@ -12,7 +12,7 @@ interface Props {
  * Limitations, given its own page rather than a footnote on "How it works".
  *
  * This is the page most likely to change someone's mind about acting on a
- * verdict, so it should be linkable and reachable in one click — not buried at
+ * verdict, so it should be linkable and reachable in one click - not buried at
  * the bottom of a methodology write-up.
  */
 
@@ -20,7 +20,7 @@ const RANKED = [
   {
     severity: 'severe',
     title: 'The training corpus is synthetic by default',
-    body: 'The human class is 36 hand-authored seed essays; the machine classes come from an offline template generator and a rule-based editor. Every metric measures how separable those three generators are — not real-world accuracy. Supply a GROQ_API_KEY and add real essays to data/raw/human/ before quoting any number.',
+    body: 'The human class is 36 hand-authored seed essays; the machine classes come from an offline template generator and a rule-based editor. Every metric measures how separable those three generators are - not real-world accuracy. Supply a GROQ_API_KEY and add real essays to data/raw/human/ before quoting any number.',
   },
   {
     severity: 'severe',
@@ -30,12 +30,12 @@ const RANKED = [
   {
     severity: 'severe',
     title: 'Fairness for second-language writers is not established',
-    body: 'Published work consistently finds AI detectors over-flag writing by people who learned English as an additional language. The L2 subset here is a simulated register across four seed groups — enough to detect a large disparity, nowhere near enough to rule one out. Overlapping confidence intervals mean "cannot tell", never "fair".',
+    body: 'Published work consistently finds AI detectors over-flag writing by people who learned English as an additional language. The L2 subset here is a simulated register across four seed groups - enough to detect a large disparity, nowhere near enough to rule one out. Overlapping confidence intervals mean "cannot tell", never "fair".',
   },
   {
     severity: 'high',
     title: 'The AI-polished class is inherently hard',
-    body: 'A grammar-only pass leaves nearly every measurement intact, so those essays are usually called human — correctly, in that most of the text is human, and unhelpfully, in that the edit did happen. Where an edit is heavy enough to detect, it often looks identical to fully generated text.',
+    body: 'A grammar-only pass leaves nearly every measurement intact, so those essays are usually called human - correctly, in that most of the text is human, and unhelpfully, in that the edit did happen. Where an edit is heavy enough to detect, it often looks identical to fully generated text.',
   },
   {
     severity: 'high',

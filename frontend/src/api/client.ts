@@ -44,7 +44,7 @@ export class ApiError extends Error {
 const FRIENDLY_MESSAGES: Record<string, string> = {
   essay_empty: 'Please paste an essay before running the analysis.',
   essay_too_short:
-    'This text is too short to analyse reliably. The detector needs enough sentences to measure variation — around 200 characters at minimum.',
+    'This text is too short to analyse reliably. The detector needs enough sentences to measure variation - around 200 characters at minimum.',
   essay_too_long: 'This essay exceeds the maximum supported length. Please shorten it and try again.',
   model_not_trained:
     'The detector has not been trained yet. Run the training pipeline on the backend, then reload.',

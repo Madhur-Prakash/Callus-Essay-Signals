@@ -62,7 +62,7 @@ def _std(values: list[float]) -> float:
 
 
 def _cv(values: list[float]) -> float:
-    """Coefficient of variation — scale-free dispersion."""
+    """Coefficient of variation - scale-free dispersion."""
     mu = _mean(values)
     if abs(mu) < 1e-9:
         return 0.0

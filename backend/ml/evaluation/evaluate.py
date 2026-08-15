@@ -6,10 +6,10 @@ from the project brief with numbers, including the unflattering ones:
 * overall + per-class metrics, confusion matrix, ROC / PR curves, calibration
 * **model comparison** on the test split (baseline vs LM-only vs hybrid), so the
   claim that the hybrid approach adds value is measured, not asserted
-* **topic generalisation** — held-out topics that appear in no training document
-* **model generalisation** — a generator withheld from training entirely
-* **length generalisation** — short / medium / long bands
-* **bias analysis** — false-positive rate on human writing broken down by the
+* **topic generalisation** - held-out topics that appear in no training document
+* **model generalisation** - a generator withheld from training entirely
+* **length generalisation** - short / medium / long bands
+* **bias analysis** - false-positive rate on human writing broken down by the
   L2-English flag, with Wilson intervals, plus a two-proportion test
 
 Output: ``ml/evaluation/evaluation_report.json`` (also stored in MongoDB by the
@@ -333,7 +333,7 @@ def _bias_analysis(
             "ratio": round(l2_rate / l1_rate, 3) if l1_rate > 0 else None,
             "confidence_intervals_overlap": overlap,
             "conclusion": (
-                "No statistically distinguishable disparity at this sample size — the "
+                "No statistically distinguishable disparity at this sample size - the "
                 "Wilson intervals overlap. This is NOT evidence of fairness; it is a "
                 "sample-size limitation."
                 if overlap
@@ -569,7 +569,7 @@ def _interpretation(
         else:
             notes.append(
                 f"The hybrid and stylometry-only feature sets are within "
-                f"{abs(hybrid_gain):.3f} macro F1 of each other on the held-out split — "
+                f"{abs(hybrid_gain):.3f} macro F1 of each other on the held-out split - "
                 "on this corpus the language-model features do not measurably help. "
                 "That is a finding about the bootstrap data as much as about the method: "
                 "the template generator is separable on surface statistics alone, so "
@@ -591,7 +591,7 @@ def _interpretation(
         recall = human["recall"]
         misflagged = human["false_negative"]
         notes.append(
-            f"FALSE POSITIVES: human recall is {recall:.3f} — {misflagged} of "
+            f"FALSE POSITIVES: human recall is {recall:.3f} - {misflagged} of "
             f"{human['support']} human documents in this split were classified as "
             f"machine-written or machine-polished. "
             + (
@@ -633,7 +633,7 @@ def _interpretation(
 
     notes.append(
         "A flag from this system is a prompt to look more closely. It is not evidence "
-        "of authorship, and it cannot be — the measurements describe text, and text "
+        "of authorship, and it cannot be - the measurements describe text, and text "
         "does not carry a signature."
     )
     return notes
@@ -680,7 +680,7 @@ def _novelty_note(
             ". That is a genuine cross-"
             + noun
             + " result for this class, but it says nothing about whether human writing "
-            "generalises, because no human documents are in this slice — a real gap in "
+            "generalises, because no human documents are in this slice - a real gap in "
             "the evaluation design that more data would close."
         )
         return [line]

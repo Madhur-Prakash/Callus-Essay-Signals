@@ -7,7 +7,7 @@ interface StatProps {
   value: number;
   label: string;
   hint?: string;
-  /** CSS colour. Semantic tokens only — a stat's colour is a claim about it. */
+  /** CSS colour. Semantic tokens only - a stat's colour is a claim about it. */
   colour?: string;
   /** Decimal places. Integers count up as integers, ratios keep their precision. */
   precision?: number;
@@ -20,7 +20,7 @@ interface StatProps {
  *
  * The formatter is shared between the animation and the static fallback, so a
  * mid-flight frame can never render a differently-formatted number than the one
- * that settles — the failure mode where "1,284" briefly reads "1284".
+ * that settles - the failure mode where "1,284" briefly reads "1284".
  */
 export function Stat({
   value,

@@ -49,7 +49,7 @@ class Settings(BaseSettings):
 
     # -------------------------------------------------------------- privacy
     save_essays: bool = False
-    """When False the raw essay body is never persisted — only metadata,
+    """When False the raw essay body is never persisted - only metadata,
     features and per-sentence offsets/scores. Sentence text is stored only when
     this flag is on."""
     analysis_retention_days: int = 30

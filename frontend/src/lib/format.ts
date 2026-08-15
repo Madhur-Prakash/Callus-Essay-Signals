@@ -85,12 +85,12 @@ export function scoreColour(score: number | null): string {
 }
 
 export function percent(value: number | null | undefined, digits = 0): string {
-  if (value === null || value === undefined || Number.isNaN(value)) return '—';
+  if (value === null || value === undefined || Number.isNaN(value)) return '-';
   return `${(value * 100).toFixed(digits)}%`;
 }
 
 export function fixed(value: number | null | undefined, digits = 2): string {
-  if (value === null || value === undefined || Number.isNaN(value)) return '—';
+  if (value === null || value === undefined || Number.isNaN(value)) return '-';
   return value.toFixed(digits);
 }
 
@@ -160,9 +160,9 @@ export const GROUP_LABELS: Record<string, string> = {
 };
 
 export function relativeTime(iso: string | null | undefined): string {
-  if (!iso) return '—';
+  if (!iso) return '-';
   const then = new Date(iso).getTime();
-  if (Number.isNaN(then)) return '—';
+  if (Number.isNaN(then)) return '-';
   const seconds = Math.round((Date.now() - then) / 1000);
   if (seconds < 60) return 'just now';
   if (seconds < 3600) return `${Math.round(seconds / 60)} min ago`;

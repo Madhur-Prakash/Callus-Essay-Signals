@@ -221,7 +221,7 @@ class Detector:
                 "n_words": sentence.n_words,
                 "features": _sentence_feature_digest(features),
             }
-            # Evidence is only attached where it will be read — flagged and
+            # Evidence is only attached where it will be read - flagged and
             # uncertain sentences. Attaching it to every sentence would triple the
             # response size for content the UI never shows.
             if score is not None and score >= UNCERTAIN_LOW:
@@ -342,7 +342,7 @@ def _paragraph_rollup(document, sentences: list[dict[str, Any]]) -> list[dict[st
     """Aggregate sentence scores into paragraph verdicts.
 
     A paragraph is scored by the mean of its sentence scores weighted by word
-    count — an eight-word aside should not swing a paragraph the way a forty-word
+    count - an eight-word aside should not swing a paragraph the way a forty-word
     sentence does. The maximum is reported separately, because a single strongly
     flagged sentence inside an otherwise ordinary paragraph is exactly the
     localised-edit pattern worth surfacing.

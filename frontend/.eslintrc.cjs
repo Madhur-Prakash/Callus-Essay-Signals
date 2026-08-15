@@ -4,7 +4,7 @@
  * Deliberately narrow: type-aware linting would need a second tsconfig pass on
  * every run, and `tsc --noEmit` already covers types in both `npm run build` and
  * `npm run typecheck`. What is left for ESLint is the class of mistake the type
- * checker cannot see — stale hook dependencies above all.
+ * checker cannot see - stale hook dependencies above all.
  */
 module.exports = {
   root: true,

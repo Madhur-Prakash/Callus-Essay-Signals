@@ -15,14 +15,14 @@ It is not a substitute for real data. Three classes are produced:
                  filler, uneven paragraphing).
 ``ai_generated`` a *procedural* generator that composes essays from a template
                  bank under four "model personas". It reproduces the measurable
-                 register of instruction-tuned output — regular sentence lengths,
+                 register of instruction-tuned output - regular sentence lengths,
                  dense formal connectives, tricolons, nominalised abstractions,
-                 symmetric paragraphs, zero typos — but it is not an LLM.
+                 symmetric paragraphs, zero typos - but it is not an LLM.
 ``ai_polished``  a *rule-based* editor applied to the real seed text: contraction
                  expansion, hedge and colloquialism removal, connective
                  insertion, vocabulary upgrading, sentence-length regularisation.
                  This one is the most faithful of the three, because the input is
-                 genuine text and the transformation is a bounded edit — exactly
+                 genuine text and the transformation is a bounded edit - exactly
                  the shape of the real threat model.
 
 A classifier trained only on this corpus is learning to separate *these
@@ -74,7 +74,7 @@ OFFLINE_POLISH_TRANSFORMS: tuple[str, ...] = (
 
 # Words that are safe to lower-case when a connective is prepended to a
 # sentence. Prepending "Moreover," to "I began..." must not yield "Moreover, i
-# began..." — a broken-capitalisation artefact would be a trivially learnable
+# began..." - a broken-capitalisation artefact would be a trivially learnable
 # giveaway that has nothing to do with machine register.
 _LOWERCASEABLE: frozenset[str] = frozenset(FUNCTION_WORDS) - {"i"} | {
     "progress", "success", "recognising", "instead", "each", "over", "my",
@@ -141,7 +141,7 @@ def human_variants(
     """Return ``(variant_tag, text)`` pairs for one seed.
 
     The first entry is always the unmodified seed. The rest apply *human* editing
-    noise — the kinds of change a student makes between drafts. Crucially these
+    noise - the kinds of change a student makes between drafts. Crucially these
     do not systematically reduce burstiness or add formal connectives, so they do
     not accidentally turn a human sample into a machine-register one.
     """
@@ -414,7 +414,7 @@ _MOVE_ORDER = (
 # The prompt topics are phrased for a *prompt* ("write about a robotics project
 # that failed"). The templates slot them in as an activity ("drawn to ..."), so
 # each topic gets an activity phrasing here. Without this the generator produces
-# ungrammatical text whose oddness — not its register — is what a classifier
+# ungrammatical text whose oddness - not its register - is what a classifier
 # would pick up on.
 TOPIC_ACTIVITY: dict[str, str] = {
     "a robotics project that failed": "robotics",
@@ -712,7 +712,7 @@ def _apply_polish_ops(paragraph: str, operations: tuple[str, ...], rng: random.R
             if len(sentences) > 2:
                 out = " ".join(sentences[:-1])
         elif op == "normalise_dashes":
-            out = out.replace(" — ", ", ").replace("—", ", ").replace(" – ", ", ")
+            out = out.replace(" - ", ", ").replace("-", ", ").replace(" – ", ", ")
         elif op == "fix_spacing":
             out = re.sub(r"\s{2,}", " ", out)
             out = re.sub(r"\s+([,.;:!?])", r"\1", out)
@@ -812,7 +812,7 @@ def build(
     # --------------------------------------------------------- ai_generated
     # Length is matched to the human class. Without this the two classes differ
     # in mean length by ~200 words, and a classifier would learn "long = machine"
-    # — a shortcut that says nothing about writing and would collapse on real
+    # - a shortcut that says nothing about writing and would collapse on real
     # essays. Targets are drawn from the empirical human word-count distribution.
     human_word_counts = sorted(s.n_words for s in human_samples)
     length_bands = _length_bands(human_word_counts)
@@ -850,7 +850,7 @@ def build(
                 strategy="procedural_template",
                 temperature=None,
                 notes=(
-                    "Offline procedural generator. NOT real model output — see "
+                    "Offline procedural generator. NOT real model output - see "
                     "docs/dataset.md for what this does and does not represent."
                 ),
             )

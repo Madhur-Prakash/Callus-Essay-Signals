@@ -6,7 +6,7 @@
 
 ---
 
-# `data/raw/` — where real essays go
+# `data/raw/` - where real essays go
 
 These directories are **inputs you supply**, not generated output. They ship empty
 on purpose: this repository contains no real admissions essays, because collecting
@@ -15,7 +15,7 @@ obligations that follow from handling this material are in
 [docs/privacy.md](../../../docs/privacy.md).
 
 Adding real human essays here is the single highest-value improvement available to
-this project — see [docs/evaluation.md](../../../docs/evaluation.md#what-would-improve-these-numbers-most).
+this project - see [docs/evaluation.md](../../../docs/evaluation.md#what-would-improve-these-numbers-most).
 
 ```
 data/raw/
@@ -51,7 +51,7 @@ in the dataset card rather than being silently assumed fine:
 `manifest.example.json` in `human/` is a working template.
 
 Ingested essays get `source: "ingested_real"`, which also means the failure report
-**withholds their text** — real essays are never reproduced in generated reports.
+**withholds their text** - real essays are never reproduced in generated reports.
 
 ## ai_generated/ and ai_polished/
 
@@ -60,7 +60,7 @@ provider, a shared benchmark, a colleague's collection). The offline and Groq
 generators write to `data/ai_generated/` and `data/ai_polished/` instead, so these
 stay empty unless you are importing something.
 
-To wire an import in, follow the shape of `ingest_raw_human()` — build `Sample`
+To wire an import in, follow the shape of `ingest_raw_human()` - build `Sample`
 records with `source`, `group_id` and a licence, then let `prepare_dataset` handle
 splitting and the leakage audit.
 
@@ -75,7 +75,7 @@ uv run python -m ml.evaluation.evaluate
 ```
 
 Watch for `data_regime` in `data/processed/manifest.json` moving from `bootstrap`
-to `mixed` or `real` — that is the signal the metrics have started to mean
+to `mixed` or `real` - that is the signal the metrics have started to mean
 something.
 
 ## Do not commit real essays

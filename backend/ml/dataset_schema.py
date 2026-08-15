@@ -1,6 +1,6 @@
 """Dataset record schema and JSONL I/O.
 
-Every sample in the corpus — regardless of which generator produced it — carries
+Every sample in the corpus - regardless of which generator produced it - carries
 the same provenance block, because the evaluation report slices by ``topic``,
 ``model``, ``length_band``, ``l2_english`` and ``source``. A sample without
 provenance is a sample we cannot say anything honest about.
@@ -40,7 +40,7 @@ class Sample:
     text: str
     group_id: str
     """Leakage key. Every sample derived from the same underlying essay shares a
-    group id, and splits are made over groups — never over samples."""
+    group id, and splits are made over groups - never over samples."""
     source: str
     topic: str = "unspecified"
     length_band: str = "medium"

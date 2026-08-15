@@ -12,14 +12,14 @@ fixed pipeline:
 Three kinds of evidence are produced, and they are kept separate because they
 support different claims:
 
-**Reference-relative** — "predictability sits at the 94th percentile of the
+**Reference-relative** - "predictability sits at the 94th percentile of the
 human essays in our training data". Requires ``reference_stats.json``.
 
-**Within-essay** — "perplexity here is 14.2 against an essay median of 31.8".
+**Within-essay** - "perplexity here is 14.2 against an essay median of 31.8".
 Requires nothing but the essay itself, so it still works before training and is
 the most defensible kind of evidence: the comparison group is the author.
 
-**Model-derived** — the signed per-feature contributions pulled straight out of
+**Model-derived** - the signed per-feature contributions pulled straight out of
 the trained classifier (:meth:`DetectorModels.document_contributions`). This is
 the model's own arithmetic, not a narrative about it.
 
@@ -54,7 +54,7 @@ class Meter:
     strength: float
     """0-1, where 1 means "as machine-like as this measurement gets"."""
     level: str
-    """``low`` / ``elevated`` / ``high`` — the word shown next to the bar."""
+    """``low`` / ``elevated`` / ``high`` - the word shown next to the bar."""
     value: float
     unit: str
     reference: str
@@ -68,7 +68,7 @@ class Meter:
     value_level: str = "typical"
     """Where the *value* sits relative to the human distribution: ``well above`` /
     ``above`` / ``typical`` / ``below`` / ``well below``. Distinct from
-    :attr:`level`, which describes how machine-leaning the reading is — for an
+    :attr:`level`, which describes how machine-leaning the reading is - for an
     inverted feature like sentence-length variation, a *low* value produces a
     *high* signal, and conflating the two produces self-contradictory prose."""
 
@@ -99,7 +99,7 @@ class Meter:
         phrasing contradict its own detail text.
         """
         return (
-            f"{self.label}: {self.display} — {self.value_level} the human training "
+            f"{self.label}: {self.display} - {self.value_level} the human training "
             f"median ({self.reference.replace('human training median ', '')}). "
             f"{self.detail} Signal strength: {self.level}."
         )
@@ -160,7 +160,7 @@ DOCUMENT_METERS: tuple[MeterSpec, ...] = (
         detail_high="Wording is varied and hard for the reference model to anticipate.",
         detail_low=(
             "Wording is unusually easy for the reference model to anticipate. Low "
-            "perplexity alone is not evidence of machine authorship — clear, "
+            "perplexity alone is not evidence of machine authorship - clear, "
             "conventional prose also scores low."
         ),
         fmt="{:.1f}",
@@ -232,8 +232,8 @@ DOCUMENT_METERS: tuple[MeterSpec, ...] = (
         unit="normalised style distance",
         detail_high=(
             "At least one passage departs noticeably from the style of the rest of "
-            "the essay. This indicates a register change — editing, quotation, or a "
-            "deliberate shift — not authorship."
+            "the essay. This indicates a register change - editing, quotation, or a "
+            "deliberate shift - not authorship."
         ),
         detail_low="Style is consistent across the essay.",
         fmt="{:.2f}",
@@ -529,7 +529,7 @@ class ExplanationEngine:
         """Evidence for one sentence.
 
         ``essay_context`` carries the essay's own medians (see
-        :func:`essay_context_from`), which power the within-essay comparisons —
+        :func:`essay_context_from`), which power the within-essay comparisons -
         the most defensible evidence available, because the comparison group is
         the author themself.
         """

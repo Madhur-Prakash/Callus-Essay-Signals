@@ -135,7 +135,7 @@ describe('EssayEditor', () => {
     );
     expect(screen.getByText(/insufficient evidence/i)).toBeInTheDocument();
     expect(screen.getByText(/at least 5 sentences and 120 words/i)).toBeInTheDocument();
-    // It is a warning, not a block — the measurements are still worth seeing.
+    // It is a warning, not a block - the measurements are still worth seeing.
     expect(screen.getByRole('button', { name: /analyse essay/i })).toBeEnabled();
   });
 

@@ -33,7 +33,7 @@ const ICON: Record<ThemeChoice, JSX.Element> = {
 };
 
 /**
- * Three-state theme control. "System" is a genuine state — it keeps following the
+ * Three-state theme control. "System" is a genuine state - it keeps following the
  * OS rather than freezing whatever the OS happened to say at first paint.
  */
 export function ThemeToggle({ choice, resolved, onCycle }: Props) {
@@ -43,7 +43,7 @@ export function ThemeToggle({ choice, resolved, onCycle }: Props) {
       className="theme-toggle"
       onClick={onCycle}
       aria-label={`Theme: ${choice}${choice === 'system' ? ` (currently ${resolved})` : ''}. Switch to ${NEXT_LABEL[choice]}.`}
-      title={`Theme: ${choice} — click for ${NEXT_LABEL[choice]}`}
+      title={`Theme: ${choice} - click for ${NEXT_LABEL[choice]}`}
       data-choice={choice}
     >
       {ICON[choice]}

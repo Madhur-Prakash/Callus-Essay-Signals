@@ -1,4 +1,4 @@
-"""Failure analysis — including the confidently wrong cases.
+"""Failure analysis - including the confidently wrong cases.
 
 Being wrong is expected. Being wrong *with high confidence* is the interesting
 failure, because it is the one that would cause real harm if this were pointed at
@@ -53,7 +53,7 @@ IMPROVEMENT_BY_GROUP: dict[str, str] = {
     ),
     "stylometric": (
         "Surface stylometry drove this error. These features are sensitive to "
-        "register rather than authorship — a formal human writer and a machine share "
+        "register rather than authorship - a formal human writer and a machine share "
         "a lot of surface statistics. Adding more human samples in formal registers "
         "would let the model separate 'formal' from 'machine'."
     ),
@@ -80,19 +80,19 @@ IMPROVEMENT_BY_GROUP: dict[str, str] = {
     "structural": (
         "Document-structure features (length, paragraph shape, readability) drove "
         "this error. These are the features most likely to encode a dataset artefact "
-        "rather than a real property of machine writing — worth checking whether the "
+        "rather than a real property of machine writing - worth checking whether the "
         "training classes still differ systematically in length."
     ),
     "style_shift": (
         "Within-document style-shift features drove this error. A shift indicates a "
-        "register change, and humans change register legitimately — quoting, moving "
+        "register change, and humans change register legitimately - quoting, moving "
         "from narrative to reflection, or writing a stronger conclusion. This group "
         "should inform the evidence panel more than the verdict."
     ),
     "corpus": (
         "Corpus-similarity features drove this error: the document sat closer to the "
         "machine reference centroid than the human one. This is the feature group "
-        "most exposed to a narrow training corpus — with only a few dozen "
+        "most exposed to a narrow training corpus - with only a few dozen "
         "independent human documents, the human centroid is a poor summary of human "
         "writing in general. It is the first thing that should improve when real "
         "essays are added."
@@ -147,7 +147,7 @@ def find_failures(
         key=lambda i: -confidence[i],
     )
     # If the abstention thresholds mean nothing clears `min_confidence`, fall back
-    # to the most confident errors available rather than reporting none — the
+    # to the most confident errors available rather than reporting none - the
     # brief asks for three concrete cases, so the honest move is to show the
     # three worst and say what their confidence actually was.
     fallback_used = False
@@ -359,7 +359,7 @@ def _relevant_features(
 ) -> list[dict[str, Any]]:
     """Features where the document sits outside its true class's normal range.
 
-    This is the concrete answer to "why did it look like the wrong class?" — the
+    This is the concrete answer to "why did it look like the wrong class?" - the
     measured value is compared against the interquartile range of the class it
     actually belongs to.
     """
@@ -433,7 +433,7 @@ def _explain_failure(
 
     if actual == "human" and predicted in {"ai_generated", "ai_polished"}:
         lines.append(
-            "This is a false positive on human writing — the failure mode with real "
+            "This is a false positive on human writing - the failure mode with real "
             "consequences. The measurements that triggered it describe register, not "
             "authorship: a human writing formally, evenly, and without contractions "
             "produces the same numbers as a machine."
@@ -460,7 +460,7 @@ def _explain_failure(
         )
     elif actual == "ai_generated" and predicted == "human":
         lines.append(
-            "The generator produced text with human-like variation — either it was "
+            "The generator produced text with human-like variation - either it was "
             "prompted to vary sentence length and avoid formal connectives, or sampling "
             "at a high temperature introduced the irregularity these features look for."
         )

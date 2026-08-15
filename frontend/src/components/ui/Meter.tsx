@@ -6,7 +6,7 @@ interface MeterProps {
   label: string;
   /** 0–1. Drives how many blocks light up. */
   value: number;
-  /** Word shown at the right of the label row — "strong", "weak", "typical". */
+  /** Word shown at the right of the label row - "strong", "weak", "typical". */
   level?: string;
   colour?: string;
   blocks?: number;
@@ -24,7 +24,7 @@ interface MeterProps {
  *
  * Segments rather than a continuous bar, deliberately. A smooth fill invites the
  * reader to compare two bars at a glance and conclude "this one is 12% stronger",
- * which the underlying signal does not support. Discrete blocks read as a band —
+ * which the underlying signal does not support. Discrete blocks read as a band -
  * which is the honest resolution of these measurements.
  */
 export function Meter({

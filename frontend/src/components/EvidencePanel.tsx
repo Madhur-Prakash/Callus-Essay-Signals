@@ -53,7 +53,7 @@ export function EvidencePanel({ sentence, documentEvidence, hasSentenceModel }: 
             borderColor: classColour(sentence.classification),
           }}
         >
-          {sentence.score !== null ? percent(sentence.score, 0) : '—'}
+          {sentence.score !== null ? percent(sentence.score, 0) : '-'}
         </span>
       </div>
 
@@ -151,7 +151,7 @@ function EvidenceBody({ evidence }: { evidence: EvidenceBlock }) {
 
       <p className="tiny muted mb-0">
         Generated deterministically from measured values by explanation engine v
-        {evidence.engine_version || '—'}. No language model was asked to explain anything.
+        {evidence.engine_version || '-'}. No language model was asked to explain anything.
       </p>
     </>
   );

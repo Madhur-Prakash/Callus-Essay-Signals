@@ -33,7 +33,7 @@ function evidence(overrides: Partial<EvidenceBlock> = {}): EvidenceBlock {
       },
     ],
     statements: [
-      "Language-model predictability: 55.0% — well above the human training median (32.0%). Most words here were the reference model's own first choice. Signal strength: high.",
+      "Language-model predictability: 55.0% - well above the human training median (32.0%). Most words here were the reference model's own first choice. Signal strength: high.",
       "Perplexity is 14.2, substantially lower than the essay's own 31.8.",
     ],
     measurements: [

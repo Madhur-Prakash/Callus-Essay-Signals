@@ -40,7 +40,7 @@ by our own trained, calibrated scikit-learn classifier. No hosted chat model is
 consulted during analysis.
 
 **Every flag carries evidence.** Explanations are generated deterministically from
-measured feature values — percentile position within the human training
+measured feature values - percentile position within the human training
 distribution, deviation from the essay's own baseline, and the classifier's own
 per-feature contributions.
 
@@ -190,7 +190,7 @@ def create_app() -> FastAPI:
         response = await call_next(request)
         elapsed_ms = (time.perf_counter() - started) * 1000
         response.headers["X-Response-Time-Ms"] = f"{elapsed_ms:.1f}"
-        # Path and status only — never query strings or bodies, which could carry
+        # Path and status only - never query strings or bodies, which could carry
         # essay content.
         if request.url.path.startswith(settings.api_v1_prefix):
             log_event(

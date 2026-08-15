@@ -10,7 +10,7 @@
  * the masthead; it held the scroll fraction in React state and re-rendered the
  * whole bar on every scroll event, which is what made scrolling feel heavy. If
  * one is ever wanted again, it belongs in a self-contained component writing
- * straight to a `transform` — never in state.
+ * straight to a `transform` - never in state.
  *
  * The ScrollTrigger-backed pieces are inert under `prefers-reduced-motion` and
  * under test, matching the gate in useMotion.

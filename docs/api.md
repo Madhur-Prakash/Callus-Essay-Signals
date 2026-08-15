@@ -1,6 +1,6 @@
 [Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
 [Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
-[Evaluation](evaluation.md) — **API** · [Privacy](privacy.md) ·
+[Evaluation](evaluation.md) - **API** · [Privacy](privacy.md) ·
 [Limitations](limitations.md)
 
 ---
@@ -12,7 +12,7 @@ OpenAPI schema is generated from the Pydantic models at `/openapi.json`.
 
 ## Error envelope
 
-Every error — validation, application, unhandled — returns the same shape. Users
+Every error - validation, application, unhandled - returns the same shape. Users
 never see a Python traceback.
 
 ```json
@@ -35,7 +35,7 @@ never see a Python traceback.
 | `rate_limit_exceeded`     | 429  | Includes `retry_after_seconds`              |
 | `analysis_not_found`      | 404  | No such analysis id                         |
 | `analysis_timeout`        | 504  | Exceeded the 120 s inline limit             |
-| `model_not_trained`       | 503  | Artifacts missing — run the training pipeline |
+| `model_not_trained`       | 503  | Artifacts missing - run the training pipeline |
 | `model_unavailable`       | 503  | The language model could not be loaded      |
 | `persistence_unavailable` | 503  | MongoDB is down; analysis still works       |
 | `internal_error`          | 500  | Logged server-side; no internals returned   |
@@ -62,10 +62,10 @@ Analyse an essay. This is the only endpoint that does work.
 | Field        | Type          | Notes                                                                 |
 | ------------ | ------------- | --------------------------------------------------------------------- |
 | `text`       | string        | Required. Bounded by `MIN/MAX_ESSAY_CHARS`.                            |
-| `save`       | bool \| null  | Optional opt-out. The server's `SAVE_ESSAYS` is the ceiling — this can decline storage, never request it. |
+| `save`       | bool \| null  | Optional opt-out. The server's `SAVE_ESSAYS` is the ceiling - this can decline storage, never request it. |
 | `async_mode` | bool          | Route through Kafka. Ignored when Kafka is disabled (the default).      |
 
-**Response `200`** — abridged; see `/docs` for the full schema.
+**Response `200`** - abridged; see `/docs` for the full schema.
 
 ```json
 {
@@ -164,7 +164,7 @@ Analyse an essay. This is the only endpoint that does work.
 }
 ```
 
-**Response `202`** — only when Kafka is enabled and the essay is large:
+**Response `202`** - only when Kafka is enabled and the essay is large:
 
 ```json
 {
@@ -180,7 +180,7 @@ Analyse an essay. This is the only endpoint that does work.
 - `classification` ∈ `human` | `ai_generated` | `ai_polished` | `insufficient_evidence`.
 - `abstained: true` means the system declined to name a class; `abstain_reason`
   says why in plain language.
-- `sentences[].score` is `null` when the sentence model is unavailable — the field
+- `sentences[].score` is `null` when the sentence model is unavailable - the field
   is never faked.
 - `sentences[].evidence` is present only for flagged and uncertain sentences
   (score ≥ 0.40). Attaching it to every sentence would triple the response size
@@ -241,8 +241,8 @@ Per-component health, because this system degrades rather than failing whole.
 `status` is `ok` when every enabled component is available, `degraded` when a
 non-essential one is not, and `unavailable` only when the trained model is missing.
 
-- `GET /health/live` — liveness, always `200`.
-- `GET /health/ready` — `200` only when the detector can answer; `503` otherwise.
+- `GET /health/live` - liveness, always `200`.
+- `GET /health/ready` - `200` only when the detector can answer; `503` otherwise.
 
 ---
 
@@ -262,7 +262,7 @@ results are not served from a previous model version.
 
 ## `GET /evaluation`
 
-The full evaluation report, failure analysis and dataset card — everything the
+The full evaluation report, failure analysis and dataset card - everything the
 Research page renders. When the pipeline has not been run it returns
 `{"available": false, "message": "..."}` rather than fabricating numbers.
 
@@ -271,8 +271,8 @@ calibration curve and ECE, topic/generator/length generalisation slices, the bia
 analysis with Wilson intervals, abstention behaviour, the four-way feature-set
 comparison, permutation feature importance, and generated interpretation lines.
 
-- `GET /evaluation/runs` — stored runs from MongoDB.
-- `GET /evaluation/model-versions` — the model registry.
+- `GET /evaluation/runs` - stored runs from MongoDB.
+- `GET /evaluation/model-versions` - the model registry.
 
 ---
 
@@ -281,8 +281,8 @@ comparison, permutation feature importance, and generated interpretation lines.
 What this server stores, read from live configuration. The frontend fetches this
 rather than hard-coding a privacy claim.
 
-- `GET /essays?limit=20` — stored essay metadata (never text).
-- `GET /essays/{id}` — one metadata record (`text` is stripped).
+- `GET /essays?limit=20` - stored essay metadata (never text).
+- `GET /essays/{id}` - one metadata record (`text` is stripped).
 
 ---
 

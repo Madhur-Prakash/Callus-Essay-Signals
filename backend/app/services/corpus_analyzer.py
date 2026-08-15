@@ -7,10 +7,10 @@ machine reference corpus?*
 Deliberate design choice: the representations here are **style-bearing but
 largely topic-free**.
 
-* character 3-5 grams (``char_wb``) — captures affixes, punctuation habits and
+* character 3-5 grams (``char_wb``) - captures affixes, punctuation habits and
   orthographic rhythm
-* POS 1-3 grams — pure syntax, no content words at all
-* function-word frequency profile — the classic authorship-attribution signal
+* POS 1-3 grams - pure syntax, no content words at all
+* function-word frequency profile - the classic authorship-attribution signal
 
 Topical word n-grams are intentionally *excluded*. A TF-IDF model over content
 words would learn "essays about robotics are human" from whatever topics happen

@@ -14,7 +14,7 @@ const PROB_ORDER = ['human', 'ai_polished', 'ai_generated'];
 /**
  * The answer to the question the user asked, and the first thing on the page.
  *
- * The gauge shows the *leading class probability*, not "how AI this is" — those
+ * The gauge shows the *leading class probability*, not "how AI this is" - those
  * are different claims, and the caption says which one it is. A gauge that filled
  * toward "AI" would turn a three-class calibrated distribution into a single
  * accusatory number, which is exactly the reading this product exists to avoid.

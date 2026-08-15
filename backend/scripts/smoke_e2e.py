@@ -1,8 +1,8 @@
 """End-to-end smoke test against a running API.
 
-Exercises the real HTTP surface the frontend uses — health, model info, privacy,
+Exercises the real HTTP surface the frontend uses - health, model info, privacy,
 analysis of three contrasting essays, persistence round-trip, cache behaviour and
-the error paths — and prints a readable report. Intended for local verification
+the error paths - and prints a readable report. Intended for local verification
 after `uvicorn app.main:app` is up; the pytest suite covers the same ground with
 assertions.
 
@@ -58,7 +58,7 @@ results: list[tuple[str, str, str]] = []
 
 def check(name: str, ok: bool, detail: str = "") -> bool:
     results.append((PASS if ok else FAIL, name, detail))
-    print(f"  [{PASS if ok else FAIL}] {name}" + (f" — {detail}" if detail else ""))
+    print(f"  [{PASS if ok else FAIL}] {name}" + (f" - {detail}" if detail else ""))
     return ok
 
 
@@ -214,7 +214,7 @@ def main() -> int:
             check(
                 "stored sentences omit text (SAVE_ESSAYS=false)",
                 no_text,
-                "offsets only — the client re-slices its own copy",
+                "offsets only - the client re-slices its own copy",
             )
         listing = client.get(f"{base}/analysis?limit=5")
         check("analysis listing works", listing.status_code == 200,

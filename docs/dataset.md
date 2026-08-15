@@ -1,5 +1,5 @@
 [Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
-[Methodology](detection-methodology.md) — **Dataset** · [Evaluation](evaluation.md) ·
+[Methodology](detection-methodology.md) - **Dataset** · [Evaluation](evaluation.md) ·
 [API](api.md) · [Privacy](privacy.md) · [Limitations](limitations.md)
 
 ---
@@ -10,10 +10,10 @@ Why the corpus is shaped the way it is, and what each decision costs. The measur
 consequences are in [evaluation.md](evaluation.md); the honest summary of what this
 corpus cannot support is in [limitations.md](limitations.md).
 
-Operational instructions — layout, regenerating, adding real essays — live in
+Operational instructions - layout, regenerating, adding real essays - live in
 [`backend/data/README.md`](../backend/data/README.md), with sourcing rules in
 [`backend/data/raw/README.md`](../backend/data/raw/README.md).
-This document is about the *decisions* — why the corpus is shaped the way it is,
+This document is about the *decisions* - why the corpus is shaped the way it is,
 and what each choice costs.
 
 ## The honest starting position
@@ -52,7 +52,7 @@ must either call it human (missing the assistance) or machine (accusing someone 
 work they largely did). The third class exists so the system can say what actually
 happened.
 
-The fourth output, `insufficient_evidence`, is not a data class — it is the
+The fourth output, `insufficient_evidence`, is not a data class - it is the
 system declining to answer. See [detection-methodology.md](detection-methodology.md).
 
 ## Producing AI_POLISHED
@@ -86,12 +86,12 @@ The realistic consequence is worth stating plainly: a genuine grammar-only edit 
 A dataset built from one prompt teaches a detector to recognise one prompt. The
 generation layer varies five axes, and every sample records all five:
 
-- **model family** — 4 Groq models, or 5 offline personas
-- **prompt strategy** — `plain`, `coached`, `persona`, `anti_detection`,
+- **model family** - 4 Groq models, or 5 offline personas
+- **prompt strategy** - `plain`, `coached`, `persona`, `anti_detection`,
   `structured`, `sensory`
-- **topic** — 16 training + 6 held-out
-- **length band** — short / medium / long
-- **sampling** — 4 temperatures × 2 top-p values
+- **topic** - 16 training + 6 held-out
+- **length band** - short / medium / long
+- **sampling** - 4 temperatures × 2 top-p values
 
 `anti_detection` explicitly instructs the model to vary sentence length, use
 contractions, and avoid the usual giveaway vocabulary. Without adversarial samples
@@ -101,13 +101,13 @@ The five offline personas differ along the axes that actually separate
 instruction-tuned prose from student drafts: connective density, target sentence
 length, tricolon rate, nominalisation preference, and paragraph symmetry. One
 persona is reserved for the cross-generator test and its parameters sit
-deliberately *between* the four training personas — the test should ask "does this
+deliberately *between* the four training personas - the test should ask "does this
 transfer to an unseen generator?", not "does it transfer to an extreme?".
 
 ## Length matching, and why it mattered
 
 The first version of the offline corpus had `ai_generated` averaging 456 words
-against 241 for `human`. A classifier trained on that learns **"long = machine"** —
+against 241 for `human`. A classifier trained on that learns **"long = machine"** -
 a shortcut that says nothing about writing and would collapse on real essays,
 where length is set by the application's word limit for everyone.
 
@@ -124,7 +124,7 @@ Five mechanisms, all enforced in code:
 
 **1. Split by group, never by sample.** `group_id` ties together every document
 derived from the same underlying essay. Critically, an AI-polished essay is
-assigned **the same group as the human original it came from** — otherwise the
+assigned **the same group as the human original it came from** - otherwise the
 model would be evaluated on paraphrases of essays it had memorised.
 
 **2. Held-out topics are test-only.** Six topics appear in no training document,
@@ -141,7 +141,7 @@ Keeping them would inflate AI-class recall for reasons unrelated to detection.
 
 **5. Stratify by label signature *and* the L2-English flag.** Stratifying on labels
 alone put every L2 seed into train/validation, which left the test split with zero
-L2 human documents — and made the mandatory bias measurement impossible to run.
+L2 human documents - and made the mandatory bias measurement impossible to run.
 Finding that required actually reading the bias output rather than assuming it
 worked.
 
@@ -155,7 +155,7 @@ generator is worth more than a nominally correct ratio.
 ## The reference corpus is topic-free on purpose
 
 `cor_*` features compare a document against human and machine centroids built from
-character n-grams, POS n-grams and function-word profiles — **not** topical word
+character n-grams, POS n-grams and function-word profiles - **not** topical word
 n-grams. A TF-IDF model over content words would learn "essays about robotics are
 human" from whatever topics dominate the training split, then collapse on the
 held-out-topic evaluation. Keeping the representation topic-free is what makes the
@@ -192,7 +192,7 @@ Ranked, with the most severe first:
    *register* but not machine *semantics*, and successive essays can be somewhat
    incoherent.
 5. Template reuse makes the offline machine class trivially separable at the
-   sentence level (validation ROC-AUC ≈ 1.0) — a corpus property, not a capability.
+   sentence level (validation ROC-AUC ≈ 1.0) - a corpus property, not a capability.
 6. Class balance is close but not exact; metrics are reported per class and
    balanced accuracy is reported alongside accuracy for this reason.
 

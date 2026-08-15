@@ -10,7 +10,7 @@ import { countParagraphs, countSentences, countWords } from '@/lib/format';
  * The hero motif: a sentence-length trace over its own bars.
  *
  * The one decorative element in the interface, and it is drawn from the thing the
- * product actually measures — uneven sentence lengths around a mean — rather than
+ * product actually measures - uneven sentence lengths around a mean - rather than
  * an abstract flourish. The numbers are fixed and illustrative; they are never
  * presented as data about anyone's essay.
  */
@@ -115,7 +115,7 @@ export function EssayEditor({
           value={value}
           onChange={(event) => onChange(event.target.value)}
           placeholder={
-            'Paste the full essay here.\n\nKeep the paragraph breaks — paragraph structure is one of the things the detector measures.'
+            'Paste the full essay here.\n\nKeep the paragraph breaks - paragraph structure is one of the things the detector measures.'
           }
           spellCheck={false}
           aria-describedby="essay-counts"
@@ -167,7 +167,7 @@ export function EssayEditor({
             style={{ overflow: 'hidden' }}
           >
             <p className="tiny muted mb-1 mt-0">
-              Each example says how it was produced, not what the detector will conclude —
+              Each example says how it was produced, not what the detector will conclude -
               that is whatever it measures.
             </p>
             {EXAMPLE_ESSAYS.map((example) => (
@@ -230,7 +230,7 @@ export function EssayEditor({
           transition={{ duration: 0.2, ease: EASE }}
         >
           <strong>This will come back “insufficient evidence”.</strong> The detector needs at
-          least {minSentences} sentences and {minWords} words before it will name a class —
+          least {minSentences} sentences and {minWords} words before it will name a class -
           this has {counts.sentences}{' '}
           {counts.sentences === 1 ? 'sentence' : 'sentences'} and {counts.words}{' '}
           {counts.words === 1 ? 'word' : 'words'}. You can still run it; the measurements
@@ -240,7 +240,7 @@ export function EssayEditor({
       </AnimatePresence>
 
       <div className="composer__actions">
-        {/* The page's one magnetic control — the effect means "this is the
+        {/* The page's one magnetic control - the effect means "this is the
             target", which stops being true the moment everything has it. */}
         <Button
           variant="primary"
@@ -270,7 +270,7 @@ export function EssayEditor({
         ) : (
           <>
             Your essay is <strong>not stored</strong>. Only derived measurements, character
-            offsets and scores are kept — never the text, and never in logs.
+            offsets and scores are kept - never the text, and never in logs.
           </>
         )}
       </p>

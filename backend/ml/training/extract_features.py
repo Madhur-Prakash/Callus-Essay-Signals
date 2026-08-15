@@ -17,7 +17,7 @@ passes:
 3. Pass 2 re-scores only the ``cor_*`` block for every document and sentence
    using the fitted reference.
 
-The alternative — fitting the reference on all data — would leak test-set style
+The alternative - fitting the reference on all data - would leak test-set style
 statistics into a training feature, which is exactly the kind of mistake that
 produces a detector that looks excellent and generalises badly.
 
@@ -25,8 +25,8 @@ Sentence labels
 ---------------
 Sentence rows inherit the document label, but ``sentence_trainable`` marks only
 sentences from ``human`` and ``ai_generated`` documents. AI_POLISHED documents
-have genuinely mixed sentence-level authorship — some sentences are untouched
-human text — so using them as sentence-level supervision would inject label
+have genuinely mixed sentence-level authorship - some sentences are untouched
+human text - so using them as sentence-level supervision would inject label
 noise. They are still scored at inference time; they are just not trained on.
 
 Usage
@@ -196,7 +196,7 @@ def extract_all(
         log_event(logger, "extract.no_train_views", level="warning")
 
     # ------------------------------------------------------------ pass two
-    # Only the cor_* block is recomputed, from the views cached in pass 1 — no
+    # Only the cor_* block is recomputed, from the views cached in pass 1 - no
     # re-segmentation and, critically, no second language-model pass.
     if reference.fitted:
         corpus_started = time.perf_counter()

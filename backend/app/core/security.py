@@ -20,7 +20,7 @@ _MANY_SPACES = re.compile(r"[ \t]{2,}")
 def normalise_essay(text: str) -> str:
     """Canonicalise whitespace and unicode without altering wording.
 
-    Normalisation is deliberately conservative — the detector measures *style*,
+    Normalisation is deliberately conservative - the detector measures *style*,
     so we must not "fix" the author's punctuation or spacing patterns beyond
     removing artefacts of copy-pasting.
     """

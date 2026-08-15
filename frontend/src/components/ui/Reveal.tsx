@@ -9,7 +9,7 @@ interface RevealProps extends HTMLAttributes<HTMLDivElement> {
    * the common case; pass a selector to reach a specific set instead.
    */
   selector?: string;
-  /** Re-run when these change — needed when the children arrive asynchronously. */
+  /** Re-run when these change - needed when the children arrive asynchronously. */
   deps?: unknown[];
   y?: number;
   stagger?: number;
@@ -21,7 +21,7 @@ interface RevealProps extends HTMLAttributes<HTMLDivElement> {
  *
  * Declarative counterpart to `useScrollReveal`, so a page can say what reveals
  * without every page component having to hold a ref and a hook call. The
- * animation runs once and never reverses — content that re-hides on scroll-up
+ * animation runs once and never reverses - content that re-hides on scroll-up
  * makes a page feel unreliable when you scroll back to re-read something.
  */
 export function Reveal({
@@ -49,7 +49,7 @@ interface SplitHeadingProps extends Omit<HTMLAttributes<HTMLElement>, 'children'
   as?: ElementType;
   /**
    * Plain text only. The reveal rebuilds the element's DOM into one masked
-   * wrapper per rendered line, so nested markup would be flattened — passing a
+   * wrapper per rendered line, so nested markup would be flattened - passing a
    * string makes that constraint visible at the call site.
    */
   children: string;

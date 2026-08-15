@@ -38,7 +38,7 @@ export interface Meter {
   reference: string;
   detail: string;
   available: boolean;
-  /** Where the measured value sits vs the human distribution — distinct from
+  /** Where the measured value sits vs the human distribution - distinct from
    *  `level`, which describes the signal. */
   value_level: string;
   percentile_vs_human: number | null;

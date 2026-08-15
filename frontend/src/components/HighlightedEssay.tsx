@@ -62,7 +62,7 @@ export function HighlightedEssay({
           label="Possibly AI-assisted"
         />
         <LegendItem colour="var(--uncertain)" soft="transparent" label="Uncertain" />
-        <span className="legend__item muted">Unmarked — measured as ordinary</span>
+        <span className="legend__item muted">Unmarked - measured as ordinary</span>
       </div>
 
       <div className="essay">
@@ -122,7 +122,7 @@ export function HighlightedEssay({
                     title={
                       sentence.score === null
                         ? 'Not scored'
-                        : `Machine-likeness ${percent(sentence.score, 1)} — click for evidence`
+                        : `Machine-likeness ${percent(sentence.score, 1)} - click for evidence`
                     }
                   >
                     {sliceText(sentence)}
@@ -197,7 +197,7 @@ export function ParagraphBreakdown({
           <span className="para-row__meta">
             {paragraph.human_likeness !== null
               ? `human ${paragraph.human_likeness.toFixed(2)}`
-              : '—'}
+              : '-'}
             {paragraph.flagged_sentence_ids.length > 0 &&
               ` · ${paragraph.flagged_sentence_ids.length} flagged`}
           </span>

@@ -96,7 +96,7 @@ GENERATION_STRATEGIES: dict[str, dict[str, str]] = {
         "system": "You are a literary writer with a gift for sensory description.",
         "user": (
             "Write a {words}-word college admissions personal statement about "
-            "{topic}. Ground it in physical detail — sound, texture, smell."
+            "{topic}. Ground it in physical detail - sound, texture, smell."
         ),
     },
 }

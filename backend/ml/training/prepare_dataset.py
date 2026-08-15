@@ -14,7 +14,7 @@ Splitting rules (all enforced by code, not convention)
    number meaningful.
 4. **Near-duplicate detection across splits.** Any test document whose 5-gram
    overlap with a training document exceeds a threshold is reported (and
-   optionally dropped) — this catches leakage that group ids miss.
+   optionally dropped) - this catches leakage that group ids miss.
 5. **Stratified by label over groups**, so all three classes appear in all
    splits at roughly the corpus proportions.
 
@@ -155,7 +155,7 @@ def assign_splits(
 
     # Stratify the remaining groups by label signature *and* by the L2-English
     # flag. Stratifying on the label signature alone put every L2 seed in
-    # train/validation, which left the test split with zero L2 human documents —
+    # train/validation, which left the test split with zero L2 human documents -
     # and the bias analysis is the one measurement that must not be unavailable.
     # A group containing both `human` and `ai_polished` samples is its own stratum.
     strata: dict[str, list[str]] = defaultdict(list)

@@ -1,5 +1,5 @@
 [Home](../README.md) · [Docs index](README.md) · [Architecture](architecture.md) ·
-[Methodology](detection-methodology.md) · [Dataset](dataset.md) — **Evaluation** ·
+[Methodology](detection-methodology.md) · [Dataset](dataset.md) - **Evaluation** ·
 [API](api.md) · [Privacy](privacy.md) · [Limitations](limitations.md)
 
 ---
@@ -52,7 +52,7 @@ Shipped model: `hybrid::lightgbm`, 411 features, Platt-calibrated.
 | Log loss            | 0.266 |
 | **ECE**             | **0.086** |
 
-## Per class — read this before the accuracy figure
+## Per class - read this before the accuracy figure
 
 | Class          |     P |     R |    F1 |  n | FP rate |   AUC |
 | -------------- | ----: | ----: | ----: | -: | ------: | ----: |
@@ -79,14 +79,14 @@ No human essay was called fully machine-generated, which is some comfort, but no
 much.
 
 **2. `ai_generated` is perfect, and that is a red flag.** Precision and recall of
-1.000 with AUC 1.000 does not mean the detector solved the problem — it means the
+1.000 with AUC 1.000 does not mean the detector solved the problem - it means the
 offline template generator is trivially separable. It draws sentences from a finite
 bank, so surface and corpus-similarity features pull it apart completely. Expect a
 substantially lower and more useful number once real model output replaces it. The
 training run emits a `separability_warning` when this happens.
 
 The real difficulty sits between `human` and `ai_polished`: 14 of the 14 total
-errors are confusions between those two classes. That is expected by construction —
+errors are confusions between those two classes. That is expected by construction -
 a lightly polished essay *is* mostly human text.
 
 ## Does the hybrid approach actually help?
@@ -109,7 +109,7 @@ test. Only the feature set varies, which is what makes this controlled.
 
 > The `hybrid` row is **not** the shipped model. The shipped model uses whichever
 > estimator won grouped CV (LightGBM), so its headline metrics differ slightly.
-> Holding the estimator fixed here is deliberate — otherwise a feature-set
+> Holding the estimator fixed here is deliberate - otherwise a feature-set
 > comparison would be confounded by estimator choice.
 
 **Answers:**
@@ -119,14 +119,14 @@ test. Only the feature set varies, which is what makes this controlled.
   small effect, not a decisive one.
 - **Are LM features sufficient alone?** No. `lm_only` is the weakest set by a clear
   margin (−0.085). Perplexity-style measurements are not enough on their own.
-- **Does within-document style shift help?** +0.011 — a small positive effect,
+- **Does within-document style shift help?** +0.011 - a small positive effect,
   inside CV noise. It is retained regardless, because the per-paragraph style-shift
   analysis is a **user-facing output in its own right**: it is what lets the UI
   point at the specific passage that differs from the rest of the essay. Dropping
   the features to chase a difference this corpus cannot resolve would remove that
   evidence.
 - Note that `baseline_stylometric` has the *best* human recall (0.839). Adding
-  features improved macro F1 while making human false positives slightly worse —
+  features improved macro F1 while making human false positives slightly worse -
   worth knowing, and not visible from a single headline metric.
 
 ## Calibration
@@ -159,12 +159,12 @@ Six topics and one generator persona appear in **no** training document.
 | Slice                 |  n | Recall for `ai_generated` |
 | --------------------- | -: | ------------------------: |
 | Held-out topics       | 20 |                     1.000 |
-| Topics seen in training| — |                     1.000 |
+| Topics seen in training| - |                     1.000 |
 | Held-out generator    | 21 |                     1.000 |
-| Generators seen in training | — |                 1.000 |
+| Generators seen in training | - |                 1.000 |
 
 These slices contain **only** `ai_generated` documents, so macro F1 and accuracy
-are not comparable with the multi-class slice — the report flags them
+are not comparable with the multi-class slice - the report flags them
 `single_class: true` and reports recall instead. (An earlier version of the
 evaluation reported "macro F1 1.000 on held-out topics", which was an artifact of
 scikit-learn inferring labels from a single-class slice. It is fixed, and the
@@ -190,8 +190,8 @@ result, and closing it needs more human data.
 | ≥ 280       |  5 | too small |
 
 **Short documents are markedly worse**, and this is expected rather than a bug:
-every distributional estimate behind these features — variance, entropy,
-percentiles, z-scores — is noisy at low sentence counts. It is also the argument
+every distributional estimate behind these features - variance, entropy,
+percentiles, z-scores - is noisy at low sentence counts. It is also the argument
 for the 120-word abstention floor.
 
 ## Bias analysis
@@ -199,8 +199,8 @@ for the 120-word abstention floor.
 **Question:** does the detector disproportionately flag human writing from
 second-language English writers?
 
-**Metric:** false-positive rate on human documents — of the human essays in a
-group, what share were called machine-written or machine-polished — with a Wilson
+**Metric:** false-positive rate on human documents - of the human essays in a
+group, what share were called machine-written or machine-polished - with a Wilson
 95% interval.
 
 | Group                    | Human docs | FP rate | 95% interval    |
@@ -211,7 +211,7 @@ group, what share were called machine-written or machine-polished — with a Wil
 Difference −0.069 (ratio 0.74), **intervals overlap heavily**.
 
 **Conclusion: no statistically distinguishable disparity at this sample size. This
-is NOT evidence of fairness — it is a sample-size limitation.** With 5 L2 documents
+is NOT evidence of fairness - it is a sample-size limitation.** With 5 L2 documents
 the interval spans 4% to 63%; that range is consistent with anything from "no
 problem" to "flags two out of three".
 
@@ -229,7 +229,7 @@ writing, and nothing here contradicts that.
 
 ## Feature importance
 
-Permutation importance on the validation split — how much accuracy actually depends
+Permutation importance on the validation split - how much accuracy actually depends
 on each measurement. Read from the trained model, not hardcoded.
 
 | # | Feature                                   | Group       | Importance |
@@ -249,7 +249,7 @@ centroid is a poor summary of human writing in general. **It is the first thing
 that should improve when real essays are added**, and the reason to be sceptical of
 these results transferring.
 
-The next tier is sentence-initial transition words ("Moreover,", "Furthermore,") —
+The next tier is sentence-initial transition words ("Moreover,", "Furthermore,") -
 a genuine machine-register signal, and also one the offline generator produces on
 purpose, so its rank here is partly circular.
 
@@ -259,7 +259,7 @@ purpose, so its rank here is partly circular.
 model's own feature contributions. 14 errors in 128 documents; 11 above the 0.55
 confidence threshold. The three most confident:
 
-### 1. `h018-original` — human → ai_polished, confidence 0.72
+### 1. `h018-original` - human → ai_polished, confidence 0.72
 
 A hand-authored seed essay about learning to cook, called machine-polished.
 
@@ -270,7 +270,7 @@ A hand-authored seed essay about learning to cook, called machine-polished.
   should carry less weight; it also needs an interaction with document length,
   because short essays have unstable variance estimates.
 
-### 2. `h010-polish-shorten` — ai_polished → human, confidence 0.63
+### 2. `h010-polish-shorten` - ai_polished → human, confidence 0.63
 
 An essay whose polish transform only removed hedges and a trailing sentence.
 
@@ -278,9 +278,9 @@ An essay whose polish transform only removed hedges and a trailing sentence.
   original author's statistics, and the document aggregate is dominated by them.
 - *This is the honest limit of the method*, not a tuning problem.
 
-### 3. `h018-split_merge` — human → ai_polished, confidence 0.62
+### 3. `h018-split_merge` - human → ai_polished, confidence 0.62
 
-The same seed as case 1 with human editing noise applied — which suggests the error
+The same seed as case 1 with human editing noise applied - which suggests the error
 is a property of that essay's style rather than of the specific variant.
 
 Full write-ups with measured feature values, the true class's interquartile ranges,
@@ -295,7 +295,7 @@ and a proposed fix per case are in `failure_report.json` and on the Research pag
 | `ai_polished` confusions            |     6 |
 
 Mean confidence when wrong is lower than when right, which is the desirable
-ordering — the model is at least *less* sure when it is mistaken.
+ordering - the model is at least *less* sure when it is mistaken.
 
 ## Reproducing
 
@@ -326,5 +326,5 @@ In order:
    answered.
 4. **Human documents in the held-out-topic and held-out-generator slices**, so
    cross-topic generalisation can be measured for the class that matters.
-5. A larger instrument model (`LM_MODEL_NAME=gpt2-medium`) — better measurements at
+5. A larger instrument model (`LM_MODEL_NAME=gpt2-medium`) - better measurements at
    roughly 3× the cost.

@@ -8,8 +8,8 @@
 # Dataset
 
 This directory holds the corpus the detector is trained and evaluated on. The
-reasoning behind its shape — three classes, generator diversity, length matching,
-leakage control — is in [docs/dataset.md](../../docs/dataset.md); this page is the
+reasoning behind its shape - three classes, generator diversity, length matching,
+leakage control - is in [docs/dataset.md](../../docs/dataset.md); this page is the
 operational half.
 
 > [!CAUTION]
@@ -17,7 +17,7 @@ operational half.
 > **synthetic**. The human class is hand-authored seed essays written for this
 > repository; the machine classes come from an offline template generator and a
 > rule-based editor. Metrics computed on it measure *how separable those three
-> generators are* — not how well the detector identifies real AI writing. Every
+> generators are* - not how well the detector identifies real AI writing. Every
 > report labels this the `bootstrap` regime, the API reports
 > `data_regime: "bootstrap"`, and the UI shows a warning banner. Replace the
 > machine classes with real model output (Groq) and the human class with real
@@ -56,7 +56,7 @@ data/
 | -------------- | ----------------------------------------------------- | --------------------------------------------- |
 | `human`        | Student-style personal essays                          | 36 hand-authored seeds + human editing noise   |
 | `ai_generated` | Fully machine-written essays                           | Procedural template generator, 5 personas      |
-| `ai_polished`  | **Human text that a machine edited** — the real threat | Rule-based editor over the real seed text      |
+| `ai_polished`  | **Human text that a machine edited** - the real threat | Rule-based editor over the real seed text      |
 
 `ai_polished` is the class that matters most, because it is the realistic case:
 
@@ -102,7 +102,7 @@ about.
 Enforced in code (`ml/training/prepare_dataset.py`), not by convention:
 
 1. **Splits are made over groups, never samples.** `group_id` ties together every
-   document derived from the same underlying essay — the original, its editing
+   document derived from the same underlying essay - the original, its editing
    variants, and **every AI-polished version of it**. A polished essay therefore
    shares a group with the human original it came from and can never land on the
    opposite side of a split boundary.
@@ -128,7 +128,7 @@ because rules 2 and 3 force whole groups into test; the exact counts are in
 
 ## Preprocessing
 
-Deliberately minimal — the detector measures *style*, so "fixing" the author's
+Deliberately minimal - the detector measures *style*, so "fixing" the author's
 writing would destroy the signal:
 
 - Unicode NFKC normalisation, CRLF → LF
@@ -144,7 +144,7 @@ No lowercasing, no stopword removal, no stemming, no punctuation repair.
   a licensing and an ethics failure.
 - Seed essays: written for this repository, MIT-licensed with the code
   (`license: synthetic-mit`).
-- Groq output: `license: model-output-see-provider-terms` — check your provider's
+- Groq output: `license: model-output-see-provider-terms` - check your provider's
   terms before redistributing generated text.
 - Operator-supplied essays: whatever you record in `raw/human/manifest.json`.
   Files with no manifest entry are ingested with `license: unspecified` so the

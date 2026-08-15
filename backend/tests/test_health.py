@@ -63,7 +63,7 @@ class TestKafkaGating:
 
     def test_nothing_is_queued_while_kafka_is_disabled(self) -> None:
         """Even a huge essay and an explicit request must run inline when the
-        broker is not connected — otherwise the request would hang forever."""
+        broker is not connected - otherwise the request would hang forever."""
         assert should_queue(1_000_000, requested=True) is False
         assert should_queue(10, requested=False) is False
 

@@ -1,14 +1,14 @@
 /**
- * Tabs — a thin wrapper over Radix's tabs primitive.
+ * Tabs - a thin wrapper over Radix's tabs primitive.
  *
  * On shadcn: shadcn/ui is a Tailwind-based collection, and this project has a
  * hand-built token system rather than Tailwind. Bolting Tailwind on would mean
- * rewriting the whole design system for components that are mostly generic —
+ * rewriting the whole design system for components that are mostly generic -
  * and the parts of this UI that matter (signal meters, sentence marks, the
  * confusion matrix) have no shadcn equivalent anyway.
  *
  * So we take what shadcn is actually built on: Radix primitives. That is where
- * the real value is — roving tabindex, arrow-key navigation, correct
+ * the real value is - roving tabindex, arrow-key navigation, correct
  * `aria-selected`/`aria-controls` wiring, and focus management we would
  * otherwise have to hand-roll and get subtly wrong. The styling stays on our own
  * tokens.

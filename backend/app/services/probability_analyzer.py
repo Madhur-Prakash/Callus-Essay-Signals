@@ -1,7 +1,7 @@
 """Causal language model used as a *measuring instrument*.
 
 The model never answers "is this AI?". It answers a much narrower, mechanical
-question — "how surprising is each token given the tokens before it?" — and this
+question - "how surprising is each token given the tokens before it?" - and this
 module turns those answers into numbers:
 
 * per-token log probability, probability, rank and predictive entropy

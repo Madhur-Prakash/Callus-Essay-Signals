@@ -1,5 +1,5 @@
 /*
- * Domain components — the parts of the interface that only make sense in a
+ * Domain components - the parts of the interface that only make sense in a
  * detector: the essay reader, evidence panels, distribution charts, the verdict.
  *
  * Generic primitives live in components.css. These stay as classes because they
@@ -18,13 +18,13 @@
   /*
    * A floating glass bar rather than a full-bleed sticky header. It reads as an
    * instrument's control strip sitting above the page, and it lets the aurora
-   * pass behind it — which a solid header would hide exactly where it is
+   * pass behind it - which a solid header would hide exactly where it is
    * strongest.
    */
   /*
    * The bar's geometry never changes on scroll. An earlier version animated its
    * padding, which reflowed the sticky element and nudged the whole page by a
-   * few pixels on every threshold crossing — the twitch you could feel more than
+   * few pixels on every threshold crossing - the twitch you could feel more than
    * see. Only paint properties transition here, so the compositor handles it and
    * nothing below the bar moves.
    */
@@ -32,7 +32,7 @@
     @apply sticky top-0 z-40 pb-2 pt-3;
     /* Plain CSS, not `px-[--gutter]`: Tailwind v4 dropped the bracket shorthand
        for bare custom properties, and emits the token unwrapped rather than
-       failing — which silently leaves the page with no horizontal padding. */
+       failing - which silently leaves the page with no horizontal padding. */
     padding-inline: var(--gutter);
   }
 
@@ -40,7 +40,7 @@
    * The bar is sized by its contents, not by the page.
    *
    * It used to span the full 1400px measure, which on a wide display left two
-   * large voids flanking four short nav items — the bar looked stretched rather
+   * large voids flanking four short nav items - the bar looked stretched rather
    * than composed. `width: fit-content` turns it into a capsule that hugs what
    * is in it and centres itself; `max-width: 100%` keeps that honest on narrow
    * screens, where the nav is the part allowed to shrink.
@@ -66,7 +66,7 @@
 
   /*
    * Once text is passing underneath, the panel firms up so the nav stays legible
-   * against it. This is the only reason the scrolled state exists — it is a
+   * against it. This is the only reason the scrolled state exists - it is a
    * legibility measure, not an effect.
    */
   .masthead[data-scrolled] .masthead__inner {
@@ -144,13 +144,13 @@
    * compact capsule for as long as that is honest.
    *
    *   ≤900   tighter gaps and smaller nav labels
-   *   ≤760   the wordmark drops to its mark alone — the ∿ still identifies the
+   *   ≤760   the wordmark drops to its mark alone - the ∿ still identifies the
    *          app, and the nav is what people are reaching for
    *   ≤560   two rows, because by then one row genuinely cannot hold five items
    *
    * An earlier version broke to two rows at 700px, which is roughly 150px before
    * it needed to, and then stretched four items across the full width with
-   * `justify-between` — a big empty box with the labels pushed into its corners.
+   * `justify-between` - a big empty box with the labels pushed into its corners.
    */
   @media (width <= 900px) {
     .nav__link {
@@ -177,7 +177,7 @@
    * Two rows: identity and controls above, navigation below. Expressed with grid
    * areas so the markup order is untouched and the tab sequence stays correct.
    *
-   * A hamburger was the other option and a worse one — it buries a five-item nav
+   * A hamburger was the other option and a worse one - it buries a five-item nav
    * behind a tap and a panel to save a row that is already on screen.
    */
   @media (width <= 560px) {
@@ -197,7 +197,7 @@
      * remaining space is not the centre of the bar, and the wordmark lands
      * visibly left of true. Overlaying them in one full-width cell lets the
      * wordmark centre against the bar itself while the controls stay pinned
-     * right. They never collide — the wordmark is capped short of them.
+     * right. They never collide - the wordmark is capped short of them.
      */
     .masthead__zone--start {
       grid-area: top;
@@ -239,7 +239,7 @@
      single icon button, and a rule in front of one button is just a mark. */
 
   /* Rendered only when something is wrong, so it can afford to be legible
-     rather than discreet — it is carrying a word the reader needs. */
+     rather than discreet - it is carrying a word the reader needs. */
   .health {
     @apply inline-flex flex-none items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5
       text-2xs font-semibold;
@@ -355,7 +355,7 @@
     box-shadow: var(--elev-lg), inset 0 1px 0 var(--hairline);
   }
 
-  /* A gradient hairline along the top edge — the instrument's power light. */
+  /* A gradient hairline along the top edge - the instrument's power light. */
   .editor::before {
     @apply pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-300 content-[''];
     background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
@@ -513,7 +513,7 @@
     font-size: var(--step-2);
   }
 
-  /* Six cards divide evenly by 1, 2, 3 and 6 — never 4 or 5 — so the column
+  /* Six cards divide evenly by 1, 2, 3 and 6 - never 4 or 5 - so the column
      count is stated outright. `auto-fit` picked 5 and orphaned the last one. */
   .signals__grid {
     @apply grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3;
@@ -771,7 +771,7 @@
 
   /* Sentence marks read as an editor's underline, not a highlighter block.
      `box-decoration-break: clone` keeps the underline and rounding intact on
-     every line a wrapped sentence occupies — no utility expresses this. */
+     every line a wrapped sentence occupies - no utility expresses this. */
   .sentence {
     @apply -mx-px cursor-pointer rounded-sm px-px py-0.5 transition-[background,box-shadow] duration-200;
     box-decoration-break: clone;
@@ -1091,7 +1091,7 @@
 
   .interpretation li::before {
     @apply absolute left-0 text-ink-faint;
-    content: '—';
+    content: '-';
   }
 
   .interpretation li.critical {

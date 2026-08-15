@@ -14,7 +14,7 @@ import { motionEnabled } from '@/hooks/useMotion';
  *    animation on `background-position`. Transforms stay on the compositor;
  *    animating a gradient's position repaints a full-screen layer every frame.
  * 3. The grain is an inline SVG `feTurbulence` data URI rather than an image
- *    file — no network request, no asset to lose, and it scales to any DPI.
+ *    file - no network request, no asset to lose, and it scales to any DPI.
  *    Grain is what stops large flat gradients from banding on 8-bit displays.
  */
 export function Atmosphere() {

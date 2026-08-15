@@ -1,4 +1,4 @@
-"""The trained classifiers — this is where the actual decision is made.
+"""The trained classifiers - this is where the actual decision is made.
 
 Nothing in this module consults a language model about authorship. It loads two
 scikit-learn artifacts produced by ``ml/training/train.py`` and applies them:
@@ -8,7 +8,7 @@ scikit-learn artifacts produced by ``ml/training/train.py`` and applies them:
                     verdict.
 ``sentence_model``  binary (human-like vs machine-like) over the ~189-dimensional
                     sentence vector, used for highlighting. It is trained only on
-                    sentences from unambiguous documents — see
+                    sentences from unambiguous documents - see
                     ``ml/training/extract_features.py``.
 
 Both artifacts carry their own feature name list and column indices, so a model

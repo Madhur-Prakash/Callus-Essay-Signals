@@ -28,7 +28,7 @@ const surface = cva('surface', {
     },
     /** A soft light that follows the cursor. Costs one style write per frame. */
     spotlight: { true: 'surface--spotlight', false: '' },
-    /** Lifts and brightens on hover — only for panels that are clickable. */
+    /** Lifts and brightens on hover - only for panels that are clickable. */
     interactive: { true: 'surface--interactive', false: '' },
   },
   defaultVariants: { tone: 'glass', radius: 'card', spotlight: false, interactive: false },

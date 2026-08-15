@@ -1,5 +1,5 @@
 /**
- * "What gets measured" — shown below the editor before an analysis runs.
+ * "What gets measured" - shown below the editor before an analysis runs.
  *
  * It exists for two reasons: the landing view was mostly empty space, and a user
  * about to paste a personal essay deserves to know what the machine is going to
@@ -14,7 +14,7 @@ import { useScrollReveal } from '@/hooks/useMotion';
 const SIGNALS: Array<{ name: string; desc: string; icon: JSX.Element }> = [
   {
     name: 'Token predictability',
-    desc: 'How surprising each word is to a local language model — log probability, entropy and rank.',
+    desc: 'How surprising each word is to a local language model - log probability, entropy and rank.',
     icon: (
       <svg className="signal__icon" viewBox="0 0 32 16" aria-hidden="true">
         <polyline points="1,14 6,4 11,9 16,2 21,10 26,6 31,12" />
@@ -23,7 +23,7 @@ const SIGNALS: Array<{ name: string; desc: string; icon: JSX.Element }> = [
   },
   {
     name: 'Sentence rhythm',
-    desc: 'Variation in sentence length across the essay — the burstiness humans tend to have and edits tend to remove.',
+    desc: 'Variation in sentence length across the essay - the burstiness humans tend to have and edits tend to remove.',
     icon: (
       <svg className="signal__icon" viewBox="0 0 32 16" aria-hidden="true">
         <rect x="1" y="8" width="3" height="8" rx="1" />
@@ -48,7 +48,7 @@ const SIGNALS: Array<{ name: string; desc: string; icon: JSX.Element }> = [
   },
   {
     name: 'Repetition',
-    desc: 'Repeated phrases and repeated grammatical templates — the latter survives paraphrasing.',
+    desc: 'Repeated phrases and repeated grammatical templates - the latter survives paraphrasing.',
     icon: (
       <svg className="signal__icon" viewBox="0 0 32 16" aria-hidden="true">
         <rect x="1" y="2" width="13" height="4" rx="1" />
@@ -59,7 +59,7 @@ const SIGNALS: Array<{ name: string; desc: string; icon: JSX.Element }> = [
   },
   {
     name: 'Style shift',
-    desc: "Where a passage departs from the author's own baseline — the localised-edit case.",
+    desc: "Where a passage departs from the author's own baseline - the localised-edit case.",
     icon: (
       <svg className="signal__icon" viewBox="0 0 32 16" aria-hidden="true">
         <polyline points="1,11 5,10 9,11 13,3 17,4 21,3 25,11 29,10" />

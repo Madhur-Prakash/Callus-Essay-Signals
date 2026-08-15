@@ -2,7 +2,7 @@
 
 This module is the single source of truth for the feature space. Both the
 offline training pipeline (``ml/training/extract_features.py``) and the live API
-call it, which is what guarantees train/serve consistency — there is no second
+call it, which is what guarantees train/serve consistency - there is no second
 implementation to drift.
 
 Two vectors are produced per essay:
@@ -200,7 +200,7 @@ def _aggregate_names() -> tuple[str, ...]:
 AGG_FEATURE_NAMES: tuple[str, ...] = _aggregate_names()
 
 # Whole-document LM/stylometry measured on the document as one unit (not an
-# aggregate of sentences) — captures long-range predictability.
+# aggregate of sentences) - captures long-range predictability.
 WHOLE_DOC_LM_NAMES: tuple[str, ...] = tuple(f"whole_{n}" for n in LM_FEATURE_NAMES)
 
 

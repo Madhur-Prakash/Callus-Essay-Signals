@@ -2,7 +2,7 @@
 
 The privacy endpoint exists so the frontend can state, accurately and from the
 live configuration, whether a submitted essay will be stored. Hard-coding that
-claim in the UI would let it drift out of step with the server's actual setting —
+claim in the UI would let it drift out of step with the server's actual setting -
 which is the one thing a privacy notice must never do.
 """
 

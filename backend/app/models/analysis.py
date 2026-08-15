@@ -2,7 +2,7 @@
 
 The important logic here is privacy shaping. Two documents are written:
 
-``analyses``          verdict, summary, evidence, timings — no essay text, and no
+``analyses``          verdict, summary, evidence, timings - no essay text, and no
                       sentence text unless ``SAVE_ESSAYS`` is on.
 ``analysis_results``  per-sentence and per-paragraph rows. Sentences are always
                       stored as ``(start, end, score, classification)`` offsets;
