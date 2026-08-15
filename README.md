@@ -17,28 +17,11 @@ A working detector for AI-generated and AI-polished writing in college admission
 essays. React + Vite frontend, FastAPI backend, and a hybrid ML/NLP pipeline that
 produces **measured evidence for every passage it flags**.
 
-<!--
-  Documentation nav as badges rather than a run of inline links.
-  Eight underlined links separated by interpuncts read as one dense grey line —
-  hard to scan and easy to skip. Badges give each destination a button and a
-  colour, and they match the stack badges above instead of fighting them.
-
-  The colours carry the same meaning the product's own palette does: the two
-  documents that hold the honest numbers are amber and clay, everything else is
-  neutral. Limitations is the one a reader should open first, so it is the one
-  that looks like a warning.
--->
-<p align="center">
-  <a href="docs/README.md"><img alt="Docs index" src="https://img.shields.io/badge/docs-index-5A6472?style=flat-square"></a>
-  <a href="docs/architecture.md"><img alt="Architecture" src="https://img.shields.io/badge/architecture-5A6472?style=flat-square"></a>
-  <a href="docs/detection-methodology.md"><img alt="Methodology" src="https://img.shields.io/badge/methodology-5A6472?style=flat-square"></a>
-  <a href="docs/dataset.md"><img alt="Dataset" src="https://img.shields.io/badge/dataset-5A6472?style=flat-square"></a>
-  <a href="docs/api.md"><img alt="API" src="https://img.shields.io/badge/api-5A6472?style=flat-square"></a>
-  <a href="docs/privacy.md"><img alt="Privacy" src="https://img.shields.io/badge/privacy-5A6472?style=flat-square"></a>
-  <br>
-  <a href="docs/evaluation.md"><img alt="Evaluation — measured results" src="https://img.shields.io/badge/evaluation-measured%20results-ECB14E?style=flat-square"></a>
-  <a href="docs/limitations.md"><img alt="Limitations — read first" src="https://img.shields.io/badge/limitations-read%20this%20first-F0785E?style=flat-square"></a>
-</p>
+**Documentation:** [Architecture](docs/architecture.md) ·
+[Methodology](docs/detection-methodology.md) · [Dataset](docs/dataset.md) ·
+[Evaluation](docs/evaluation.md) · [API](docs/api.md) ·
+[Privacy](docs/privacy.md) · [Limitations](docs/limitations.md) ·
+[Index](docs/README.md)
 
 **It is not an LLM wrapper.** A small local causal language model (`distilgpt2`) is
 used as a *measuring instrument* - it reports how probable each token was given the
