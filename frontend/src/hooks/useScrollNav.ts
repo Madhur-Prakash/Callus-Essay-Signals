@@ -1,43 +1,58 @@
 /**
- * GSAP-driven scroll navigation.
+ * Scroll navigation.
  *
- * Three pieces, all ScrollTrigger-based:
- *   useScrollProgress  a 0→1 progress value for the bar under the masthead
- *   useScrollSpy       which section is currently in view, for the section rail
- *   scrollToSection    smooth scroll to a section, routed through Lenis when it
- *                      is running so the two do not fight over the scroll position
+ *   useScrolled    has the page moved off the top? drives the masthead's state
+ *   useScrollSpy   which section is currently in view, for the section rail
+ *   scrollToSection  smooth scroll to a section, routed through Lenis when it is
+ *                    running so the two do not fight over the scroll position
  *
- * All of it is inert under `prefers-reduced-motion` and under test, matching the
- * gate in useMotion.
+ * Reading position lives in `components/ui/ScrollProgress` rather than here,
+ * because a per-frame value has no business in React state — see the note there.
+ *
+ * The ScrollTrigger-backed pieces are inert under `prefers-reduced-motion` and
+ * under test, matching the gate in useMotion.
  */
 
 import { useEffect, useState } from 'react';
 
 import { motionEnabled } from '@/hooks/useMotion';
 
-/** Fraction of the page scrolled, 0-1. Drives the masthead progress bar. */
-export function useScrollProgress(): number {
-  const [progress, setProgress] = useState(0);
+/**
+ * Whether the page has scrolled off the top.
+ *
+ * Two thresholds, not one. With a single boundary, scrolling gently around it
+ * flips the state on and off repeatedly and the bar strobes. Turning on at `on`
+ * and off only back below `off` gives the state somewhere to rest.
+ *
+ * A boolean rather than a continuous value for the same reason: a bar whose
+ * geometry tracks scroll position jitters on every wheel tick, whereas one
+ * transition between two states settles once and stays put.
+ */
+export function useScrolled(on = 32, off = 6): boolean {
+  const [scrolled, setScrolled] = useState(false);
 
   useEffect(() => {
-    // The progress bar is informational, not decorative, so it is kept even when
-    // motion is reduced — it just updates on plain scroll events instead of via
-    // ScrollTrigger.
+    let frame = 0;
     const read = () => {
-      const doc = document.documentElement;
-      const max = doc.scrollHeight - doc.clientHeight;
-      setProgress(max > 0 ? Math.min(1, Math.max(0, doc.scrollTop / max)) : 0);
+      frame = 0;
+      const y = document.documentElement.scrollTop;
+      // React bails out when the next value equals the current one, so this
+      // re-renders on the two crossings and never in between.
+      setScrolled((current) => (current ? y > off : y > on));
     };
-    read();
-    window.addEventListener('scroll', read, { passive: true });
-    window.addEventListener('resize', read);
-    return () => {
-      window.removeEventListener('scroll', read);
-      window.removeEventListener('resize', read);
+    const schedule = () => {
+      if (!frame) frame = requestAnimationFrame(read);
     };
-  }, []);
 
-  return progress;
+    read();
+    window.addEventListener('scroll', schedule, { passive: true });
+    return () => {
+      cancelAnimationFrame(frame);
+      window.removeEventListener('scroll', schedule);
+    };
+  }, [on, off]);
+
+  return scrolled;
 }
 
 /**

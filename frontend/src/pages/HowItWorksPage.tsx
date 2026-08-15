@@ -1,4 +1,4 @@
-import { Section } from '@/components/ui/Card';
+import { Reveal, Section } from '@/components/ui';
 import { cn } from '@/lib/cn';
 import { GROUP_LABELS } from '@/lib/format';
 import type { ModelInfoResponse } from '@/types/api';
@@ -25,7 +25,7 @@ export function HowItWorksPage({ modelInfo }: Props) {
   const pipeline = methodology?.pipeline ?? FALLBACK_PIPELINE;
 
   return (
-    <div className="stack stack--lg mx-auto max-w-[52rem]">
+    <Reveal className="stack stack--lg mx-auto max-w-[52rem]">
       <header>
         <h1>How this works</h1>
         <p className="muted text-base">
@@ -163,7 +163,7 @@ Result`}
           </p>
         </div>
       </section>
-    </div>
+    </Reveal>
   );
 }
 

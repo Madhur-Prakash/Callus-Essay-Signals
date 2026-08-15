@@ -220,7 +220,9 @@ frontend/
 ├── src/
 │   ├── api/client.ts        typed client; every failure mode → readable message
 │   ├── components/          editor · verdict · essay viewer · evidence · charts
-│   │   └── ui/              Button · Card/Section · Badge · Tabs (cva + Radix)
+│   │   └── ui/              reusable kit: Surface · Card/Section · Button · Badge
+│   │                        Gauge · Meter · Stat · Sparkline · Progress · Tabs
+│   │                        Reveal/SplitHeading · Atmosphere  (one barrel export)
 │   ├── pages/               Analyse · Results · Research · How it works · Limitations
 │   ├── hooks/               useTheme (light/dark/system) · useMotion (gsap/lenis)
 │   ├── lib/ types/

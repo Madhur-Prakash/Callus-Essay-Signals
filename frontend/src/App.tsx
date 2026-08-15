@@ -3,6 +3,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { fetchHealth, fetchModelInfo } from '@/api/client';
 import { Masthead } from '@/components/Masthead';
+import { Atmosphere } from '@/components/ui';
 import { EASE, useSmoothScroll } from '@/hooks/useMotion';
 import { useTheme } from '@/hooks/useTheme';
 import { AnalysePage } from '@/pages/AnalysePage';
@@ -110,6 +111,8 @@ export function App() {
     // state change when the OS asks for reduced motion. GSAP and Lenis are gated
     // separately in useMotion, so all three libraries obey the same preference.
     <MotionConfig reducedMotion="user">
+      {/* Fixed behind everything, outside `.app` so no stacking context traps it. */}
+      <Atmosphere />
       <div className="app">
         <Masthead
           route={route}

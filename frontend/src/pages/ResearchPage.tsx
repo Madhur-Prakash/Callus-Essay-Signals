@@ -3,9 +3,7 @@ import { useEffect, useState } from 'react';
 import { ApiError, fetchEvaluation } from '@/api/client';
 import { Banner } from '@/components/Banner';
 import { CalibrationChart, PrChart, RocChart } from '@/components/charts';
-import { Badge } from '@/components/ui/Badge';
-import { Section } from '@/components/ui/Card';
-import { TabPanel, Tabs } from '@/components/ui/Tabs';
+import { Badge, Section, TabPanel, Tabs } from '@/components/ui';
 import { useScrollReveal } from '@/hooks/useMotion';
 import { cn } from '@/lib/cn';
 import {

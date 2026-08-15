@@ -1,66 +1,20 @@
 import { AnimatePresence, motion } from 'framer-motion';
 import { useMemo, useState } from 'react';
 
-import { Button } from '@/components/ui/Button';
-import { EASE, useDrawPath } from '@/hooks/useMotion';
+import { Button, Sparkline, SplitHeading } from '@/components/ui';
+import { EASE } from '@/hooks/useMotion';
 import { EXAMPLE_ESSAYS } from '@/lib/exampleEssays';
 import { countParagraphs, countSentences, countWords } from '@/lib/format';
 
 /**
  * The hero motif: a sentence-length trace over its own bars.
  *
- * It is the one decorative element in the interface, and it is drawn from the
- * thing the product actually measures — uneven sentence lengths around a mean —
- * rather than an abstract flourish. Values are fixed, not fabricated data about
- * anyone's essay.
+ * The one decorative element in the interface, and it is drawn from the thing the
+ * product actually measures — uneven sentence lengths around a mean — rather than
+ * an abstract flourish. The numbers are fixed and illustrative; they are never
+ * presented as data about anyone's essay.
  */
 const WAVE = [14, 31, 8, 22, 11, 38, 17, 6, 26, 13, 29, 9, 20, 34, 12];
-
-function HeroWave() {
-  // GSAP measures the real path length, so the draw stays correct if the data or
-  // viewBox changes — a hard-coded dasharray would not.
-  const lineRef = useDrawPath<SVGPolylineElement>();
-  const width = 460;
-  const height = 46;
-  const pad = 8;
-  const step = (width - pad * 2) / (WAVE.length - 1);
-  const max = Math.max(...WAVE);
-  const baseline = height - 4;
-  const y = (n: number) => baseline - (n / max) * (height - 14);
-  const points = WAVE.map((n, i) => `${pad + i * step},${y(n)}`).join(' ');
-  const mean = WAVE.reduce((sum, n) => sum + n, 0) / WAVE.length;
-
-  return (
-    <svg
-      className="hero__wave"
-      viewBox={`0 0 ${width} ${height}`}
-      aria-hidden="true"
-      focusable="false"
-    >
-      {/* the essay's mean, the thing the variation is measured against */}
-      <line
-        className="hero__wave-mean"
-        x1={pad}
-        x2={width - pad}
-        y1={y(mean)}
-        y2={y(mean)}
-      />
-      {WAVE.map((n, i) => (
-        <motion.rect
-          key={i}
-          className="hero__wave-bar"
-          x={pad + i * step - 1.5}
-          width={3}
-          rx={1.5}
-          initial={{ y: baseline, height: 0, opacity: 0 }}
-          animate={{ y: y(n), height: baseline - y(n), opacity: 0.32 }}
-          transition={{ duration: 0.5, delay: 0.35 + i * 0.035, ease: EASE }}
-        />
-      ))}
-      <polyline ref={lineRef} className="hero__wave-line" points={points} />
-    </svg>
-  );
-}
 
 interface Props {
   value: string;
@@ -123,16 +77,32 @@ export function EssayEditor({
   return (
     <section className="composer">
       <div className="hero">
-        <span className="hero__eyebrow">
-          <span className="hero__eyebrow-dot" aria-hidden="true" />
+        <motion.span
+          className="eyebrow"
+          initial={{ opacity: 0, y: -6 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, ease: EASE }}
+        >
+          <span className="eyebrow__dot" aria-hidden="true" />
           Evidence, not a percentage
-        </span>
-        <h1>What does this essay measure like?</h1>
-        <p className="hero__lede">
+        </motion.span>
+
+        {/* The one heading in the app that gets the line reveal. */}
+        <SplitHeading>What does this essay measure like?</SplitHeading>
+
+        <motion.p
+          className="hero__lede"
+          initial={{ opacity: 0, y: 10 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6, delay: 0.35, ease: EASE }}
+        >
           Paste an admissions essay. Every passage that gets flagged comes with the
           measurements behind it.
-        </p>
-        <HeroWave />
+        </motion.p>
+
+        <div className="hero__wave">
+          <Sparkline values={WAVE} />
+        </div>
       </div>
 
       <div className="editor">
@@ -270,7 +240,15 @@ export function EssayEditor({
       </AnimatePresence>
 
       <div className="composer__actions">
-        <Button variant="primary" onClick={onAnalyse} disabled={!canAnalyse}>
+        {/* The page's one magnetic control — the effect means "this is the
+            target", which stops being true the moment everything has it. */}
+        <Button
+          variant="primary"
+          magnetic
+          loading={busy}
+          disabled={!canAnalyse}
+          onClick={onAnalyse}
+        >
           {busy ? 'Analysing…' : 'Analyse essay'}
         </Button>
       </div>

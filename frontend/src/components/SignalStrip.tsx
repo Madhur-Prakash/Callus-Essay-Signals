@@ -8,6 +8,7 @@
  * than a generic icon set.
  */
 
+import { Surface } from '@/components/ui';
 import { useScrollReveal } from '@/hooks/useMotion';
 
 const SIGNALS: Array<{ name: string; desc: string; icon: JSX.Element }> = [
@@ -89,19 +90,35 @@ export function SignalStrip() {
       ref={ref as React.RefObject<HTMLElement>}
     >
       <div className="signals__head">
+        <span className="eyebrow">
+          <span className="eyebrow__dot" aria-hidden="true" />
+          Six families of measurement
+        </span>
         <h2 id="signals-heading">What gets measured</h2>
-        <p className="section-note">
+        <p className="section-note text-center">
           No chat model is asked whether your essay is AI-written. These properties are
           measured, then a classifier we trained weighs them.
         </p>
       </div>
       <div className="signals__grid">
-        {SIGNALS.map((signal) => (
-          <article className="signal" key={signal.name}>
+        {SIGNALS.map((signal, index) => (
+          // Spotlight is affordable here and nowhere else: this is the one grid
+          // on the landing view, and a light that follows the pointer over six
+          // cards reads as exploration. Over a table of numbers it reads as noise.
+          <Surface
+            as="article"
+            key={signal.name}
+            className="signal"
+            spotlight
+            interactive
+          >
+            <span className="signal__index" aria-hidden="true">
+              {String(index + 1).padStart(2, '0')}
+            </span>
             {signal.icon}
             <h3 className="signal__name">{signal.name}</h3>
             <p className="signal__desc">{signal.desc}</p>
-          </article>
+          </Surface>
         ))}
       </div>
     </section>

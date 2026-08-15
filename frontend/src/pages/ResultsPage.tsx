@@ -9,10 +9,14 @@ import { RepetitionPanel } from '@/components/RepetitionPanel';
 import { RhythmChart } from '@/components/RhythmChart';
 import { SummaryStats } from '@/components/SummaryStats';
 import { VerdictCard } from '@/components/VerdictCard';
-import { Badge } from '@/components/ui/Badge';
-import { Button } from '@/components/ui/Button';
-import { Section } from '@/components/ui/Card';
-import { TabPanel, Tabs, type TabDefinition } from '@/components/ui/Tabs';
+import {
+  Badge,
+  Button,
+  Section,
+  TabPanel,
+  Tabs,
+  type TabDefinition,
+} from '@/components/ui';
 import { fadeUp, stagger } from '@/hooks/useMotion';
 import type { AnalysisResponse } from '@/types/api';
 

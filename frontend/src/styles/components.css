@@ -1,22 +1,126 @@
 /*
- * Generic interface primitives — the vocabulary the whole app is built from.
+ * The interface kit's paint — everything under `components/ui/`.
  *
- * Tailwind's own guidance is to extract a class once a utility string is repeated
- * across many elements, which is exactly what these are: cards, buttons, tags,
- * banners and data tables appear dozens of times each. Domain-specific pieces
- * (the essay reader, meters, charts) live in app.css; one-off layout stays as
- * plain utilities in the JSX where you can read it next to the markup.
+ * These are classes rather than utility strings because they are applied dozens
+ * of times each, and because most of them need CSS that utilities cannot express:
+ * layered pseudo-element highlights, backdrop filters, conic gradients, the
+ * cursor-tracking spotlight. Domain pieces live in app.css; one-off layout stays
+ * as plain utilities in the JSX where you can read it beside the markup.
  */
 
 @layer components {
-  /* -------------------------------------------------------------- surfaces */
-  .card {
-    @apply relative overflow-hidden rounded-card border border-line bg-surface;
+  /* ============================================================== atmosphere */
+  .atmosphere {
+    @apply pointer-events-none fixed inset-0 z-0 overflow-hidden;
+  }
+
+  .atmosphere__glow {
+    @apply absolute rounded-full;
+    /* A blur this large on a fixed layer is cheap because it never repaints —
+       only the transform changes, and that stays on the compositor. */
+    filter: blur(90px);
+    will-change: transform;
+  }
+
+  .atmosphere__glow--1 {
+    inset: -22% 30% 55% -18%;
+    background: radial-gradient(circle at 50% 50%, var(--aurora-1), transparent 68%);
+  }
+
+  .atmosphere__glow--2 {
+    inset: -14% -20% 40% 42%;
+    background: radial-gradient(circle at 50% 50%, var(--aurora-2), transparent 68%);
+  }
+
+  .atmosphere__glow--3 {
+    inset: 45% -10% -25% 20%;
+    background: radial-gradient(circle at 50% 50%, var(--aurora-3), transparent 70%);
+  }
+
+  /* A faint engineering grid. It reads as graph paper under an instrument, and
+     the mask keeps it from competing with content lower down the page. */
+  .atmosphere__grid {
+    @apply absolute inset-0;
+    background-image:
+      linear-gradient(to right, var(--glass-line) 1px, transparent 1px),
+      linear-gradient(to bottom, var(--glass-line) 1px, transparent 1px);
+    background-size: 72px 72px;
+    mask-image: radial-gradient(ellipse 85% 55% at 50% 0%, #000 0%, transparent 78%);
+    opacity: 0.5;
+  }
+
+  /* feTurbulence as a data URI: no request, no asset, resolution-independent.
+     Grain is what keeps large flat gradients from banding on 8-bit displays. */
+  .atmosphere__grain {
+    @apply absolute inset-0;
+    opacity: var(--grain-opacity);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='140' height='140'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='140' height='140' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  /* ================================================================ surfaces */
+  .surface {
+    @apply relative;
+  }
+
+  .surface--glass {
+    background: var(--glass);
+    border: 1px solid var(--glass-line);
+    box-shadow: var(--elev), inset 0 1px 0 var(--hairline);
+    backdrop-filter: blur(18px) saturate(1.5);
+    -webkit-backdrop-filter: blur(18px) saturate(1.5);
+  }
+
+  .surface--solid {
+    @apply bg-surface;
+    border: 1px solid var(--border);
     box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
   }
 
+  .surface--sunken {
+    @apply bg-sunken;
+    border: 1px solid var(--border);
+  }
+
+  .surface--bare {
+    @apply border-0 bg-transparent shadow-none;
+  }
+
+  .surface--interactive {
+    @apply transition-[transform,box-shadow,border-color] duration-300;
+  }
+
+  .surface--interactive:hover {
+    @apply -translate-y-0.5;
+    border-color: color-mix(in srgb, var(--accent) 38%, var(--glass-line));
+    box-shadow: var(--elev-lg), inset 0 1px 0 var(--hairline);
+  }
+
+  /* The light the cursor carries. `--mx`/`--my` are written by useSpotlight;
+     `--spot` fades it in so the highlight does not snap on at the edge. */
+  .surface--spotlight::before {
+    @apply pointer-events-none absolute inset-0 z-0 opacity-0 transition-opacity duration-300 content-[''];
+    border-radius: inherit;
+    opacity: var(--spot, 0);
+    background: radial-gradient(
+      26rem circle at var(--mx, 50%) var(--my, 0%),
+      var(--accent-soft),
+      transparent 45%
+    );
+  }
+
+  .surface--spotlight > * {
+    @apply relative z-[1];
+  }
+
+  /* =================================================================== cards */
+  .card {
+    @apply overflow-hidden;
+  }
+
   .card__head {
-    @apply flex items-center gap-2.5 border-b border-line bg-surface-2 px-5 py-4;
+    @apply flex items-center gap-3 px-5 py-4;
+    border-bottom: 1px solid var(--glass-line);
+    background: linear-gradient(180deg, var(--hairline), transparent);
   }
 
   .card__body {
@@ -24,46 +128,90 @@
   }
 
   .card__title {
-    @apply m-0 font-sans text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+    @apply m-0 font-sans text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.11em;
+  }
+
+  .card__meta {
+    @apply ml-auto flex-none font-mono text-2xs tabular-nums text-ink-faint;
   }
 
   .section-note {
     @apply mb-0 mt-1 max-w-[68ch] text-xs text-ink-faint;
   }
 
-  /* --------------------------------------------------------------- buttons */
+  /* ================================================================= buttons */
   .btn {
-    @apply inline-flex items-center justify-center gap-2 rounded-control border
-      border-line-strong bg-surface-2 px-4 py-2 text-xs font-medium leading-tight text-ink
-      transition-[background,border-color,transform,box-shadow] duration-150;
+    @apply relative inline-flex select-none items-center justify-center gap-2
+      overflow-hidden rounded-full px-4 py-2 text-xs font-medium leading-tight text-ink
+      transition-[background,border-color,color,box-shadow] duration-200;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
     box-shadow: inset 0 1px 0 var(--hairline);
   }
 
   .btn:hover:not(:disabled) {
-    @apply -translate-y-px border-ink-faint bg-surface-3;
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--accent) 9%, var(--glass));
   }
 
   .btn:active:not(:disabled) {
-    @apply translate-y-0;
+    transform: scale(0.985);
   }
 
   .btn:disabled {
     @apply cursor-not-allowed opacity-40;
   }
 
+  .btn__label {
+    @apply relative z-[1] whitespace-nowrap;
+  }
+
+  .btn__icon {
+    @apply relative z-[1] inline-flex flex-none items-center;
+  }
+
+  /* --- primary: the one gradient in the interface, so it reads as *the* action */
   .btn--primary {
-    @apply border-transparent px-7 py-3 text-base font-semibold text-white;
-    background: linear-gradient(180deg, var(--accent) 0%, var(--accent-dim) 100%);
+    @apply border-transparent px-8 py-3.5 text-base font-semibold text-white;
+    background: var(--accent-gradient);
     box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.18) inset,
-      0 6px 20px -6px var(--accent-glow);
+      inset 0 1px 0 rgb(255 255 255 / 0.28),
+      0 10px 30px -10px var(--accent-glow);
+  }
+
+  /* A shine that crosses the button on hover. Transform-only, so it composites. */
+  .btn--primary::after {
+    @apply absolute inset-0 content-[''];
+    background: linear-gradient(
+      100deg,
+      transparent 20%,
+      rgb(255 255 255 / 0.34) 50%,
+      transparent 80%
+    );
+    transform: translateX(-120%);
+    transition: transform 0.75s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .btn--primary:hover:not(:disabled)::after {
+    transform: translateX(120%);
   }
 
   .btn--primary:hover:not(:disabled) {
-    filter: brightness(1.08);
+    border-color: transparent;
     box-shadow:
-      0 1px 0 rgb(255 255 255 / 0.22) inset,
-      0 10px 28px -8px var(--accent-glow);
+      inset 0 1px 0 rgb(255 255 255 / 0.34),
+      0 16px 42px -12px var(--accent-glow);
+  }
+
+  .btn--outline {
+    @apply bg-transparent shadow-none;
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    color: var(--accent);
+  }
+
+  .btn--outline:hover:not(:disabled) {
+    background: var(--accent-soft);
   }
 
   .btn--ghost {
@@ -76,19 +224,45 @@
   }
 
   .btn--sm {
-    @apply rounded-md px-2.5 py-1.5 text-2xs;
+    @apply px-3 py-1.5 text-2xs;
   }
 
-  /* ------------------------------------------------------------------ tags */
+  .btn--lg {
+    @apply px-9 py-4 text-lg;
+  }
+
+  .btn--loading .btn__label {
+    @apply opacity-60;
+  }
+
+  .btn__spinner {
+    @apply relative z-[1] size-3.5 flex-none rounded-full;
+    border: 2px solid color-mix(in srgb, currentColor 25%, transparent);
+    border-top-color: currentColor;
+    animation: btn-spin 0.7s linear infinite;
+  }
+
+  @keyframes btn-spin {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+
+  /* ==================================================================== tags */
   .tag {
-    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full border
-      border-line bg-surface-2 px-2.5 py-1 text-2xs font-medium text-ink-soft;
+    @apply inline-flex items-center gap-1.5 whitespace-nowrap rounded-full px-2.5 py-1
+      text-2xs font-medium text-ink-soft;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
   }
 
-  /* --------------------------------------------------------------- banners */
+  /* ================================================================= banners */
   .banner {
-    @apply relative overflow-hidden rounded-card border border-line bg-surface
-      py-3.5 pl-5 pr-4 text-xs;
+    @apply relative overflow-hidden rounded-card py-4 pl-6 pr-5 text-xs;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    backdrop-filter: blur(16px) saturate(1.4);
+    -webkit-backdrop-filter: blur(16px) saturate(1.4);
     box-shadow: inset 0 1px 0 var(--hairline);
   }
 
@@ -97,23 +271,24 @@
   }
 
   .banner--warning {
-    @apply border-warning-line bg-warning-bg;
+    border-color: var(--warning-border);
+    background: color-mix(in srgb, var(--warning-bg) 100%, var(--glass));
   }
   .banner--warning::before {
     @apply bg-possible;
   }
 
   .banner--danger {
-    @apply bg-likely-soft;
-    border-color: color-mix(in srgb, var(--likely) 40%, transparent);
+    border-color: color-mix(in srgb, var(--likely) 42%, transparent);
+    background: color-mix(in srgb, var(--likely-soft) 100%, var(--glass));
   }
   .banner--danger::before {
     @apply bg-likely;
   }
 
   .banner--info {
-    @apply bg-accent-soft;
-    border-color: color-mix(in srgb, var(--accent) 32%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 34%, transparent);
+    background: color-mix(in srgb, var(--accent-soft) 100%, var(--glass));
   }
   .banner--info::before {
     @apply bg-accent;
@@ -128,18 +303,225 @@
     background: color-mix(in srgb, var(--ink) 10%, transparent);
   }
 
-  /* ---------------------------------------------------------------- tables */
+  /* =================================================================== gauge */
+  .gauge {
+    @apply relative flex flex-none items-center justify-center;
+  }
+
+  .gauge__svg {
+    @apply absolute inset-0 size-full -rotate-90;
+  }
+
+  .gauge__track {
+    @apply fill-none;
+    stroke: color-mix(in srgb, var(--ink) 11%, transparent);
+    stroke-linecap: round;
+  }
+
+  .gauge__arc {
+    @apply fill-none;
+    stroke-linecap: round;
+  }
+
+  .gauge__centre {
+    @apply relative flex flex-col items-center gap-1 text-center;
+  }
+
+  .gauge__value {
+    @apply font-mono text-xl font-semibold tabular-nums;
+  }
+
+  .gauge__label {
+    @apply max-w-[7.5rem] font-serif text-lg font-semibold leading-tight;
+  }
+
+  .gauge__caption {
+    @apply max-w-[8.5rem] text-2xs leading-snug text-ink-faint;
+  }
+
+  /* =================================================================== meter */
+  .meter {
+    @apply mb-4;
+  }
+
+  .meter__row {
+    @apply mb-1.5 flex items-baseline gap-2;
+  }
+
+  .meter__label {
+    @apply min-w-0 flex-1 text-xs text-ink;
+  }
+
+  .meter__level {
+    @apply text-2xs font-bold uppercase tracking-wide;
+  }
+
+  .meter__blocks {
+    @apply flex h-2 gap-1;
+  }
+
+  .meter__block {
+    @apply flex-1 rounded-full transition-[background,box-shadow] duration-500;
+    background: color-mix(in srgb, var(--ink) 11%, transparent);
+  }
+
+  .meter__block--on {
+    background: var(--level-color, var(--accent));
+    box-shadow: 0 0 10px -1px var(--level-color, var(--accent));
+  }
+
+  .meter__foot {
+    @apply mt-1.5 flex justify-between gap-2.5 font-mono text-2xs tabular-nums text-ink-faint;
+  }
+
+  .meter__detail {
+    @apply mt-1.5 text-2xs leading-relaxed text-ink-soft;
+  }
+
+  /* ================================================================ progress */
+  .progress__track {
+    @apply h-[3px] w-full overflow-hidden rounded-full;
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
+  }
+
+  .progress__bar {
+    @apply h-full rounded-full;
+    background: var(--accent-gradient);
+    transition: width 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  }
+
+  .progress__bar--indeterminate {
+    @apply w-1/3;
+    background: linear-gradient(90deg, transparent, var(--accent), transparent);
+    animation: indeterminate 1.5s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  }
+
+  @keyframes indeterminate {
+    from {
+      transform: translateX(-110%);
+    }
+    to {
+      transform: translateX(420%);
+    }
+  }
+
+  .progress__steps {
+    @apply m-0 grid list-none gap-2 p-0 text-2xs text-ink-faint;
+  }
+
+  .progress__step {
+    @apply flex items-center gap-2.5 transition-colors duration-300;
+  }
+
+  .progress__dot {
+    @apply size-1.5 flex-none rounded-full transition-all duration-300;
+    background: color-mix(in srgb, var(--ink) 22%, transparent);
+  }
+
+  .progress__step--active {
+    @apply font-medium text-ink;
+  }
+
+  .progress__step--active .progress__dot {
+    background: var(--accent);
+  }
+
+  .progress__step--current .progress__dot {
+    box-shadow: 0 0 0 4px var(--accent-soft);
+  }
+
+  /* =============================================================== sparkline */
+  .sparkline {
+    @apply block h-auto w-full overflow-visible;
+  }
+
+  .sparkline__bar {
+    fill: var(--ink-faint);
+    opacity: 0.32;
+  }
+
+  .sparkline__mean {
+    stroke: var(--ink-faint);
+    stroke-width: 1;
+    stroke-dasharray: 3 4;
+    opacity: 0.4;
+  }
+
+  .sparkline__line {
+    @apply fill-none;
+    stroke: var(--accent);
+    stroke-width: 1.75;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    filter: drop-shadow(0 0 6px var(--accent-glow));
+  }
+
+  /* ==================================================================== tabs */
+  .tabs__list {
+    @apply mb-7 flex gap-1 overflow-x-auto rounded-full p-1;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    scrollbar-width: none;
+  }
+
+  .tabs__list::-webkit-scrollbar {
+    @apply hidden;
+  }
+
+  .tabs__list--sticky {
+    @apply sticky top-[5.4rem] z-20;
+  }
+
+  .tabs__trigger {
+    @apply inline-flex flex-none items-center gap-2 whitespace-nowrap rounded-full border-0
+      bg-transparent px-4 py-2 text-xs font-medium text-ink-soft
+      transition-[color,background,box-shadow] duration-200;
+  }
+
+  .tabs__trigger:hover {
+    @apply text-ink;
+    background: color-mix(in srgb, var(--ink) 7%, transparent);
+  }
+
+  .tabs__trigger[data-state='active'] {
+    color: var(--bg);
+    background: var(--ink);
+    box-shadow: 0 2px 12px -4px rgb(0 0 0 / 0.5);
+  }
+
+  .tabs__badge {
+    @apply inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5
+      font-mono text-[0.68rem] tabular-nums;
+    background: color-mix(in srgb, var(--ink-faint) 30%, transparent);
+  }
+
+  .tabs__trigger[data-state='active'] .tabs__badge {
+    background: color-mix(in srgb, var(--bg) 35%, transparent);
+  }
+
+  .tabs__panel:focus {
+    @apply outline-none;
+  }
+
+  /* ================================================================== tables */
   table.data {
     @apply w-full border-collapse text-xs;
   }
 
   table.data th,
   table.data td {
-    @apply whitespace-nowrap border-b border-line px-3 py-2 text-left;
+    @apply whitespace-nowrap px-3 py-2.5 text-left;
+    border-bottom: 1px solid var(--glass-line);
   }
 
   table.data th {
-    @apply sticky top-0 bg-surface-2 text-2xs font-bold uppercase tracking-[0.07em] text-ink-faint;
+    @apply sticky top-0 text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.08em;
+    background: var(--glass-strong);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
   }
 
   table.data td.num,
@@ -152,10 +534,14 @@
   }
 
   table.data tbody tr {
-    @apply transition-colors duration-100 hover:bg-surface-2;
+    @apply transition-colors duration-150;
   }
 
-  /* --------------------------------------------------------------- helpers */
+  table.data tbody tr:hover {
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
+  }
+
+  /* ================================================================= helpers */
   .stack {
     @apply flex flex-col;
   }
@@ -166,7 +552,7 @@
     @apply gap-4;
   }
   .stack--lg {
-    @apply gap-7;
+    @apply gap-8;
   }
 
   .row {
@@ -189,7 +575,7 @@
   }
 
   .two-col {
-    @apply grid gap-6 [grid-template-columns:repeat(auto-fit,minmax(21rem,1fr))];
+    @apply grid gap-6 grid-cols-[repeat(auto-fit,minmax(21rem,1fr))];
   }
 
   .scroll-x {
@@ -199,7 +585,8 @@
   }
 
   .divider {
-    @apply my-5 h-px border-0 bg-line;
+    @apply my-6 h-px border-0;
+    background: linear-gradient(90deg, transparent, var(--glass-line) 20%, var(--glass-line) 80%, transparent);
   }
 
   .chips {
@@ -211,11 +598,45 @@
   }
 
   .statements li::marker {
-    color: var(--accent-dim);
+    color: var(--accent);
   }
 
   .subhead {
-    @apply mb-2.5 mt-0 text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+    @apply mb-2.5 mt-0 text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.11em;
+  }
+
+  /* An eyebrow that pairs a pulsing dot with a short label. Used above the two
+     page-opening headings, never more than once per view. */
+  .eyebrow {
+    @apply inline-flex items-center gap-2 rounded-full px-3 py-1 text-2xs font-semibold uppercase text-ink-soft;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    letter-spacing: 0.09em;
+  }
+
+  .eyebrow__dot {
+    @apply size-[0.42rem] flex-none rounded-full bg-accent;
+    box-shadow: 0 0 0 0 var(--accent-glow);
+    animation: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes pulse-ring {
+    0% {
+      box-shadow: 0 0 0 0 var(--accent-glow);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 7px transparent;
+    }
+  }
+
+  /* Gradient text for the one phrase per page that carries the accent. */
+  .grad {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .visually-hidden {

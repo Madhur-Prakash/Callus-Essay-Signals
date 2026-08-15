@@ -5,7 +5,7 @@ import { ApiError, analyseEssay, fetchPrivacy, pollAnalysis } from '@/api/client
 import { Banner } from '@/components/Banner';
 import { EssayEditor } from '@/components/EssayEditor';
 import { SignalStrip } from '@/components/SignalStrip';
-import { Button } from '@/components/ui/Button';
+import { Button, ProgressBar, ProgressSteps } from '@/components/ui';
 import type { AnalysisResponse, HealthResponse, ModelInfoResponse } from '@/types/api';
 
 interface Props {
@@ -153,15 +153,15 @@ export function AnalysePage({
 
       {busy && (
         <div className="progress" role="status" aria-live="polite">
-          <div className="progress__track">
-            <div className="progress__bar" />
+          <div className="progress__head">
+            <span className="eyebrow__dot" aria-hidden="true" />
+            <p className="progress__title">Measuring</p>
           </div>
-          <div className="progress__steps">
-            {STAGES.map((label, index) => (
-              <span key={label} className={index <= stage ? 'progress__step--active' : undefined}>
-                {index <= stage ? '•' : '○'} {label}
-              </span>
-            ))}
+          {/* Indeterminate on purpose: the endpoint returns one response, so any
+              percentage would be invented. */}
+          <ProgressBar ariaLabel="Analysis in progress" />
+          <div className="mt-5">
+            <ProgressSteps steps={STAGES} current={stage} />
           </div>
         </div>
       )}

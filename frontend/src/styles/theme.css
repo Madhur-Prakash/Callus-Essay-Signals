@@ -29,9 +29,14 @@
   --color-ink-faint: var(--ink-faint);
 
   --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
   --color-accent-bright: var(--accent-bright);
   --color-accent-dim: var(--accent-dim);
   --color-accent-soft: var(--accent-soft);
+
+  --color-glass: var(--glass);
+  --color-glass-strong: var(--glass-strong);
+  --color-glass-line: var(--glass-line);
 
   /* Semantic colours. These carry meaning in this product — never decoration —
      so they are named for the verdict they represent, not for their hue. */

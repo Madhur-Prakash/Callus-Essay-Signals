@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 
 import type { Route } from '@/App';
 import { ThemeToggle } from '@/components/ThemeToggle';
-import { useScrollProgress } from '@/hooks/useScrollNav';
+import { useScrolled } from '@/hooks/useScrollNav';
 import type { useTheme } from '@/hooks/useTheme';
 import type { HealthResponse } from '@/types/api';
 
@@ -22,50 +22,70 @@ const BASE_NAV: Array<{ id: Route; label: string }> = [
   { id: 'limitations', label: 'Limits' },
 ];
 
+/**
+ * Only failures appear in the bar.
+ *
+ * A healthy backend is the expected case, and spending a permanent indicator on
+ * saying so is how a status light becomes furniture — by the time it turns red,
+ * nobody is looking at it any more. Nothing renders for `ok`, and nothing while
+ * the check is still in flight, so the bar never flickers a chip on first load.
+ *
+ * An unreachable backend is not handled here either: `health` stays null in that
+ * case and AnalysePage already shows a full banner with the command to start it.
+ */
+const HEALTH_ALERT: Record<string, { colour: string; label: string; title: string }> = {
+  degraded: {
+    colour: 'var(--possible)',
+    label: 'Degraded',
+    title: 'Backend running with reduced capability',
+  },
+  unavailable: {
+    colour: 'var(--likely)',
+    label: 'Detector offline',
+    title: 'The detector is unavailable — analysis will fail',
+  },
+};
+
+/**
+ * The app bar.
+ *
+ * Three zones on a `1fr auto 1fr` grid — wordmark, navigation, utilities — so the
+ * nav is optically centred no matter how wide the other two get. A flex row with
+ * `margin-left: auto` pushed the nav against the utilities and left the bar with
+ * no rhythm.
+ *
+ * The bar is one pill and only one. Its earlier form nested a pill inside a pill
+ * inside a pill (bar → nav group → toggle → status chip), and four competing
+ * rounded rectangles crammed together is what made it read as cluttered. Now the
+ * only other pill is the sliding active indicator, which earns its shape by
+ * carrying meaning.
+ */
 export function Masthead({ route, onNavigate, health, theme, hasResult }: Props) {
-  const progress = useScrollProgress();
+  const scrolled = useScrolled();
 
   const nav = hasResult
     ? [BASE_NAV[0]!, { id: 'results' as Route, label: 'Results' }, ...BASE_NAV.slice(1)]
     : BASE_NAV;
 
-  const statusColour =
-    health === null
-      ? 'var(--ink-faint)'
-      : health.status === 'ok'
-        ? 'var(--human)'
-        : health.status === 'degraded'
-          ? 'var(--possible)'
-          : 'var(--likely)';
-
-  const statusText =
-    health === null
-      ? 'checking backend'
-      : health.status === 'ok'
-        ? 'all components healthy'
-        : health.status === 'degraded'
-          ? 'running with reduced capability'
-          : 'detector unavailable';
+  const alert = health ? HEALTH_ALERT[health.status] : undefined;
 
   return (
-    <header className="masthead">
+    <header className="masthead" data-scrolled={scrolled || undefined}>
       <div className="masthead__inner">
-        <div className="wordmark">
+        <div className="masthead__zone">
           {/* Routing is hash-based and owned by App.tsx — there is no Router
-              provider, so a react-router <Link> would crash here. The wordmark
-              uses the same onNavigate callback as the nav buttons below. */}
+              provider, so a react-router <Link> would crash here. */}
           <button
             type="button"
-            className="wordmark__home"
+            className="wordmark"
             onClick={() => onNavigate('analyse')}
             aria-label="Essay Signals — go to the analyse page"
           >
             <span className="wordmark__mark" aria-hidden="true">
               ∿
             </span>
-            <span>Essay Signals</span>
+            <span className="wordmark__name">Essay Signals</span>
           </button>
-          <span className="wordmark__sub">evidence-based detection</span>
         </div>
 
         <nav className="nav" aria-label="Main">
@@ -77,7 +97,7 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
               aria-current={route === item.id ? 'page' : undefined}
               onClick={() => onNavigate(item.id)}
             >
-              {/* A shared layoutId lets the active pill slide between tabs
+              {/* A shared layoutId lets the active pill slide between items
                   instead of blinking out and in. */}
               {route === item.id && (
                 <motion.span
@@ -91,22 +111,27 @@ export function Masthead({ route, onNavigate, health, theme, hasResult }: Props)
           ))}
         </nav>
 
-        <ThemeToggle choice={theme.choice} resolved={theme.resolved} onCycle={theme.cycle} />
+        <div className="masthead__zone masthead__zone--end">
+          {alert && (
+            // `role="status"` rather than "alert": this arrives from a poll, not
+            // in response to something the user just did, so it should be
+            // announced politely instead of interrupting.
+            <span
+              className="health"
+              role="status"
+              title={alert.title}
+              data-testid="health-chip"
+              // One property drives both the dot and its halo, so the two can
+              // never drift apart — the halo is mixed from it in CSS.
+              style={{ ['--dot' as string]: alert.colour }}
+            >
+              <span className="health__dot" aria-hidden="true" />
+              <span className="health__label">{alert.label}</span>
+            </span>
+          )}
 
-        <span className="tag" title={statusText} data-testid="health-chip">
-          <span
-            aria-hidden="true"
-            className="inline-block size-2 rounded-full"
-            style={{ background: statusColour }}
-          />
-          {health?.status ?? '…'}
-        </span>
-      </div>
-
-      {/* Reading position. Informational rather than decorative, so it is kept
-          even under reduced motion — it just stops being smoothed. */}
-      <div className="masthead__progress" aria-hidden="true">
-        <div className="masthead__progress-bar" style={{ transform: `scaleX(${progress})` }} />
+          <ThemeToggle choice={theme.choice} resolved={theme.resolved} onCycle={theme.cycle} />
+        </div>
       </div>
     </header>
   );

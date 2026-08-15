@@ -47,7 +47,9 @@ export function ThemeToggle({ choice, resolved, onCycle }: Props) {
       data-choice={choice}
     >
       {ICON[choice]}
-      <span className="theme-toggle__text">{choice}</span>
+      {/* The word "system"/"light"/"dark" was label text on a control whose icon
+          already says it. Kept for screen readers, dropped from the bar. */}
+      <span className="visually-hidden">{choice}</span>
     </button>
   );
 }

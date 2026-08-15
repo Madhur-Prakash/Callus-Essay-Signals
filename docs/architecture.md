@@ -222,6 +222,54 @@ The frontend fetches `/essays/privacy` rather than hard-coding the storage notic
 A privacy claim that can drift out of step with the server's actual setting is the
 one thing a privacy notice must never do.
 
+### The interface kit
+
+`src/components/ui/` is a self-contained set of primitives with one barrel export.
+The rule that keeps it reusable: **nothing in `ui/` may know what an essay is.**
+Anything that does lives one level up in `components/`, usually as a thin adapter
+— `MeterBar` knows what a percentile against the human corpus means and hands a
+0–1 value to the generic `Meter`, which only knows how to draw a level.
+
+| Primitive | What it is |
+| --- | --- |
+| `Surface` | the panel material — `glass` / `solid` / `sunken`, optional cursor spotlight |
+| `Card`, `Section` | a titled panel; `Section` collapses the head/title/note/body scaffold |
+| `Button` | `cva` variants, optional magnetic hover, loading state that holds its width |
+| `Badge` | tones named for the verdict they carry, never for their hue |
+| `Gauge` | radial gauge that sweeps to a value |
+| `Meter` | segmented level meter |
+| `Stat` | counted-up number with label |
+| `Sparkline` | line-and-bar micro chart |
+| `ProgressBar`, `ProgressSteps` | determinate or indeterminate, plus a named-phase list |
+| `Reveal`, `SplitHeading` | scroll reveal, and a heading that rises out from behind a mask |
+| `Tabs`, `TabPanel` | Radix tabs with manual activation |
+| `Atmosphere` | the lit ground the app sits on |
+
+### Motion
+
+Three libraries with non-overlapping jobs: Lenis for page scrolling, Framer Motion
+for React enter/exit and layout transitions, GSAP for imperative timelines. GSAP is
+imported dynamically inside each hook, so it stays off the critical path.
+
+The rule for what earns an animation: it either shows a **relationship** (where
+this came from, what it became) or reports **state** (working, arriving, changing).
+Decoration that does neither is not worth the frame budget or the vestibular risk.
+Concretely: one line-reveal heading per page, one magnetic button per page, the
+spotlight only on the landing grid — the effects say "this is the target", which
+stops being true the moment everything has them.
+
+All three obey `prefers-reduced-motion`: `MotionConfig reducedMotion="user"` for
+Framer, `motionEnabled()` for GSAP and Lenis, and a CSS backstop in tokens.css.
+Every hook also no-ops under `MODE === 'test'`, because jsdom has no layout and
+would measure zeros.
+
+Two GSAP details worth knowing. `useLineReveal` rewrites a heading's DOM into one
+masked wrapper per *rendered* line, measured after layout rather than split on
+`<br>` or word count, so it stays correct at every viewport width; it captures the
+original markup and restores that exact node on cleanup. `useMagnetic` uses
+`gsap.quickTo`, which reuses one tween instead of allocating per `pointermove` —
+the difference between smooth and jittery at 120Hz.
+
 ### Styling
 
 Tailwind v4, configured in CSS — there is no `tailwind.config.js` and no PostCSS
@@ -255,10 +303,18 @@ threaded in from React. One-off layout stays as utilities in the JSX. Dynamic
 values — a bar width from a percentage, a colour from a classification — stay as
 inline `style` props, because they are data, not design.
 
-`components/ui/` holds shadcn-style primitives (`Button`, `Card`/`Section`,
-`Badge`) built on `cva` + `tailwind-merge`. They wrap the component classes rather
-than inlining utilities, so the paint stays in one place and the variant names are
-typed — `<Button variant="primry">` fails at compile time.
+One v4 trap worth recording: `px-[--gutter]` does **not** work. Tailwind v4 removed
+the bracket shorthand for a bare custom property and emits the token unwrapped
+(`padding-inline: --gutter`) rather than failing the build — so the rule is simply
+dropped by the browser and the page silently loses its padding. Use `px-(--gutter)`
+or plain `padding-inline: var(--gutter)`.
+
+Colour discipline: the semantic four (`human`, `uncertain`, `possible`, `likely`)
+are reserved for statements about a verdict and are never used decoratively. In
+this product colour *is* the claim, and spending those hues on ornament teaches the
+reader to ignore them in the one place they matter. The accent pair is the only
+gradient, and it appears on exactly three things: the primary button, the hero's
+one accented phrase, and the progress bar.
 
 ## Reproducibility
 

@@ -1,7 +1,6 @@
 import type { Route } from '@/App';
 import { Banner } from '@/components/Banner';
-import { Button } from '@/components/ui/Button';
-import { Section } from '@/components/ui/Card';
+import { Button, Reveal, Section } from '@/components/ui';
 import type { ModelInfoResponse } from '@/types/api';
 
 interface Props {
@@ -78,7 +77,7 @@ const SEVERITY_COLOUR: Record<string, string> = {
 
 export function LimitationsPage({ modelInfo, onNavigate }: Props) {
   return (
-    <div className="stack stack--lg mx-auto max-w-[54rem]">
+    <Reveal className="stack stack--lg mx-auto max-w-[54rem]">
       <header>
         <h1>Limitations</h1>
         <p className="muted text-lg">
@@ -164,6 +163,6 @@ export function LimitationsPage({ modelInfo, onNavigate }: Props) {
           How the detector works
         </Button>
       </div>
-    </div>
+    </Reveal>
   );
 }

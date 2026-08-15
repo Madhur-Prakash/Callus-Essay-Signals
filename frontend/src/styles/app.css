@@ -1,11 +1,11 @@
 /*
  * Domain components — the parts of the interface that only make sense in a
- * detector: the essay reader, evidence meters, distribution charts, the verdict.
+ * detector: the essay reader, evidence panels, distribution charts, the verdict.
  *
- * These stay as classes rather than utility strings because they either repeat
- * across many elements, or need CSS utilities cannot express: `box-decoration-break`
- * on wrapped sentence marks, SVG chart internals, the `--verdict-colour` custom
- * property threaded in from React, sticky panels tied to the masthead height.
+ * Generic primitives live in components.css. These stay as classes because they
+ * repeat across many elements, or need CSS utilities cannot express:
+ * `box-decoration-break` on wrapped sentence marks, SVG chart internals, the
+ * `--verdict-colour` custom property threaded in from React.
  */
 
 @layer components {
@@ -15,66 +15,106 @@
     min-height: 100dvh;
   }
 
+  /*
+   * A floating glass bar rather than a full-bleed sticky header. It reads as an
+   * instrument's control strip sitting above the page, and it lets the aurora
+   * pass behind it — which a solid header would hide exactly where it is
+   * strongest.
+   */
+  /*
+   * The bar's geometry never changes on scroll. An earlier version animated its
+   * padding, which reflowed the sticky element and nudged the whole page by a
+   * few pixels on every threshold crossing — the twitch you could feel more than
+   * see. Only paint properties transition here, so the compositor handles it and
+   * nothing below the bar moves.
+   */
   .masthead {
-    @apply sticky top-0 z-40 border-b border-line;
-    background: color-mix(in srgb, var(--bg) 78%, transparent);
-    backdrop-filter: saturate(1.6) blur(14px);
-    -webkit-backdrop-filter: saturate(1.6) blur(14px);
-  }
-
-  .masthead__inner {
-    @apply mx-auto flex max-w-[1400px] items-center gap-5 py-3;
+    @apply sticky top-0 z-40 pb-2 pt-3;
+    /* Plain CSS, not `px-[--gutter]`: Tailwind v4 dropped the bracket shorthand
+       for bare custom properties, and emits the token unwrapped rather than
+       failing — which silently leaves the page with no horizontal padding. */
     padding-inline: var(--gutter);
   }
 
-  .masthead__progress {
-    @apply h-0.5 overflow-hidden bg-transparent;
+  /*
+   * `1fr auto 1fr` rather than a flex row: it centres the nav optically no
+   * matter how wide the wordmark or the utilities become. With `margin-left:
+   * auto` the nav sat jammed against the utilities and the bar had no rhythm.
+   */
+  .masthead__inner {
+    @apply mx-auto grid max-w-[1400px] grid-cols-[1fr_auto_1fr] items-center gap-4
+      rounded-full px-2.5 py-2;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    backdrop-filter: blur(20px) saturate(1.7);
+    -webkit-backdrop-filter: blur(20px) saturate(1.7);
+    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+    /* Slow enough to read as the light changing rather than as a state flip. */
+    transition:
+      background 0.45s ease,
+      border-color 0.45s ease,
+      box-shadow 0.45s ease;
   }
 
-  .masthead__progress-bar {
-    @apply h-full origin-left will-change-transform;
-    background: linear-gradient(90deg, var(--accent-dim), var(--accent));
+  /*
+   * Once text is passing underneath, the panel firms up so the nav stays legible
+   * against it. This is the only reason the scrolled state exists — it is a
+   * legibility measure, not an effect.
+   */
+  .masthead[data-scrolled] .masthead__inner {
+    background: var(--glass-strong);
+    border-color: color-mix(in srgb, var(--ink) 12%, var(--glass-line));
+    box-shadow: var(--elev), inset 0 1px 0 var(--hairline);
+  }
+
+  .masthead__zone {
+    @apply flex min-w-0 items-center gap-1;
+  }
+
+  .masthead__zone--end {
+    @apply justify-end;
   }
 
   .wordmark {
-    @apply flex min-w-0 items-baseline gap-2;
+    @apply flex min-w-0 items-center gap-2 rounded-full border-0 bg-transparent px-2.5 py-1
+      font-serif text-base font-semibold text-ink transition-colors duration-200;
+    letter-spacing: -0.02em;
   }
 
-  .wordmark__home {
-    @apply -ml-1.5 flex items-baseline gap-2 rounded-control border-0 bg-transparent px-1.5
-      py-0.5 font-serif text-lg font-semibold tracking-tight text-ink
-      transition-[color,background] duration-150;
-  }
-
-  .wordmark__home:hover {
-    @apply bg-accent-soft text-accent-bright;
+  .wordmark:hover {
+    @apply text-accent-bright;
   }
 
   .wordmark__mark {
-    @apply text-[1.15em] leading-none text-accent transition-transform duration-300;
+    @apply flex-none text-[1.25em] leading-none text-accent transition-transform duration-500;
+    filter: drop-shadow(0 0 8px var(--accent-glow));
   }
 
-  .wordmark__home:hover .wordmark__mark {
-    transform: translateX(2px) scaleX(1.15);
+  .wordmark:hover .wordmark__mark {
+    transform: translateX(2px) scaleX(1.2);
   }
 
-  .wordmark__sub {
-    @apply font-sans text-2xs font-medium uppercase tracking-[0.09em] text-ink-faint;
+  .wordmark__name {
+    @apply truncate;
   }
 
-  @media (width <= 720px) {
-    .wordmark__sub {
+  /* Below this the three zones stop fitting, and a truncating wordmark is worse
+     than a mark on its own — the nav is what people are reaching for. */
+  @media (width <= 640px) {
+    .wordmark__name {
       @apply hidden;
     }
   }
 
+  /* No background of its own. The bar is the container; a second filled pill in
+     here was the main source of the clutter. */
   .nav {
-    @apply ml-auto flex gap-0.5 rounded-full border border-line bg-sunken p-1;
+    @apply flex items-center gap-0.5;
   }
 
   .nav__link {
     @apply relative isolate whitespace-nowrap rounded-full border-0 bg-transparent px-3.5
-      py-1.5 text-xs font-medium text-ink-soft transition-colors duration-150;
+      py-1.5 text-xs font-medium text-ink-soft transition-colors duration-200;
   }
 
   .nav__link:hover {
@@ -82,27 +122,111 @@
   }
 
   .nav__link[aria-current='page'] {
-    color: var(--bg);
+    @apply text-ink;
   }
 
-  /* Sits behind the label so the text stays legible while the pill slides under it. */
+  /*
+   * A raised glass pill rather than a solid ink slab. Full inversion is a
+   * segmented-control idiom; inside a glass bar it landed like a hole punched
+   * through the surface. This lifts instead, which is the same language as every
+   * other raised thing in the interface.
+   */
   .nav__indicator {
-    @apply absolute inset-0 -z-[1] rounded-full bg-ink;
+    @apply absolute inset-0 -z-[1] rounded-full;
+    background: color-mix(in srgb, var(--ink) 11%, transparent);
+    border: 1px solid var(--glass-line);
+    box-shadow: inset 0 1px 0 var(--hairline);
   }
 
   .nav__label {
     @apply relative;
   }
 
+  @media (width <= 860px) {
+    .nav__link {
+      @apply px-2.5 text-2xs;
+    }
+    .masthead__inner {
+      @apply gap-2;
+    }
+  }
+
+  /*
+   * Below this the five nav items stop fitting even at their tightest. Handing
+   * the flexible column to the nav and letting it scroll keeps every route
+   * reachable; the alternative — a hamburger — buries a five-item nav behind a
+   * tap for no gain at this size.
+   */
+  @media (width <= 560px) {
+    .masthead__inner {
+      @apply grid-cols-[auto_1fr_auto];
+    }
+    .nav {
+      @apply overflow-x-auto;
+      scrollbar-width: none;
+      /* Without this the scroll container refuses to shrink inside the grid. */
+      min-width: 0;
+      mask-image: linear-gradient(90deg, transparent, #000 8px, #000 calc(100% - 8px), transparent);
+    }
+    .nav::-webkit-scrollbar {
+      @apply hidden;
+    }
+  }
+
+  /* --------------------------------------------------------------- utilities */
+  /* No divider here any more. It existed to separate a cluster of controls from
+     the nav; with the status chip gone in the healthy case the cluster is a
+     single icon button, and a rule in front of one button is just a mark. */
+
+  /* Rendered only when something is wrong, so it can afford to be legible
+     rather than discreet — it is carrying a word the reader needs. */
+  .health {
+    @apply inline-flex flex-none items-center gap-2 whitespace-nowrap rounded-full px-3 py-1.5
+      text-2xs font-semibold;
+    color: var(--dot, var(--ink-soft));
+    border: 1px solid color-mix(in srgb, var(--dot) 40%, transparent);
+    background: color-mix(in srgb, var(--dot) 12%, transparent);
+  }
+
+  .health__dot {
+    @apply size-2 flex-none rounded-full;
+    background: var(--dot, var(--ink-faint));
+    animation: health-pulse 2.2s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+  }
+
+  @keyframes health-pulse {
+    0% {
+      box-shadow: 0 0 0 0 color-mix(in srgb, var(--dot) 60%, transparent);
+    }
+    70%,
+    100% {
+      box-shadow: 0 0 0 6px transparent;
+    }
+  }
+
+  @media (width <= 560px) {
+    /* The dot alone still reads as an alarm once the label no longer fits.
+       Hidden visually rather than with `display: none`, so the chip keeps its
+       accessible name instead of falling back to the title attribute. */
+    .health {
+      @apply size-8 justify-center p-0;
+    }
+    .health__label {
+      @apply absolute -m-px h-px w-px overflow-hidden whitespace-nowrap border-0 p-0;
+      clip: rect(0, 0, 0, 0);
+    }
+  }
+
   .main {
-    @apply mx-auto w-full max-w-[1400px] flex-1 pb-20;
+    @apply mx-auto w-full max-w-[1400px] flex-1 pb-28;
     padding-inline: var(--gutter);
-    padding-top: clamp(1.5rem, 4vw, 3rem);
+    padding-top: clamp(1.5rem, 4vw, 3.5rem);
   }
 
   .footer {
-    @apply flex justify-center border-t border-line bg-sunken py-6 text-center text-xs text-ink-faint;
+    @apply mt-auto flex justify-center py-10 text-center text-xs text-ink-faint;
     padding-inline: var(--gutter);
+    border-top: 1px solid var(--glass-line);
   }
 
   .footer p {
@@ -111,167 +235,117 @@
   }
 
   /* ----------------------------------------------------------- theme toggle */
+  /* A circular icon button matching the health dot's footprint, so the right end
+     of the bar is two same-sized controls rather than a chip and a pill. */
   .theme-toggle {
-    @apply inline-flex items-center gap-1.5 rounded-full border border-line bg-surface-2
-      px-2.5 py-1.5 text-2xs font-semibold capitalize tracking-wide text-ink-soft
-      transition-[color,background,border-color] duration-150;
+    @apply inline-flex size-8 flex-none items-center justify-center rounded-full border-0
+      bg-transparent text-ink-soft transition-[color,background] duration-200;
   }
 
   .theme-toggle:hover {
-    @apply border-line-strong bg-surface-3 text-ink;
+    @apply text-ink;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
   }
 
   .theme-toggle__icon {
-    @apply size-3.5 flex-none fill-none stroke-current;
+    @apply size-4 flex-none fill-none stroke-current transition-transform duration-500;
     stroke-width: 1.5;
     stroke-linecap: round;
     stroke-linejoin: round;
+  }
+
+  .theme-toggle:hover .theme-toggle__icon {
+    transform: rotate(25deg);
   }
 
   .theme-toggle[data-choice='dark'] .theme-toggle__icon {
     @apply fill-current stroke-none;
   }
 
-  @media (width <= 640px) {
-    .theme-toggle__text {
-      @apply hidden;
-    }
-  }
-
-  /* ===================================================================== tabs */
-  .tabs__list {
-    @apply mb-6 flex gap-1 overflow-x-auto rounded-full border border-line bg-sunken p-1;
-    scrollbar-width: none;
-  }
-
-  .tabs__list::-webkit-scrollbar {
-    @apply hidden;
-  }
-
-  .tabs__list--sticky {
-    @apply sticky top-[3.6rem] z-20;
-    background: color-mix(in srgb, var(--surface-sunken) 88%, transparent);
-    backdrop-filter: saturate(1.6) blur(12px);
-    -webkit-backdrop-filter: saturate(1.6) blur(12px);
-  }
-
-  .tabs__trigger {
-    @apply inline-flex flex-none items-center gap-1.5 whitespace-nowrap rounded-full
-      border-0 bg-transparent px-4 py-2 text-xs font-medium text-ink-soft
-      transition-[color,background] duration-150;
-  }
-
-  .tabs__trigger:hover {
-    @apply text-ink;
-    background: color-mix(in srgb, var(--ink) 7%, transparent);
-  }
-
-  .tabs__trigger[data-state='active'] {
-    @apply bg-ink;
-    color: var(--bg);
-  }
-
-  .tabs__badge {
-    @apply inline-flex h-5 min-w-5 items-center justify-center rounded-full px-1.5
-      font-mono text-[0.68rem] tabular-nums;
-    background: color-mix(in srgb, var(--ink-faint) 30%, transparent);
-  }
-
-  .tabs__trigger[data-state='active'] .tabs__badge {
-    background: color-mix(in srgb, var(--bg) 35%, transparent);
-  }
-
-  .tabs__panel:focus {
-    @apply outline-none;
-  }
-
   /* ===================================================================== hero */
   .composer {
-    @apply mx-auto max-w-[68rem];
+    @apply mx-auto max-w-[70rem];
   }
 
   .hero {
-    @apply relative mx-auto max-w-[48rem] text-center;
-    margin-bottom: clamp(1.75rem, 4vw, 2.75rem);
-    padding-top: clamp(0.5rem, 3vw, 2rem);
-  }
-
-  .hero__eyebrow {
-    @apply mb-4 inline-flex items-center gap-2 rounded-full border border-line bg-surface-2
-      px-3 py-1 text-2xs font-semibold uppercase tracking-[0.06em] text-ink-soft;
-  }
-
-  .hero__eyebrow-dot {
-    @apply size-[0.45rem] rounded-full bg-accent;
-    box-shadow: 0 0 0 3px var(--accent-soft);
+    @apply relative mx-auto max-w-[54rem] text-center;
+    margin-bottom: clamp(2rem, 5vw, 3.5rem);
+    padding-top: clamp(1rem, 5vw, 3.5rem);
   }
 
   .hero h1 {
-    @apply mb-2.5 text-3xl;
+    @apply mb-5 mt-6;
+    font-size: var(--step-4);
+  }
+
+  /* The one place the accent gradient touches type. */
+  .hero__accent {
+    background: var(--accent-gradient);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
 
   .hero__lede {
-    @apply mx-auto max-w-[40ch] text-lg text-ink-soft;
+    @apply mx-auto mb-0 max-w-[46ch] text-lg leading-snug text-ink-soft;
   }
 
   .hero__wave {
-    @apply mx-auto mt-6 block h-auto w-[min(100%,32rem)] overflow-visible;
+    @apply mx-auto mt-9 w-[min(100%,34rem)];
   }
 
-  /* Drawn once by GSAP on load, then left alone. A looping animation would pull
-     the eye away from the editor, which is where the reader goes next. */
-  .hero__wave-line {
-    @apply fill-none stroke-accent;
-    stroke-width: 1.75;
-    stroke-linecap: round;
-    stroke-linejoin: round;
-    filter: drop-shadow(0 0 5px var(--accent-glow));
-  }
-
-  .hero__wave-bar {
-    fill: var(--ink-faint);
-  }
-
-  .hero__wave-mean {
-    stroke: var(--ink-faint);
-    stroke-width: 1;
-    stroke-dasharray: 3 4;
-    opacity: 0.35;
-  }
-
-  /* =================================================================== editor */
+  /* ================================================================== editor */
   .editor {
-    @apply relative overflow-hidden rounded-panel border border-line-strong bg-surface
-      transition-[border-color,box-shadow] duration-200;
+    @apply relative overflow-hidden rounded-panel transition-[border-color,box-shadow] duration-300;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-strong);
+    backdrop-filter: blur(22px) saturate(1.5);
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
     box-shadow: var(--elev-lg), inset 0 1px 0 var(--hairline);
   }
 
+  /* A gradient hairline along the top edge — the instrument's power light. */
+  .editor::before {
+    @apply pointer-events-none absolute inset-x-0 top-0 h-px opacity-60 transition-opacity duration-300 content-[''];
+    background: linear-gradient(90deg, transparent, var(--accent), var(--accent-2), transparent);
+  }
+
   .editor:focus-within {
-    border-color: color-mix(in srgb, var(--accent) 55%, transparent);
-    box-shadow: var(--elev-lg), 0 0 0 4px var(--accent-soft), inset 0 1px 0 var(--hairline);
+    border-color: color-mix(in srgb, var(--accent) 50%, transparent);
+    box-shadow:
+      var(--elev-lg),
+      0 0 0 4px var(--accent-soft),
+      inset 0 1px 0 var(--hairline);
+  }
+
+  .editor:focus-within::before {
+    @apply opacity-100;
   }
 
   .editor__label {
-    @apply block px-6 pt-4 text-2xs font-bold uppercase tracking-[0.1em] text-ink-faint;
+    @apply block px-7 pt-5 text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.12em;
   }
 
   .editor__textarea {
-    @apply block min-h-[20rem] w-full resize-y border-0 bg-transparent px-6 pb-5 pt-3.5
+    @apply block min-h-[21rem] w-full resize-y border-0 bg-transparent px-7 pb-6 pt-4
       font-serif text-ink outline-none;
-    font-size: 1.08rem;
-    line-height: 1.78;
+    font-size: 1.1rem;
+    line-height: 1.8;
   }
 
   .editor__textarea::placeholder {
-    @apply text-ink-faint opacity-70;
+    @apply text-ink-faint opacity-60;
   }
 
   .editor__bar {
-    @apply flex flex-wrap items-center gap-3 border-t border-line bg-surface-2 py-2.5 pl-6 pr-4;
+    @apply flex flex-wrap items-center gap-3 py-3 pl-7 pr-3;
+    border-top: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
   }
 
   .counts {
-    @apply flex gap-4 font-mono text-2xs tabular-nums text-ink-faint;
+    @apply flex flex-wrap gap-4 font-mono text-2xs tabular-nums text-ink-faint;
   }
 
   .counts strong {
@@ -283,16 +357,22 @@
   }
 
   .examples {
-    @apply grid gap-2 border-t border-line bg-sunken px-6 pb-4 pt-3.5;
+    @apply grid gap-2 px-7 pb-5 pt-4;
+    border-top: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 4%, transparent);
   }
 
   .example-btn {
-    @apply block w-full rounded-control border border-line bg-surface px-3.5 py-2.5
-      text-left text-ink transition-[border-color,background,transform] duration-150;
+    @apply relative block w-full overflow-hidden rounded-control px-4 py-3 text-left text-ink
+      transition-[border-color,background,transform] duration-200;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
   }
 
   .example-btn:hover {
-    @apply translate-x-[3px] border-accent-dim bg-surface-2;
+    @apply translate-x-1;
+    border-color: color-mix(in srgb, var(--accent) 45%, transparent);
+    background: color-mix(in srgb, var(--accent) 7%, var(--glass));
   }
 
   .example-btn strong {
@@ -300,23 +380,23 @@
   }
 
   .editor__notice {
-    @apply mb-0 mt-3.5 flex flex-wrap gap-1.5 rounded-control border px-3.5 py-2.5
-      text-xs leading-relaxed;
+    @apply mb-0 mt-4 flex flex-wrap gap-1.5 rounded-control px-4 py-3 text-xs leading-relaxed;
+    border: 1px solid;
   }
 
   .editor__notice--warn {
     @apply bg-possible-soft text-ink;
-    border-color: color-mix(in srgb, var(--possible) 35%, transparent);
+    border-color: color-mix(in srgb, var(--possible) 38%, transparent);
   }
 
   .editor__notice--error {
     @apply bg-likely-soft text-ink;
-    border-color: color-mix(in srgb, var(--likely) 35%, transparent);
+    border-color: color-mix(in srgb, var(--likely) 38%, transparent);
   }
 
   .editor__notice--info {
     @apply bg-accent-soft text-ink-soft;
-    border-color: color-mix(in srgb, var(--accent) 28%, transparent);
+    border-color: color-mix(in srgb, var(--accent) 30%, transparent);
   }
 
   .editor__notice strong {
@@ -324,11 +404,11 @@
   }
 
   .composer__actions {
-    @apply mt-7 flex flex-wrap items-center justify-center gap-3;
+    @apply mt-9 flex flex-wrap items-center justify-center gap-3;
   }
 
   .privacy-line {
-    @apply mx-auto mt-4 max-w-[56ch] text-center text-xs text-ink-faint;
+    @apply mx-auto mt-5 max-w-[56ch] text-center text-xs text-ink-faint;
   }
 
   .privacy-line strong {
@@ -337,130 +417,143 @@
 
   /* ====================================================== what gets measured */
   .signals {
-    margin-top: clamp(2.5rem, 6vw, 4rem);
+    margin-top: clamp(3.5rem, 9vw, 7rem);
   }
 
   .signals__head {
-    @apply mb-6 flex flex-col items-center text-center;
+    @apply mx-auto mb-9 flex max-w-[46rem] flex-col items-center text-center;
   }
 
   .signals__head h2 {
-    @apply mb-1.5 text-xl;
+    @apply mb-2.5 mt-4;
+    font-size: var(--step-2);
   }
 
-  /* Six cards divide evenly by 1, 2, 3 and 6 — never 4 or 5 — so the column count
-     is stated outright. `auto-fit` picked 5 on a wide screen and orphaned the last. */
+  /* Six cards divide evenly by 1, 2, 3 and 6 — never 4 or 5 — so the column
+     count is stated outright. `auto-fit` picked 5 and orphaned the last one. */
   .signals__grid {
-    @apply grid grid-cols-1 gap-px overflow-hidden rounded-card border border-line
-      bg-line sm:grid-cols-2 lg:grid-cols-3;
+    @apply grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3;
   }
 
+  /* Paint comes from `Surface`; this only adds the card's own geometry. */
   .signal {
-    @apply bg-surface px-5 py-4.5 transition-colors duration-200 hover:bg-surface-2;
+    @apply overflow-hidden p-6;
+  }
+
+  .signal__index {
+    @apply absolute right-5 top-5 font-mono text-2xs tabular-nums text-ink-faint opacity-45;
   }
 
   .signal__icon {
-    @apply mb-2.5 block h-[1.15rem] w-8 overflow-visible;
+    @apply mb-4 block h-6 w-11 overflow-visible;
   }
 
   .signal__icon path,
   .signal__icon polyline {
-    @apply fill-none stroke-accent;
+    @apply fill-none;
+    stroke: var(--accent);
     stroke-width: 1.6;
     stroke-linecap: round;
     stroke-linejoin: round;
   }
 
   .signal__icon rect {
-    @apply fill-accent;
+    fill: var(--accent);
+  }
+
+  .signal:hover .signal__icon {
+    filter: drop-shadow(0 0 8px var(--accent-glow));
   }
 
   .signal__name {
-    @apply mb-1 mt-0 text-xs font-semibold text-ink;
+    @apply mb-1.5 mt-0 text-base font-semibold text-ink;
   }
 
   .signal__desc {
-    @apply m-0 text-2xs leading-relaxed text-ink-faint;
+    @apply m-0 text-xs leading-relaxed text-ink-faint;
   }
 
-  /* ================================================================= progress */
+  /* ================================================================ analysing */
   .progress {
-    @apply mx-auto mt-6 max-w-[44rem] rounded-card border border-line bg-surface p-5;
-    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+    @apply mx-auto mt-8 max-w-[46rem] overflow-hidden rounded-card p-7;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    box-shadow: var(--elev);
   }
 
-  .progress__track {
-    @apply mb-3.5 h-[3px] overflow-hidden rounded-sm bg-surface-3;
+  .progress__head {
+    @apply mb-5 flex items-center gap-3;
   }
 
-  .progress__bar {
-    @apply h-full w-1/3 rounded-sm;
-    background: linear-gradient(90deg, transparent, var(--accent), transparent);
-    animation: indeterminate 1.6s cubic-bezier(0.22, 1, 0.36, 1) infinite;
-  }
-
-  @keyframes indeterminate {
-    from {
-      transform: translateX(-110%);
-    }
-    to {
-      transform: translateX(420%);
-    }
-  }
-
-  .progress__steps {
-    @apply grid gap-1.5 text-2xs text-ink-faint;
-  }
-
-  .progress__step--active {
-    @apply font-medium text-ink;
+  .progress__title {
+    @apply m-0 font-serif text-lg font-semibold;
   }
 
   /* ================================================================== verdict */
   .results {
-    @apply grid gap-7;
+    @apply grid gap-8;
   }
 
   .verdict {
-    @apply relative overflow-hidden rounded-panel border border-line bg-surface;
-    box-shadow: var(--elev), inset 0 1px 0 var(--hairline);
+    @apply relative overflow-hidden rounded-panel;
+    border: 1px solid var(--glass-line);
+    background: var(--glass-strong);
+    backdrop-filter: blur(22px) saturate(1.5);
+    -webkit-backdrop-filter: blur(22px) saturate(1.5);
+    box-shadow: var(--elev-lg), inset 0 1px 0 var(--hairline);
   }
 
-  /* A hairline of the verdict's own colour across the top edge. */
+  /* The verdict's own colour, washed across the top of the panel. */
   .verdict::before {
-    @apply absolute inset-x-0 top-0 h-[3px] content-[''];
+    @apply pointer-events-none absolute inset-x-0 top-0 h-40 content-[''];
+    background: linear-gradient(
+      180deg,
+      color-mix(in srgb, var(--verdict-colour, var(--uncertain)) 13%, transparent),
+      transparent
+    );
+  }
+
+  .verdict::after {
+    @apply absolute inset-x-0 top-0 h-px content-[''];
     background: linear-gradient(
       90deg,
+      transparent,
       var(--verdict-colour, var(--uncertain)),
-      color-mix(in srgb, var(--verdict-colour, var(--uncertain)) 25%, transparent)
+      transparent
     );
   }
 
   .verdict__top {
-    @apply grid grid-cols-1 lg:[grid-template-columns:minmax(0,1.3fr)_minmax(0,1fr)];
+    @apply relative grid grid-cols-1 lg:grid-cols-[minmax(0,1.35fr)_minmax(0,1fr)];
   }
 
   .verdict__main {
-    @apply border-b border-line p-7 lg:border-b-0 lg:border-r;
+    @apply flex flex-col items-start gap-5 p-8 sm:flex-row sm:items-center lg:p-10;
+    border-bottom: 1px solid var(--glass-line);
+  }
+
+  @media (width >= 1024px) {
+    .verdict__main {
+      @apply border-b-0;
+      border-right: 1px solid var(--glass-line);
+    }
   }
 
   .verdict__eyebrow {
-    @apply mb-2 text-2xs font-bold uppercase tracking-[0.11em] text-ink-faint;
+    @apply mb-2.5 text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.13em;
   }
 
   .verdict__label {
-    @apply m-0 mb-3 flex flex-wrap items-center gap-3 font-serif text-2xl;
-  }
-
-  .verdict__dot {
-    @apply size-[0.58em] flex-none rounded-full;
-    background: var(--verdict-colour, var(--uncertain));
-    box-shadow: 0 0 0 5px
-      color-mix(in srgb, var(--verdict-colour, var(--uncertain)) 16%, transparent);
+    @apply m-0 mb-3 font-serif leading-none;
+    font-size: var(--step-2);
+    color: var(--verdict-colour, var(--ink));
   }
 
   .verdict__description {
-    @apply mb-4 max-w-[44ch] text-ink-soft;
+    @apply mb-4 max-w-[46ch] text-ink-soft;
   }
 
   .verdict__confidence {
@@ -481,19 +574,21 @@
   }
 
   .verdict__abstain {
-    @apply mt-4 rounded-control border border-line bg-uncertain-soft px-3.5 py-3 text-xs;
+    @apply mt-5 rounded-control bg-uncertain-soft px-4 py-3 text-xs;
+    border: 1px solid var(--glass-line);
   }
 
   .verdict__side {
-    @apply bg-sunken p-7;
+    @apply p-8 lg:p-10;
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
   }
 
   .probs {
-    @apply m-0 grid gap-3.5;
+    @apply m-0 grid gap-4;
   }
 
   .prob {
-    @apply grid grid-cols-[1fr_auto] items-baseline gap-x-2.5 gap-y-1;
+    @apply grid grid-cols-[1fr_auto] items-baseline gap-x-3 gap-y-1.5;
   }
 
   .prob__name {
@@ -505,44 +600,54 @@
   }
 
   .prob__track {
-    @apply col-span-full h-[7px] overflow-hidden rounded;
-    background: color-mix(in srgb, var(--ink) 9%, transparent);
+    @apply col-span-full h-1.5 overflow-hidden rounded-full;
+    background: color-mix(in srgb, var(--ink) 10%, transparent);
   }
 
   .prob__fill {
-    @apply h-full rounded;
+    @apply h-full rounded-full;
   }
 
   .verdict__strip {
-    @apply grid border-t border-line bg-surface-2
-      [grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr))];
+    @apply grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))];
+    border-top: 1px solid var(--glass-line);
   }
 
   .stat {
-    @apply border-r border-line px-5 py-4 last:border-r-0;
+    @apply px-6 py-5;
+    border-right: 1px solid var(--glass-line);
+  }
+
+  .stat:last-child {
+    @apply border-r-0;
   }
 
   .stat__value {
-    @apply font-mono text-xl font-semibold tabular-nums tracking-tight;
+    @apply font-mono text-xl font-semibold tabular-nums;
+    letter-spacing: -0.02em;
   }
 
   .stat__label {
     @apply mt-1.5 text-2xs text-ink-faint;
   }
 
+  .stat__hint {
+    @apply mt-0.5 text-[0.68rem] text-ink-faint opacity-75;
+  }
+
   /* ========================================================== reader + panel */
   .reader-grid {
-    @apply grid grid-cols-1 items-start gap-7 xl:[grid-template-columns:minmax(0,1fr)_23.5rem];
+    @apply grid grid-cols-1 items-start gap-8 xl:grid-cols-[minmax(0,1fr)_24rem];
   }
 
   .essay {
-    @apply max-w-[40rem] font-serif text-ink;
-    font-size: 1.075rem;
-    line-height: 1.9;
+    @apply max-w-[42rem] font-serif text-ink;
+    font-size: 1.1rem;
+    line-height: 1.92;
   }
 
   .essay__paragraph {
-    @apply relative mb-5 border-l-2 border-transparent pl-4.5 transition-colors duration-200;
+    @apply relative mb-6 border-l-2 border-transparent pl-5 transition-colors duration-300;
   }
 
   .essay__paragraph--flagged {
@@ -559,16 +664,15 @@
   }
 
   .essay__meta {
-    @apply mb-1.5 flex flex-wrap items-center gap-2 font-sans text-2xs uppercase
-      tracking-wide text-ink-faint;
+    @apply mb-2 flex flex-wrap items-center gap-2 font-sans text-2xs uppercase text-ink-faint;
+    letter-spacing: 0.06em;
   }
 
   /* Sentence marks read as an editor's underline, not a highlighter block.
-     `box-decoration-break: clone` keeps the underline and the rounding intact on
+     `box-decoration-break: clone` keeps the underline and rounding intact on
      every line a wrapped sentence occupies — no utility expresses this. */
   .sentence {
-    @apply -mx-px cursor-pointer rounded-sm px-px py-0.5
-      transition-[background,box-shadow] duration-150;
+    @apply -mx-px cursor-pointer rounded-sm px-px py-0.5 transition-[background,box-shadow] duration-200;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
   }
@@ -603,7 +707,8 @@
   }
 
   .legend {
-    @apply mb-6 flex flex-wrap gap-x-5 gap-y-2.5 border-b border-line pb-4.5 text-2xs text-ink-soft;
+    @apply mb-7 flex flex-wrap gap-x-5 gap-y-2.5 pb-5 text-2xs text-ink-soft;
+    border-bottom: 1px solid var(--glass-line);
   }
 
   .legend__item {
@@ -611,85 +716,58 @@
   }
 
   .legend__swatch {
-    @apply inline-block h-2.5 w-6 rounded-sm;
+    @apply inline-block h-2.5 w-6 rounded-full;
   }
 
   .panel {
-    @apply sticky top-[4.9rem] flex flex-col overflow-hidden rounded-card border
-      border-line bg-surface;
-    max-height: calc(100vh - 6.5rem);
-    box-shadow: var(--elev-sm), inset 0 1px 0 var(--hairline);
+    @apply sticky top-[6.5rem] flex flex-col overflow-hidden rounded-card;
+    max-height: calc(100vh - 8.5rem);
+    border: 1px solid var(--glass-line);
+    background: var(--glass-strong);
+    backdrop-filter: blur(20px) saturate(1.5);
+    -webkit-backdrop-filter: blur(20px) saturate(1.5);
+    box-shadow: var(--elev);
   }
 
-  @media (width <= 1120px) {
+  @media (width <= 1279px) {
     .panel {
       @apply static max-h-none;
     }
   }
 
   .panel__head {
-    @apply flex items-start gap-2.5 border-b border-line bg-surface-2 px-4.5 py-4;
+    @apply flex items-start gap-3 px-5 py-4;
+    border-bottom: 1px solid var(--glass-line);
+    background: linear-gradient(180deg, var(--hairline), transparent);
   }
 
   .panel__body {
-    @apply flex flex-col gap-5 overflow-y-auto p-4.5;
+    @apply flex flex-col gap-6 overflow-y-auto p-5;
   }
 
   .panel__quote {
-    @apply m-0 border-l-2 border-accent-dim py-0.5 pl-3.5 font-serif text-ink;
-    font-size: 0.98rem;
-    line-height: 1.65;
+    @apply m-0 border-l-2 py-1 pl-4 font-serif text-ink;
+    border-color: var(--accent);
+    font-size: 1rem;
+    line-height: 1.68;
   }
 
   .panel__empty {
-    @apply px-5 py-8 text-center text-xs text-ink-faint;
+    @apply px-5 py-10 text-center text-xs text-ink-faint;
   }
 
-  /* =================================================================== meters */
-  .meter {
-    @apply mb-4;
-  }
-
-  .meter__row {
-    @apply mb-1.5 flex items-baseline gap-2;
-  }
-
-  .meter__label {
-    @apply min-w-0 flex-1 text-xs text-ink;
-  }
-
-  .meter__level {
-    @apply text-2xs font-bold uppercase tracking-wide;
-  }
-
-  .meter__blocks {
-    @apply flex h-2.5 gap-0.5;
-  }
-
-  .meter__block {
-    @apply flex-1 rounded-sm transition-colors duration-200;
-    background: color-mix(in srgb, var(--ink) 10%, transparent);
-  }
-
-  .meter__block--on {
-    background: var(--level-color, var(--accent));
-  }
-
-  .meter__foot {
-    @apply mt-1.5 flex justify-between gap-2.5 font-mono text-2xs tabular-nums text-ink-faint;
-  }
-
-  .meter__detail {
-    @apply mt-1.5 text-2xs leading-relaxed text-ink-soft;
-  }
-
+  /* ================================================================ evidence */
   .measure-list {
-    @apply m-0 grid gap-2.5;
+    @apply m-0 grid gap-3;
   }
 
   .measure {
-    @apply grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 border-b border-dashed border-line
-      pb-2 last:border-b-0 last:pb-0;
+    @apply grid grid-cols-[1fr_auto] gap-x-3 gap-y-0.5 pb-2.5;
+    border-bottom: 1px dashed var(--glass-line);
+  }
+
+  .measure:last-child {
+    @apply border-b-0 pb-0;
   }
 
   .measure__name {
@@ -705,15 +783,15 @@
   }
 
   .contrib {
-    @apply grid grid-cols-[1fr_auto] items-center gap-x-2.5 gap-y-1 py-1 text-2xs;
+    @apply grid grid-cols-[1fr_auto] items-center gap-x-2.5 gap-y-1 py-1.5 text-2xs;
   }
 
   .contrib__name {
-    @apply font-mono text-2xs text-ink-soft [overflow-wrap:anywhere];
+    @apply wrap-anywhere font-mono text-2xs text-ink-soft;
   }
 
   .contrib__bar-wrap {
-    @apply col-span-full grid h-[5px] grid-cols-2 overflow-hidden rounded-sm;
+    @apply col-span-full grid h-1.5 grid-cols-2 overflow-hidden rounded-full;
     background: color-mix(in srgb, var(--ink) 8%, transparent);
   }
 
@@ -724,10 +802,10 @@
     @apply flex h-full;
   }
   .contrib__neg span {
-    @apply rounded-l-sm bg-human;
+    @apply rounded-l-full bg-human;
   }
   .contrib__pos span {
-    @apply rounded-r-sm bg-likely;
+    @apply rounded-r-full bg-likely;
   }
 
   .contrib__value {
@@ -764,11 +842,12 @@
   }
 
   .chart__bar {
-    @apply cursor-pointer transition-opacity duration-150 hover:opacity-70;
+    @apply cursor-pointer transition-opacity duration-200 hover:opacity-70;
   }
 
   .chart-legend {
-    @apply mt-3 flex flex-wrap gap-5 border-t border-line pt-3 text-2xs text-ink-faint;
+    @apply mt-4 flex flex-wrap gap-5 pt-3 text-2xs text-ink-faint;
+    border-top: 1px solid var(--glass-line);
   }
 
   /* ========================================================== paragraph list */
@@ -778,12 +857,15 @@
 
   .para-row {
     @apply grid cursor-pointer grid-cols-[auto_1fr_auto] items-center gap-3 rounded-control
-      border border-line bg-surface-2 px-3 py-2.5 text-left
-      transition-[border-color,background,transform] duration-150;
+      px-4 py-3 text-left transition-[border-color,background,transform] duration-200;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
   }
 
   .para-row:hover {
-    @apply translate-x-[3px] border-line-strong bg-surface-3;
+    @apply translate-x-1;
+    border-color: color-mix(in srgb, var(--accent) 38%, transparent);
+    background: color-mix(in srgb, var(--accent) 5%, var(--glass));
   }
 
   .para-row__id {
@@ -791,12 +873,12 @@
   }
 
   .para-row__bar {
-    @apply h-2 overflow-hidden rounded;
+    @apply h-2 overflow-hidden rounded-full;
     background: color-mix(in srgb, var(--ink) 9%, transparent);
   }
 
   .para-row__fill {
-    @apply h-full rounded;
+    @apply h-full rounded-full;
   }
 
   .para-row__meta {
@@ -804,15 +886,15 @@
   }
 
   .para-row__sentences {
-    @apply col-span-full mt-1 flex gap-0.5;
+    @apply col-span-full mt-1.5 flex gap-0.5;
   }
 
   .para-row__tick {
-    @apply h-1 min-w-[3px] flex-1 rounded-sm;
+    @apply h-1 min-w-[3px] flex-1 rounded-full;
   }
 
   .phrase-list {
-    @apply grid gap-2;
+    @apply grid gap-2.5;
   }
 
   .phrase {
@@ -820,7 +902,9 @@
   }
 
   .phrase__text {
-    @apply rounded border border-line bg-surface-3 px-1.5 py-0.5 font-mono text-2xs;
+    @apply rounded-full px-2.5 py-1 font-mono text-2xs;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 6%, transparent);
   }
 
   .phrase__count {
@@ -829,7 +913,7 @@
 
   /* ================================================================= research */
   .research-head {
-    @apply mb-6 max-w-[52rem];
+    @apply mb-8 max-w-[54rem];
   }
 
   .research-grid {
@@ -837,16 +921,23 @@
   }
 
   .metric-row {
-    @apply grid gap-px overflow-hidden rounded-control bg-line
-      [grid-template-columns:repeat(auto-fit,minmax(8.5rem,1fr))];
+    @apply grid grid-cols-[repeat(auto-fit,minmax(9rem,1fr))] overflow-hidden rounded-control;
+    border: 1px solid var(--glass-line);
   }
 
   .metric {
-    @apply bg-surface px-3.5 py-3;
+    @apply px-4 py-3.5;
+    border-right: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 3%, transparent);
+  }
+
+  .metric:last-child {
+    @apply border-r-0;
   }
 
   .metric__value {
     @apply font-mono text-xl font-semibold tabular-nums;
+    letter-spacing: -0.02em;
   }
 
   .metric__label {
@@ -854,17 +945,18 @@
   }
 
   .metric__hint {
-    @apply text-[0.68rem] text-ink-faint opacity-80;
+    @apply text-[0.68rem] text-ink-faint opacity-75;
   }
 
   .confusion {
     @apply text-xs;
     border-collapse: separate;
-    border-spacing: 3px;
+    border-spacing: 4px;
   }
 
   .confusion th {
-    @apply whitespace-nowrap px-1.5 py-1 text-2xs font-bold uppercase tracking-wide text-ink-faint;
+    @apply whitespace-nowrap px-1.5 py-1 text-2xs font-bold uppercase text-ink-faint;
+    letter-spacing: 0.07em;
   }
 
   .confusion th.row-head {
@@ -872,12 +964,12 @@
   }
 
   .confusion td {
-    @apply h-[3.1rem] w-[5.6rem] rounded-control border border-line text-center
-      align-middle font-mono tabular-nums;
+    @apply h-[3.3rem] w-[5.8rem] rounded-control text-center align-middle font-mono tabular-nums;
+    border: 1px solid var(--glass-line);
   }
 
   .confusion td.diag {
-    border-color: color-mix(in srgb, var(--human) 55%, transparent);
+    border-color: color-mix(in srgb, var(--human) 50%, transparent);
   }
 
   .confusion__count {
@@ -885,7 +977,7 @@
   }
 
   .confusion__pct {
-    @apply text-[0.68rem] opacity-80;
+    @apply text-[0.68rem] opacity-75;
   }
 
   .interpretation {
@@ -893,7 +985,7 @@
   }
 
   .interpretation li {
-    @apply relative pl-4.5 text-xs leading-relaxed text-ink-soft;
+    @apply relative pl-5 text-xs leading-relaxed text-ink-soft;
   }
 
   .interpretation li::before {
@@ -902,11 +994,12 @@
   }
 
   .interpretation li.critical {
-    @apply rounded-r-control border-l-[3px] border-likely bg-likely-soft px-3.5 py-2.5 text-ink;
+    @apply rounded-r-control border-l-[3px] border-likely bg-likely-soft px-4 py-3 text-ink;
   }
 
   .interpretation li.regime {
-    @apply rounded-r-control border-l-[3px] border-possible bg-warning-bg px-3.5 py-2.5 text-ink;
+    @apply rounded-r-control border-l-[3px] border-possible px-4 py-3 text-ink;
+    background: var(--warning-bg);
   }
 
   .interpretation li.critical::before,
@@ -915,11 +1008,11 @@
   }
 
   .importance {
-    @apply grid gap-1.5;
+    @apply grid gap-2;
   }
 
   .importance__row {
-    @apply grid grid-cols-[1.2fr_2fr_auto] items-center gap-2.5 text-2xs;
+    @apply grid grid-cols-[1.2fr_2fr_auto] items-center gap-3 text-2xs;
   }
 
   .importance__name {
@@ -927,12 +1020,12 @@
   }
 
   .importance__track {
-    @apply h-2.5 overflow-hidden rounded-sm;
-    background: color-mix(in srgb, var(--border) 55%, transparent);
+    @apply h-2 overflow-hidden rounded-full;
+    background: color-mix(in srgb, var(--ink) 9%, transparent);
   }
 
   .importance__fill {
-    @apply h-full rounded-sm;
+    @apply h-full rounded-full;
   }
 
   .importance__value {
@@ -940,19 +1033,22 @@
   }
 
   .group-legend {
-    @apply mt-2.5 flex flex-wrap gap-x-3.5 gap-y-1.5 text-2xs text-ink-faint;
+    @apply mt-3 flex flex-wrap gap-x-4 gap-y-1.5 text-2xs text-ink-faint;
   }
 
   .group-legend__dot {
-    @apply mr-1 inline-block size-2.5 rounded-sm;
+    @apply mr-1 inline-block size-2.5 rounded-full;
   }
 
   .failure {
-    @apply overflow-hidden rounded-card border border-line;
+    @apply overflow-hidden rounded-card;
+    border: 1px solid var(--glass-line);
+    background: var(--glass);
   }
 
   .failure__head {
-    @apply flex flex-wrap items-center gap-2.5 border-b border-line bg-likely-soft px-3.5 py-2.5;
+    @apply flex flex-wrap items-center gap-3 bg-likely-soft px-4 py-3;
+    border-bottom: 1px solid var(--glass-line);
   }
 
   .failure__arrow {
@@ -960,33 +1056,35 @@
   }
 
   .failure__body {
-    @apply grid gap-3.5 p-3.5;
+    @apply grid gap-4 p-4;
   }
 
   .failure__excerpt {
-    @apply m-0 border-l-2 border-line-strong pl-3 font-serif text-xs leading-relaxed text-ink-soft;
+    @apply m-0 border-l-2 pl-4 font-serif text-xs leading-relaxed text-ink-soft;
+    border-color: var(--border-strong);
   }
 
   .bias-bar {
-    @apply mb-2 grid grid-cols-[9rem_1fr_auto] items-center gap-2.5 text-xs;
+    @apply mb-2.5 grid grid-cols-[9rem_1fr_auto] items-center gap-3 text-xs;
   }
 
   .bias-bar__track {
-    @apply relative h-6 rounded-control;
-    background: color-mix(in srgb, var(--border) 45%, transparent);
+    @apply relative h-6 rounded-full;
+    background: color-mix(in srgb, var(--ink) 8%, transparent);
   }
 
   .bias-bar__interval {
-    @apply absolute top-1.5 h-2.5 rounded-sm;
-    background: color-mix(in srgb, var(--likely) 30%, transparent);
+    @apply absolute top-1.5 h-3 rounded-full;
+    background: color-mix(in srgb, var(--likely) 32%, transparent);
   }
 
   .bias-bar__point {
-    @apply absolute top-1 h-4 w-0.5 bg-likely;
+    @apply absolute top-1 h-4 w-0.5 rounded-full bg-likely;
   }
 
   .dist-bar {
-    @apply flex h-6 overflow-hidden rounded-control border border-line;
+    @apply flex h-7 overflow-hidden rounded-full;
+    border: 1px solid var(--glass-line);
   }
 
   .dist-bar__seg {
@@ -996,24 +1094,27 @@
 
   /* ============================================================== limitations */
   .limitation-list {
-    @apply m-0 grid list-none gap-4.5 p-0;
+    @apply m-0 grid list-none gap-5 p-0;
   }
 
   .limitation {
-    @apply grid grid-cols-[auto_1fr] items-start gap-3.5;
+    @apply grid grid-cols-[auto_1fr] items-start gap-4;
   }
 
   .limitation__rank {
-    @apply inline-flex size-6.5 flex-none items-center justify-center rounded-full border
-      border-line-strong bg-surface-2 font-mono text-2xs text-ink-faint;
+    @apply inline-flex size-7 flex-none items-center justify-center rounded-full font-mono
+      text-2xs text-ink-faint;
+    border: 1px solid var(--glass-line);
+    background: color-mix(in srgb, var(--ink) 5%, transparent);
   }
 
   .limitation__title {
-    @apply mb-1 mt-0 flex flex-wrap items-baseline gap-2.5 text-base font-semibold;
+    @apply mb-1.5 mt-0 flex flex-wrap items-baseline gap-3 text-base font-semibold;
   }
 
   .limitation__severity {
-    @apply text-2xs font-bold uppercase tracking-[0.06em];
+    @apply text-2xs font-bold uppercase;
+    letter-spacing: 0.07em;
   }
 
   .limitation__body {
