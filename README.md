@@ -11,17 +11,17 @@
 [![MongoDB](https://img.shields.io/badge/MongoDB-optional-47A248?logo=mongodb&logoColor=white)](https://www.mongodb.com/)
 [![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![Tests](https://img.shields.io/badge/tests-163%20backend%20%7C%2045%20frontend-brightgreen)](#tests)
-[![License](https://img.shields.io/badge/license-MIT-informational)](#license)
 
 A working detector for AI-generated and AI-polished writing in college admissions
 essays. React + Vite frontend, FastAPI backend, and a hybrid ML/NLP pipeline that
 produces **measured evidence for every passage it flags**.
 
-**Documentation:** [Architecture](docs/architecture.md) ·
+**Start here** — [Limitations](docs/limitations.md), before acting on any output ·
+[Evaluation](docs/evaluation.md), for the measured results
+
+**Reference** — [Architecture](docs/architecture.md) ·
 [Methodology](docs/detection-methodology.md) · [Dataset](docs/dataset.md) ·
-[Evaluation](docs/evaluation.md) · [API](docs/api.md) ·
-[Privacy](docs/privacy.md) · [Limitations](docs/limitations.md) ·
-[Index](docs/README.md)
+[API](docs/api.md) · [Privacy](docs/privacy.md) · [All docs](docs/README.md)
 
 **It is not an LLM wrapper.** A small local causal language model (`distilgpt2`) is
 used as a *measuring instrument* - it reports how probable each token was given the
