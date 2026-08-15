@@ -1,0 +1,17 @@
+{
+  "_comment": "Copy to manifest.json and describe each .txt you add. Entries are optional; files without one are ingested with license 'unspecified' so the gap is visible in the dataset card.",
+  "essay-001.txt": {
+    "topic": "community volunteering",
+    "l2_english": false,
+    "voice": "plain narrative",
+    "license": "author permission on file, 2026-08-01",
+    "notes": "Collected with written consent; author reviewed this use."
+  },
+  "essay-002.txt": {
+    "topic": "immigrating and learning English",
+    "l2_english": true,
+    "voice": "direct, second-language register",
+    "license": "CC BY 4.0, published with author's name withheld",
+    "notes": "Counts toward the L2 subset used by the bias analysis."
+  }
+}

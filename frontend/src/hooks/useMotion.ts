@@ -51,6 +51,10 @@ export function useSmoothScroll(): void {
         syncTouch: false,
       });
 
+      // Published so scrollToSection can route through Lenis. Without this, a
+      // programmatic scroll is immediately overridden by Lenis's own RAF loop.
+      (window as unknown as { __lenis?: unknown }).__lenis = lenis;
+
       const raf = (time: number) => {
         lenis?.raf(time);
         frame = requestAnimationFrame(raf);
@@ -62,6 +66,7 @@ export function useSmoothScroll(): void {
       cancelled = true;
       cancelAnimationFrame(frame);
       lenis?.destroy();
+      delete (window as unknown as { __lenis?: unknown }).__lenis;
     };
   }, []);
 }

@@ -30,10 +30,16 @@ backend/data/human/*.jsonl
 backend/data/ai_generated/*.jsonl
 backend/data/ai_polished/*.jsonl
 backend/data/processed/polish_pairs.jsonl
-# Operator-supplied real essays must never be committed.
-backend/data/raw/human/*.txt
+# Operator-supplied real essays must never be committed. The directories
+# themselves are kept (.gitkeep / README) so a clone still has the ingestion
+# targets that prepare_dataset reads from.
+backend/data/raw/human/*
+!backend/data/raw/human/.gitkeep
+!backend/data/raw/human/manifest.example.json
 backend/data/raw/ai_generated/*
+!backend/data/raw/ai_generated/.gitkeep
 backend/data/raw/ai_polished/*
+!backend/data/raw/ai_polished/.gitkeep
 
 # ----------------------------------------------------------------------- logs
 logs/

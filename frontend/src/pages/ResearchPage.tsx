@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { ApiError, fetchEvaluation } from '@/api/client';
 import { Banner } from '@/components/Banner';
 import { CalibrationChart, PrChart, RocChart } from '@/components/charts';
+import { TabPanel, Tabs } from '@/components/ui/Tabs';
 import { useScrollReveal } from '@/hooks/useMotion';
 import {
   CLASS_SHORT,
@@ -31,12 +32,38 @@ const GROUP_COLOURS: Record<string, string> = {
   corpus: '#b45309',
 };
 
+/** Tab ids are part of the URL, so a specific finding can be linked to. */
+const TAB_IDS = [
+  'overview',
+  'curves',
+  'models',
+  'generalisation',
+  'bias',
+  'failures',
+  'dataset',
+] as const;
+
+function tabFromHash(): string {
+  const query = window.location.hash.split('?')[1] ?? '';
+  const requested = new URLSearchParams(query).get('tab') ?? '';
+  return (TAB_IDS as readonly string[]).includes(requested) ? requested : 'overview';
+}
+
 export function ResearchPage() {
   const [bundle, setBundle] = useState<EvaluationBundle | null>(null);
   const [error, setError] = useState<ApiError | null>(null);
-  // Cards reveal as they scroll in. Re-run once the bundle lands, since the
-  // sections do not exist in the DOM until then.
-  const revealRef = useScrollReveal('.card, .failure', [bundle]);
+  const [tab, setTab] = useState<string>(tabFromHash);
+  // Cards reveal as they scroll in. Re-run when the bundle lands or the tab
+  // changes, since each panel's cards do not exist in the DOM until then.
+  const revealRef = useScrollReveal('.card, .failure', [bundle, tab]);
+
+  // Reflect the tab in the URL so a colleague can be sent straight to the bias
+  // analysis rather than "scroll down about two thirds".
+  const selectTab = (next: string) => {
+    setTab(next);
+    const base = window.location.hash.split('?')[0] || '#/research';
+    window.history.replaceState(null, '', next === 'overview' ? base : `${base}?tab=${next}`);
+  };
 
   useEffect(() => {
     fetchEvaluation()
@@ -115,65 +142,111 @@ export function ResearchPage() {
         </Banner>
       )}
 
-      <Interpretation lines={report.interpretation} />
+      <Tabs
+        tabs={[
+          { value: 'overview', label: 'Overview' },
+          { value: 'curves', label: 'Curves' },
+          { value: 'models', label: 'Model comparison' },
+          { value: 'generalisation', label: 'Generalisation' },
+          { value: 'bias', label: 'Bias' },
+          {
+            value: 'failures',
+            label: 'Failures',
+            badge: bundle.failures?.confidently_wrong.length ?? 0,
+          },
+          { value: 'dataset', label: 'Dataset' },
+        ]}
+        value={tab}
+        onValueChange={selectTab}
+        label="Evaluation sections"
+        sticky
+      >
+        <TabPanel value="overview">
+          <div className="research-grid">
+            <Interpretation lines={report.interpretation} />
+            <Overall report={report} />
+            <div className="two-col">
+              <section className="card">
+                <div className="card__head">
+                  <p className="card__title">Confusion matrix</p>
+                </div>
+                <div className="card__body scroll-x">
+                  <ConfusionMatrix report={report} />
+                </div>
+              </section>
 
-      <Overall report={report} />
-
-      <div className="two-col">
-        <section className="card">
-          <div className="card__head">
-            <p className="card__title">Confusion matrix</p>
-          </div>
-          <div className="card__body scroll-x">
-            <ConfusionMatrix report={report} />
-          </div>
-        </section>
-
-        <section className="card">
-          <div className="card__head">
-            <div>
-              <p className="card__title">Per-class metrics</p>
-              <p className="section-note">
-                False-positive rate on the human class is the number that matters most.
-              </p>
+              <section className="card">
+                <div className="card__head">
+                  <div>
+                    <p className="card__title">Per-class metrics</p>
+                    <p className="section-note">
+                      False-positive rate on the human class is the number that matters most.
+                    </p>
+                  </div>
+                </div>
+                <div className="card__body scroll-x">
+                  <PerClassTable report={report} />
+                </div>
+              </section>
             </div>
           </div>
-          <div className="card__body scroll-x">
-            <PerClassTable report={report} />
+        </TabPanel>
+
+        <TabPanel value="curves">
+          <div className="two-col">
+            <ChartCard title="ROC curves (one-vs-rest)">
+              <RocChart curves={report.curves.roc} aucByClass={report.overall.roc_auc_per_class} />
+            </ChartCard>
+            <ChartCard title="Precision-recall curves">
+              <PrChart curves={report.curves.precision_recall} />
+            </ChartCard>
+            <ChartCard
+              title="Calibration"
+              note="Are the confidence values honest? Points below the diagonal mean over-confidence."
+            >
+              <CalibrationChart
+                points={report.overall.reliability_curve ?? []}
+                ece={report.overall.expected_calibration_error}
+              />
+            </ChartCard>
           </div>
-        </section>
-      </div>
+        </TabPanel>
 
-      <div className="two-col">
-        <ChartCard title="ROC curves (one-vs-rest)">
-          <RocChart curves={report.curves.roc} aucByClass={report.overall.roc_auc_per_class} />
-        </ChartCard>
-        <ChartCard title="Precision-recall curves">
-          <PrChart curves={report.curves.precision_recall} />
-        </ChartCard>
-        <ChartCard
-          title="Calibration"
-          note="Are the confidence values honest? Points below the diagonal mean over-confidence."
-        >
-          <CalibrationChart
-            points={report.overall.reliability_curve ?? []}
-            ece={report.overall.expected_calibration_error}
-          />
-        </ChartCard>
-      </div>
+        <TabPanel value="models">
+          <div className="research-grid">
+            <ModelComparison report={report} />
+            <FeatureImportance report={report} />
+          </div>
+        </TabPanel>
 
-      <ModelComparison report={report} />
+        <TabPanel value="generalisation">
+          <Generalisation report={report} />
+        </TabPanel>
 
-      <div className="two-col">
-        <FeatureImportance report={report} />
-        <Generalisation report={report} />
-      </div>
+        <TabPanel value="bias">
+          <BiasSection report={report} />
+        </TabPanel>
 
-      <BiasSection report={report} />
+        <TabPanel value="failures">
+          {bundle.failures ? (
+            <Failures failures={bundle.failures} />
+          ) : (
+            <Banner tone="warning" title="No failure analysis yet">
+              Run <code>uv run python -m ml.evaluation.find_failures</code>.
+            </Banner>
+          )}
+        </TabPanel>
 
-      {bundle.failures && <Failures failures={bundle.failures} />}
-
-      {bundle.dataset && <Dataset dataset={bundle.dataset} />}
+        <TabPanel value="dataset">
+          {bundle.dataset ? (
+            <Dataset dataset={bundle.dataset} />
+          ) : (
+            <Banner tone="warning" title="No dataset card yet">
+              Run <code>uv run python -m ml.training.prepare_dataset</code>.
+            </Banner>
+          )}
+        </TabPanel>
+      </Tabs>
     </div>
   );
 }

@@ -2,6 +2,7 @@ import { motion } from 'framer-motion';
 
 import type { Route } from '@/App';
 import { ThemeToggle } from '@/components/ThemeToggle';
+import { useScrollProgress } from '@/hooks/useScrollNav';
 import type { useTheme } from '@/hooks/useTheme';
 import type { HealthResponse } from '@/types/api';
 
@@ -10,15 +11,24 @@ interface Props {
   onNavigate: (route: Route) => void;
   health: HealthResponse | null;
   theme: ReturnType<typeof useTheme>;
+  /** Results only exist after an analysis, so the tab is conditional. */
+  hasResult: boolean;
 }
 
-const NAV: Array<{ id: Route; label: string }> = [
+const BASE_NAV: Array<{ id: Route; label: string }> = [
   { id: 'analyse', label: 'Analyse' },
   { id: 'research', label: 'Research' },
   { id: 'how', label: 'How it works' },
+  { id: 'limitations', label: 'Limits' },
 ];
 
-export function Masthead({ route, onNavigate, health, theme }: Props) {
+export function Masthead({ route, onNavigate, health, theme, hasResult }: Props) {
+  const progress = useScrollProgress();
+
+  const nav = hasResult
+    ? [BASE_NAV[0]!, { id: 'results' as Route, label: 'Results' }, ...BASE_NAV.slice(1)]
+    : BASE_NAV;
+
   const statusColour =
     health === null
       ? 'var(--ink-faint)'
@@ -41,6 +51,9 @@ export function Masthead({ route, onNavigate, health, theme }: Props) {
     <header className="masthead">
       <div className="masthead__inner">
         <div className="wordmark">
+          {/* Routing is hash-based and owned by App.tsx — there is no Router
+              provider, so a react-router <Link> would crash here. The wordmark
+              uses the same onNavigate callback as the nav buttons below. */}
           <button
             type="button"
             className="wordmark__home"
@@ -56,7 +69,7 @@ export function Masthead({ route, onNavigate, health, theme }: Props) {
         </div>
 
         <nav className="nav" aria-label="Main">
-          {NAV.map((item) => (
+          {nav.map((item) => (
             <button
               key={item.id}
               type="button"
@@ -78,11 +91,7 @@ export function Masthead({ route, onNavigate, health, theme }: Props) {
           ))}
         </nav>
 
-        <ThemeToggle
-          choice={theme.choice}
-          resolved={theme.resolved}
-          onCycle={theme.cycle}
-        />
+        <ThemeToggle choice={theme.choice} resolved={theme.resolved} onCycle={theme.cycle} />
 
         <span
           className="tag"
@@ -102,6 +111,12 @@ export function Masthead({ route, onNavigate, health, theme }: Props) {
           />
           {health?.status ?? '…'}
         </span>
+      </div>
+
+      {/* Reading position. Informational rather than decorative, so it is kept
+          even under reduced motion — it just stops being smoothed. */}
+      <div className="masthead__progress" aria-hidden="true">
+        <div className="masthead__progress-bar" style={{ transform: `scaleX(${progress})` }} />
       </div>
     </header>
   );

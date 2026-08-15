@@ -354,15 +354,17 @@ describe('AnalysePage', () => {
     },
   };
 
-  it('runs an analysis and renders the results', async () => {
+  it('runs an analysis and hands the result upward with the submitted text', async () => {
     stubApi();
     const user = userEvent.setup();
+    const onAnalysed = vi.fn();
     render(
       <AnalysePage
         health={SAMPLE_HEALTH}
         modelInfo={modelInfo}
         backendReachable
         onNavigate={vi.fn()}
+        onAnalysed={onAnalysed}
       />,
     );
 
@@ -370,19 +372,13 @@ describe('AnalysePage', () => {
     await user.click(screen.getByText(/machine-register essay/i));
     await user.click(screen.getByRole('button', { name: /analyse essay/i }));
 
-    await waitFor(() =>
-      expect(
-        screen.getByRole('heading', { name: /potentially ai-polished/i }),
-      ).toBeInTheDocument(),
-    );
-    expect(screen.getByText(/the essay, marked up/i)).toBeInTheDocument();
-    // "Sentence rhythm" is both a section title and a feature-group name in the
-    // statistics table, so assert on the section title specifically.
-    expect(
-      screen.getByText('Sentence rhythm', { selector: '.card__title' }),
-    ).toBeInTheDocument();
-    expect(screen.getByText(/all measured statistics/i)).toBeInTheDocument();
-    expect(screen.getByText(/paragraph breakdown/i)).toBeInTheDocument();
+    // Results now live on their own route, so this page reports rather than renders.
+    // The submitted text is passed along because the results view re-slices it
+    // using the returned offsets when the server did not store the essay.
+    await waitFor(() => expect(onAnalysed).toHaveBeenCalledTimes(1));
+    const [analysis, submittedText] = onAnalysed.mock.calls[0]!;
+    expect(analysis.classification).toBe('ai_polished');
+    expect(submittedText).toContain('From an early age');
   });
 
   it('surfaces a backend error without crashing', async () => {
@@ -394,6 +390,7 @@ describe('AnalysePage', () => {
         modelInfo={modelInfo}
         backendReachable
         onNavigate={vi.fn()}
+        onAnalysed={vi.fn()}
       />,
     );
 
@@ -413,6 +410,7 @@ describe('AnalysePage', () => {
         modelInfo={null}
         backendReachable={false}
         onNavigate={vi.fn()}
+        onAnalysed={vi.fn()}
       />,
     );
     expect(screen.getByText(/backend unreachable/i)).toBeInTheDocument();
@@ -426,6 +424,7 @@ describe('AnalysePage', () => {
         modelInfo={modelInfo}
         backendReachable
         onNavigate={vi.fn()}
+        onAnalysed={vi.fn()}
       />,
     );
     expect(screen.getByText(/trained on bootstrap data/i)).toBeInTheDocument();
