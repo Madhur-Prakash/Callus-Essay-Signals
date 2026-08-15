@@ -1,7 +1,22 @@
-[Home](../README.md) · [Docs index](README.md) - **Architecture** ·
-[Methodology](detection-methodology.md) · [Dataset](dataset.md) ·
-[Evaluation](evaluation.md) · [API](api.md) · [Privacy](privacy.md) ·
-[Limitations](limitations.md)
+<p align="center">
+  <a href="../README.md">Home</a>
+  &middot;
+  <b>Architecture</b>
+  &middot;
+  <a href="detection-methodology.md">Methodology</a>
+  &middot;
+  <a href="dataset.md">Dataset</a>
+  &middot;
+  <a href="evaluation.md">Evaluation</a>
+  &middot;
+  <a href="api.md">API</a>
+  &middot;
+  <a href="privacy.md">Privacy</a>
+  &middot;
+  <a href="limitations.md">Limitations</a>
+  &middot;
+  <a href="README.md">All docs</a>
+</p>
 
 ---
 

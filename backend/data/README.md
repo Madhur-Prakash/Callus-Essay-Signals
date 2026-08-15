@@ -1,7 +1,22 @@
-[Home](../../README.md) · [Docs index](../../docs/README.md) ·
-[Dataset methodology](../../docs/dataset.md) ·
-[Evaluation](../../docs/evaluation.md) · [Limitations](../../docs/limitations.md) ·
-[Sourcing rules](raw/README.md)
+<p align="center">
+  <a href="../../README.md">Home</a>
+  &middot;
+  <a href="../../docs/architecture.md">Architecture</a>
+  &middot;
+  <a href="../../docs/detection-methodology.md">Methodology</a>
+  &middot;
+  <a href="../../docs/dataset.md">Dataset</a>
+  &middot;
+  <a href="../../docs/evaluation.md">Evaluation</a>
+  &middot;
+  <a href="../../docs/api.md">API</a>
+  &middot;
+  <a href="../../docs/privacy.md">Privacy</a>
+  &middot;
+  <a href="../../docs/limitations.md">Limitations</a>
+  &middot;
+  <a href="../../docs/README.md">All docs</a>
+</p>
 
 ---
 

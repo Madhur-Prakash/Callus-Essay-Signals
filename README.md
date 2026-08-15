@@ -12,16 +12,29 @@
 [![Docker](https://img.shields.io/badge/Docker-compose-2496ED?logo=docker&logoColor=white)](https://docs.docker.com/compose/)
 [![Tests](https://img.shields.io/badge/tests-163%20backend%20%7C%2045%20frontend-brightgreen)](#tests)
 
+<p align="center">
+  <b>Home</b>
+  &middot;
+  <a href="docs/architecture.md">Architecture</a>
+  &middot;
+  <a href="docs/detection-methodology.md">Methodology</a>
+  &middot;
+  <a href="docs/dataset.md">Dataset</a>
+  &middot;
+  <a href="docs/evaluation.md">Evaluation</a>
+  &middot;
+  <a href="docs/api.md">API</a>
+  &middot;
+  <a href="docs/privacy.md">Privacy</a>
+  &middot;
+  <a href="docs/limitations.md">Limitations</a>
+  &middot;
+  <a href="docs/README.md">All docs</a>
+</p>
+
 A working detector for AI-generated and AI-polished writing in college admissions
 essays. React + Vite frontend, FastAPI backend, and a hybrid ML/NLP pipeline that
 produces **measured evidence for every passage it flags**.
-
-**Start here** — [Limitations](docs/limitations.md), before acting on any output ·
-[Evaluation](docs/evaluation.md), for the measured results
-
-**Reference** — [Architecture](docs/architecture.md) ·
-[Methodology](docs/detection-methodology.md) · [Dataset](docs/dataset.md) ·
-[API](docs/api.md) · [Privacy](docs/privacy.md) · [All docs](docs/README.md)
 
 **It is not an LLM wrapper.** A small local causal language model (`distilgpt2`) is
 used as a *measuring instrument* - it reports how probable each token was given the
@@ -453,9 +466,5 @@ Full ranked list, with severity and the measurement behind each one:
 <div align="center">
 
 Made with 💖 for Callus by **Madhur Prakash**
-
-[Architecture](docs/architecture.md) · [Methodology](docs/detection-methodology.md) ·
-[Dataset](docs/dataset.md) · [Evaluation](docs/evaluation.md) · [API](docs/api.md) ·
-[Privacy](docs/privacy.md) · [Limitations](docs/limitations.md)
 
 </div>
