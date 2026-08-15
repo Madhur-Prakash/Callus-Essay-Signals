@@ -27,7 +27,7 @@ export default defineConfig({
       // Vite forwards it to the FastAPI process. This keeps the browser on one
       // origin, so no CORS preflight is involved during local development.
       '/api': {
-        target: process.env.VITE_API_TARGET ?? 'http://127.0.0.1:8000',
+        target: process.env.VITE_API_TARGET,
         changeOrigin: true,
       },
     },
