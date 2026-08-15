@@ -43,6 +43,8 @@ Essay → tokeniser → local LM → token log-probs / entropy / rank
 ```
 
 ---
+https://github.com/user-attachments/assets/9b4d353e-a9bd-4cad-a234-8aac2734e38a
+---
 
 ## How this meets the brief
 
